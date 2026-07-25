@@ -49,15 +49,17 @@ const work = [
 		year: '2025 —',
 		role: 'Co-founder',
 		title: 'Bookbag',
+		href: 'https://bookbagmedia.com',
 		subtitle: 'A marketplace connecting brands with UK primary schools',
 		body: 'Designed and built the marketing site and the web application end-to-end with three user roles — brand, school, and admin — without a development team. React, Vite, TypeScript, Tailwind, deployed on Vercel. Educational activity content produced through a custom AI image-generation and print fulfilment pipeline.',
 	},
 	{
-		year: '2025',
-		role: 'Founder, Cernago',
-		title: 'Automated content pipeline',
-		subtitle: 'A multi-agent AI system for research, writing and publishing',
-		body: 'Multi-agent system covering research, writing, review and image generation. Publishes hands-free with no manual step. Designed and built solo.',
+		year: '2021 —',
+		role: 'Founder',
+		title: 'Cernago',
+		href: 'https://cernago.com',
+		subtitle: 'A design and AI consultancy for B2B companies',
+		body: 'Solo-led design and build of websites, web apps and AI-assisted go-to-market systems for retained B2B clients including Philips, Solstice AV, Wholegood and Osmond Ergonomics. Positioning, UX and AI-search audits with roadmaps clients act on. Everything shipped end-to-end — no development team.',
 	},
 ];
 
@@ -104,9 +106,19 @@ const rotatingForA11y = rotatingCapabilities.join(', ');
 						Ben Young is a design and AI consultant based in Bournemouth, UK.
 						Twenty-one years digital, most of it across senior design roles at
 						agencies working with Channel 4, WWF, the UN Environment Programme
-						and The Royal Society. Now the founder of Cernago and co-founder of
-						Bookbag, designing and building products end-to-end with AI, without
-						a development team.
+						and The Royal Society. Now the founder of
+						<a
+							href="https://cernago.com"
+							class="border-b border-current pb-0.5 hover:text-accent hover:border-accent transition-colors"
+							>Cernago</a
+						>
+						and co-founder of
+						<a
+							href="https://bookbagmedia.com"
+							class="border-b border-current pb-0.5 hover:text-accent hover:border-accent transition-colors"
+							>Bookbag</a
+						>, designing and building products end-to-end with AI, without a
+						development team.
 					</p>
 					<p class="font-display italic text-3xl md:text-4xl leading-[1.15] text-accent max-w-2xl">
 						Available for fractional and remote work — two to three days a week.
@@ -153,7 +165,17 @@ const rotatingForA11y = rotatingCapabilities.join(', ');
 								</p>
 								<div class="md:col-span-6 space-y-5">
 									<h3 class="font-display text-5xl md:text-6xl leading-[1] tracking-[-0.02em]">
-										{item.title}
+										<a
+											href={item.href}
+											class="group inline-flex items-baseline gap-3 hover:text-accent transition-colors duration-300"
+										>
+											<span>{item.title}</span>
+											<span
+												aria-hidden="true"
+												class="text-2xl md:text-3xl text-ink-muted group-hover:text-accent transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+												>↗</span
+											>
+										</a>
 									</h3>
 									<p class="font-display italic text-xl text-ink-muted leading-snug">
 										{item.subtitle}
