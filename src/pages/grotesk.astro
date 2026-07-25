@@ -1,4 +1,13 @@
 ---
+// Alternative variant of the homepage — for side-by-side comparison
+// with `/`. Two experiments layered on the same layout and copy:
+//   1. All-grotesk type — Bricolage Grotesque replaces Fraunces
+//      everywhere, no italics. Weight variations do the display work.
+//   2. Cyan accent (the same #00A2C7 previously used for the
+//      "Auditing" capability) replaces oxblood as the single accent.
+// Everything else — sections, copy, grid, motion — matches the
+// serif version deliberately so the comparison isolates type + colour.
+
 import Layout from '../layouts/Layout.astro';
 
 const rotatingCapabilities = [
@@ -67,7 +76,7 @@ const rotatingForA11y = rotatingCapabilities.join(', ');
 ---
 
 <Layout>
-	<div class="min-h-screen">
+	<div class="min-h-screen grotesk-page">
 		<header class="px-6 md:px-12 pt-8 pb-24">
 			<nav class="flex items-center justify-between text-sm">
 				<span>Ben Young</span>
@@ -81,26 +90,24 @@ const rotatingForA11y = rotatingCapabilities.join(', ');
 		</header>
 
 		<section class="px-6 md:px-12 pb-40">
-			<h1 class="font-display font-normal text-[clamp(2.75rem,8vw,8rem)] leading-[0.95] tracking-[-0.03em] max-w-[16ch]">
+			<h1 class="font-normal text-[clamp(2.75rem,8vw,8rem)] leading-[0.95] tracking-[-0.045em] max-w-[16ch]">
 				<span class="sr-only">
 					Twenty-one years designing the web end-to-end — {rotatingForA11y} and more.
 				</span>
 				<span aria-hidden="true">
 					Twenty-one years,<br />
-					<span id="rotating-word" class="italic text-accent">Designing</span><br />
+					<span id="rotating-word" class="font-medium accent-alt">Designing</span><br />
 					the web end-to-end.
 				</span>
 			</h1>
-			<p class="mt-16 max-w-2xl font-display italic text-2xl md:text-3xl leading-snug">
+			<p class="mt-16 max-w-2xl font-light text-2xl md:text-3xl leading-snug tracking-tight">
 				Now founding, and building with AI.
 			</p>
 		</section>
 
 		<section id="about" class="hairline-t px-6 md:px-12 py-24">
 			<div class="grid grid-cols-1 md:grid-cols-12 gap-y-12 gap-x-8">
-				<h2 class="md:col-span-3 font-display italic text-lg text-ink-muted">
-					About
-				</h2>
+				<h2 class="md:col-span-3 text-lg text-ink-muted">About</h2>
 				<div class="md:col-span-9 space-y-12">
 					<p class="text-xl leading-relaxed max-w-3xl">
 						Ben Young is a design and AI consultant based in Bournemouth, UK.
@@ -111,7 +118,7 @@ const rotatingForA11y = rotatingCapabilities.join(', ');
 							href="https://cernago.com"
 							target="_blank"
 							rel="noopener noreferrer"
-							class="border-b border-current pb-0.5 hover:text-accent hover:border-accent transition-colors"
+							class="border-b border-current pb-0.5 hover:accent-alt hover:border-current transition-colors"
 							>Cernago</a
 						>
 						and co-founder of
@@ -119,12 +126,12 @@ const rotatingForA11y = rotatingCapabilities.join(', ');
 							href="https://bookbagmedia.com"
 							target="_blank"
 							rel="noopener noreferrer"
-							class="border-b border-current pb-0.5 hover:text-accent hover:border-accent transition-colors"
+							class="border-b border-current pb-0.5 hover:accent-alt hover:border-current transition-colors"
 							>Bookbag</a
 						>, designing and building products end-to-end with AI, without a
 						development team.
 					</p>
-					<p class="font-display italic text-3xl md:text-4xl leading-[1.15] text-accent max-w-2xl">
+					<p class="font-medium text-3xl md:text-4xl leading-[1.15] tracking-tight accent-alt max-w-2xl">
 						Available two or three days a week for teams that need a senior
 						operator in the design–product–AI corner. Fractional, remote,
 						alongside
@@ -150,14 +157,12 @@ const rotatingForA11y = rotatingCapabilities.join(', ');
 
 		<section class="hairline-t px-6 md:px-12 py-24">
 			<div class="grid grid-cols-1 md:grid-cols-12 gap-y-16 gap-x-8">
-				<h2 class="md:col-span-3 font-display italic text-lg text-ink-muted">
-					What I do
-				</h2>
+				<h2 class="md:col-span-3 text-lg text-ink-muted">What I do</h2>
 				<dl class="md:col-span-9 space-y-0">
 					{
 						doing.map((item, i) => (
 							<div class:list={['grid grid-cols-1 md:grid-cols-9 gap-4 py-8', i > 0 && 'hairline-t']}>
-								<dt class="md:col-span-3 font-display italic text-2xl leading-tight">
+								<dt class="md:col-span-3 font-medium text-2xl leading-tight tracking-tight">
 									{item.kind}
 								</dt>
 								<dd class="md:col-span-6 text-lg leading-relaxed text-ink">
@@ -172,9 +177,7 @@ const rotatingForA11y = rotatingCapabilities.join(', ');
 
 		<section class="hairline-t px-6 md:px-12 py-24">
 			<div class="grid grid-cols-1 md:grid-cols-12 gap-y-16 gap-x-8">
-				<h2 class="md:col-span-3 font-display italic text-lg text-ink-muted">
-					Selected work
-				</h2>
+				<h2 class="md:col-span-3 text-lg text-ink-muted">Selected work</h2>
 				<div class="md:col-span-9 space-y-24">
 					{
 						work.map((item) => (
@@ -185,22 +188,22 @@ const rotatingForA11y = rotatingCapabilities.join(', ');
 									<span>{item.role}</span>
 								</p>
 								<div class="md:col-span-6 space-y-5">
-									<h3 class="font-display text-5xl md:text-6xl leading-[1] tracking-[-0.02em]">
+									<h3 class="font-medium text-5xl md:text-6xl leading-[1] tracking-[-0.045em]">
 										<a
 											href={item.href}
 											target="_blank"
 											rel="noopener noreferrer"
-											class="group inline-flex items-baseline gap-3 hover:text-accent transition-colors duration-300"
+											class="group inline-flex items-baseline gap-3 hover:accent-alt transition-colors duration-300"
 										>
 											<span>{item.title}</span>
 											<span
 												aria-hidden="true"
-												class="text-2xl md:text-3xl text-ink-muted group-hover:text-accent transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+												class="text-2xl md:text-3xl text-ink-muted transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
 												>↗</span
 											>
 										</a>
 									</h3>
-									<p class="font-display italic text-xl text-ink-muted leading-snug">
+									<p class="text-xl text-ink-muted leading-snug tracking-tight">
 										{item.subtitle}
 									</p>
 									<p class="text-lg leading-relaxed text-ink pt-2">
@@ -216,10 +219,8 @@ const rotatingForA11y = rotatingCapabilities.join(', ');
 
 		<section class="hairline-t px-6 md:px-12 py-20">
 			<div class="grid grid-cols-1 md:grid-cols-12 gap-y-8 gap-x-8">
-				<h2 class="md:col-span-3 font-display italic text-lg text-ink-muted">
-					Selected clients
-				</h2>
-				<p class="md:col-span-9 font-display text-2xl md:text-3xl leading-snug text-ink text-balance">
+				<h2 class="md:col-span-3 text-lg text-ink-muted">Selected clients</h2>
+				<p class="md:col-span-9 text-2xl md:text-3xl leading-snug tracking-tight text-ink text-balance">
 					{selectedClients.join(' · ')}
 				</p>
 			</div>
@@ -227,14 +228,12 @@ const rotatingForA11y = rotatingCapabilities.join(', ');
 
 		<section id="contact" class="hairline-t px-6 md:px-12 pt-24 pb-32">
 			<div class="grid grid-cols-1 md:grid-cols-12 gap-y-8 gap-x-8">
-				<h2 class="md:col-span-3 font-display italic text-lg text-ink-muted">
-					Get in touch
-				</h2>
+				<h2 class="md:col-span-3 text-lg text-ink-muted">Get in touch</h2>
 				<div class="md:col-span-9">
-					<p class="font-display text-4xl md:text-6xl leading-[1] tracking-[-0.02em]">
+					<p class="font-medium text-4xl md:text-6xl leading-[1] tracking-[-0.04em]">
 						<a
 							href="mailto:ben@benyoung.me"
-							class="border-b-2 border-accent pb-1 transition-colors duration-300 hover:text-accent"
+							class="border-b-2 pb-1 border-current-alt transition-colors duration-300 hover:opacity-70"
 						>
 							ben@benyoung.me
 						</a>
@@ -256,6 +255,37 @@ const rotatingForA11y = rotatingCapabilities.join(', ');
 			</p>
 		</footer>
 	</div>
+
+	<style>
+		/* Scope the grotesk-only type and cyan-accent overrides to this
+		   page via a wrapper class, so the alt experiment is isolated
+		   from the rest of the site.
+		   Bricolage Grotesque replaces Fraunces on every element;
+		   IBM Plex Sans stays as fallback via --font-sans stack. */
+		.grotesk-page,
+		.grotesk-page h1,
+		.grotesk-page h2,
+		.grotesk-page h3,
+		.grotesk-page p,
+		.grotesk-page a,
+		.grotesk-page span,
+		.grotesk-page dt,
+		.grotesk-page dd {
+			font-family: var(--font-grotesk);
+		}
+
+		/* Cyan accent utilities scoped to this page. Named `accent-alt`
+		   to avoid clashing with the site-wide `text-accent`. */
+		.grotesk-page .accent-alt {
+			color: var(--color-accent-alt);
+		}
+		.grotesk-page .hover\:accent-alt:hover {
+			color: var(--color-accent-alt);
+		}
+		.grotesk-page .border-current-alt {
+			border-color: var(--color-accent-alt);
+		}
+	</style>
 
 	<script>
 		const el = document.getElementById('rotating-word');
@@ -318,9 +348,6 @@ const rotatingForA11y = rotatingCapabilities.join(', ');
 					setTimeout(cb, CHAR_EXIT_MS + spans.length * CHAR_EXIT_STAGGER_MS);
 				}
 
-				// Re-render the SSR-rendered initial word as animated spans so
-				// the first->second transition uses the same exit path as later
-				// transitions.
 				render(words[0]);
 				const firstEnter = words[0].length * CHAR_STAGGER_MS + CHAR_ENTER_MS;
 
