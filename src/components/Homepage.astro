@@ -266,7 +266,6 @@ const clientList = [
 				href="https://bookbagmedia.com"
 				target="_blank"
 				rel="noopener"
-				class="venture-row"
 				style="display:grid;grid-template-columns:minmax(0,150px) minmax(0,1fr);gap:40px;padding:36px 0;border-top:1px solid var(--color-rule)"
 			>
 				<div style="font-family:var(--font-mono);font-size:12px;color:var(--color-ink4);line-height:1.9">
@@ -292,7 +291,6 @@ const clientList = [
 				href="https://cernago.com"
 				target="_blank"
 				rel="noopener"
-				class="venture-row"
 				style="display:grid;grid-template-columns:minmax(0,150px) minmax(0,1fr);gap:40px;padding:36px 0;border-top:1px solid var(--color-rule);border-bottom:1px solid var(--color-rule)"
 			>
 				<div style="font-family:var(--font-mono);font-size:12px;color:var(--color-ink4);line-height:1.9">
@@ -358,12 +356,6 @@ const clientList = [
 </div>
 
 <style>
-	/* Venture-row hover wash — the design uses the --color-hover token
-	   on `a.venture-row:hover`. Scoped so no other links pick it up. */
-	.venture-row:hover {
-		background: var(--color-hover);
-	}
-
 	/* Client-work card hover — softly tints the image-slot border and
 	   the client name to the butter accent. Uses the CSS-variable
 	   pattern (`.work-card:hover { --work-border: … }`) so it can
