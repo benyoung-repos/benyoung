@@ -82,14 +82,13 @@
 /* Keyframes — all from the design handoff. Each is triggered by CSS
    selectors matching data-anim + data-inview (populated at runtime by
    an IntersectionObserver in Homepage.astro). */
-@keyframes trackIn {
-	/* Modest offset from the resting position — the whole track slides
-	   in from 350px to the right of where it settles. Previously tried
-	   translateX(100vw) so the track started fully off-screen, but that
-	   was too much travel over 1.5s and read as jerky. This shorter
-	   trip lets the ease-out curve breathe. */
-	from { transform: translateX(350px); }
-	to { transform: translateX(0); }
+@keyframes fadeIn {
+	/* Card ripple-in — pure opacity, no motion. Cards start at
+	   opacity: 0 and fade in with a per-card animation-delay that
+	   staggers them into a rippling appearance rather than all
+	   arriving at once. */
+	from { opacity: 0; }
+	to { opacity: 1; }
 }
 @keyframes growY {
 	from { transform: scaleY(0); }
@@ -144,22 +143,18 @@
 }
 
 /* Bindings from data-attributes to animations. */
-[data-anim="track"] {
-	will-change: transform;
+
+/* Client-work cards ripple in when the track enters view. Cards
+   start invisible; the IntersectionObserver sets data-inview on the
+   track once, which turns on each child's fadeIn animation. Each
+   card sets its own --card-delay inline (0ms, 200ms, 400ms, 600ms…)
+   to produce the ripple. */
+[data-anim="track"] > article {
+	opacity: 0;
 }
-[data-anim="track"][data-inview] {
-	/* cubic-bezier(0.22, 1, 0.36, 1) = ease-out-quart: a smooth
-	   deceleration curve without the sharp late-stage "landing"
-	   of ease-out-expo. Reads as one clean glide from off-screen
-	   right to resting position. */
-	animation: trackIn 1.5s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
-	pointer-events: none;
-}
-[data-rail][data-unlocked] [data-anim="track"] {
-	pointer-events: auto;
-}
-[data-rail][data-unlocked] {
-	overflow-x: auto;
+[data-anim="track"][data-inview] > article {
+	animation: fadeIn 0.7s ease both;
+	animation-delay: var(--card-delay, 0s);
 }
 [data-anim="rule"][data-inview] {
 	animation: growY 1.1s cubic-bezier(.2, .7, .2, 1) 1.1s both;
@@ -180,10 +175,15 @@
 	animation: cycle 19s cubic-bezier(.7, 0, .15, 1) -1.4s infinite;
 }
 
-/* All animations disabled under reduced motion. */
+/* All animations disabled under reduced motion. Cards need an
+   explicit opacity reset because their default state is invisible. */
 @media (prefers-reduced-motion: reduce) {
 	[data-anim][data-inview],
 	[data-cycle] {
+		animation: none;
+	}
+	[data-anim="track"] > article {
+		opacity: 1;
 		animation: none;
 	}
 }

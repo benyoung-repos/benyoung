@@ -235,11 +235,11 @@ const clientList = [
 				</div>
 			</div>
 		</div>
-		<div data-rail data-scroller data-pad style="margin-top:40px;overflow-x:hidden;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-padding-left:48px;scroll-padding-right:48px;scroll-behavior:smooth;padding:0 48px 14px">
+		<div data-rail data-scroller data-pad style="margin-top:40px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-padding-left:48px;scroll-padding-right:48px;scroll-behavior:smooth;padding:0 48px 14px">
 			<div data-anim="track" style="display:flex;gap:28px">
 				{
-					projects.map((p) => (
-						<article class="work-card" style="flex:none;width:min(78vw,420px);scroll-snap-align:start">
+					projects.map((p, i) => (
+						<article class="work-card" style={`flex:none;width:min(78vw,420px);scroll-snap-align:start;--card-delay:${i * 200}ms`}>
 							<div style="position:relative;width:100%;aspect-ratio:16/10;background:rgba(233,232,226,0.04);border:1px solid var(--work-border, var(--color-rule));display:flex;align-items:center;justify-content:center;transition:border-color 300ms ease">
 								<span style="font-family:var(--font-mono);font-size:11px;color:var(--color-ink4)">Project screen</span>
 							</div>
@@ -457,25 +457,14 @@ const clientList = [
 	// --- IntersectionObserver: toggle data-inview for animated elements
 	// Uses the design's rootMargin (-18% top and bottom) so animations
 	// fire once the element is properly in the reading zone, not just
-	// touching the viewport edge. The client-work track is a special
-	// case: it fires once and never re-arms; after 2.5s the rail is
-	// unlocked so the user can scroll it manually.
-	let unlockTimer: ReturnType<typeof setTimeout> | undefined;
-
+	// touching the viewport edge. The client-work track is unobserved
+	// after firing so the card ripple only plays once.
 	const io = new IntersectionObserver(
 		(entries) => {
 			for (const entry of entries) {
 				if (entry.isIntersecting) {
 					entry.target.setAttribute('data-inview', '1');
 					if (entry.target.getAttribute('data-anim') === 'track') {
-						const rail = entry.target.parentElement;
-						if (rail) {
-							clearTimeout(unlockTimer);
-							rail.removeAttribute('data-unlocked');
-							// Unlock ~200ms after the entry animation completes
-							// (0.15s delay + 1.5s duration + small buffer).
-							unlockTimer = setTimeout(() => rail.setAttribute('data-unlocked', '1'), 1850);
-						}
 						io.unobserve(entry.target);
 					}
 				} else if (entry.target.getAttribute('data-anim') !== 'track') {
