@@ -210,7 +210,7 @@ const clientList = [
 					Design is finished<br />when it <span style="font-style:italic;color:var(--color-acc)">ships.</span>
 				</p>
 				<p style="margin:26px 0 0;font-size:16px;line-height:1.68;color:var(--color-ink3);max-width:46ch">
-					AI-assisted build lets one person hold the whole loop — wireframe, build, deploy. Faster feedback, tighter iteration, and the design that ships is the design that was drawn.
+					AI-assisted build lets one person hold the whole loop: ideate, prototype, polish, build, deploy. Faster feedback, tighter iteration, and the design that ships is the design that was drawn.
 				</p>
 				<p style="margin:24px 0 0;font-family:var(--font-mono);font-size:12px;color:var(--color-ink4)">
 					Ben Young — on working end to end
@@ -402,6 +402,57 @@ const clientList = [
 
 	railPrev?.addEventListener('click', () => scrollRail(-1));
 	railNext?.addEventListener('click', () => scrollRail(1));
+
+	// --- Mouse drag-to-swipe on the rail ------------------------------
+	// Native touch swipe already works via `overflow-x: auto` +
+	// scroll-snap-type on the rail element. This handler adds the same
+	// gesture for desktop pointer input. Uses pointer events so it
+	// covers mouse, pen, and any touch device that reports as pointer.
+	if (scroller) {
+		let isDragging = false;
+		let startX = 0;
+		let startScrollLeft = 0;
+		let savedSnap = '';
+		const DRAG_THRESHOLD_PX = 4; // ignore micro-jitters so real clicks still work
+
+		scroller.style.cursor = 'grab';
+
+		scroller.addEventListener('pointerdown', (e) => {
+			// Left/primary button only.
+			if (e.button !== 0) return;
+			isDragging = true;
+			startX = e.clientX;
+			startScrollLeft = scroller.scrollLeft;
+			savedSnap = scroller.style.scrollSnapType;
+			// scroll-snap fights a drag mid-motion (snaps back to the
+			// nearest card constantly). Disable during drag, restore on
+			// pointerup so the browser snaps to rest afterwards.
+			scroller.style.scrollSnapType = 'none';
+			scroller.style.cursor = 'grabbing';
+			scroller.setPointerCapture(e.pointerId);
+		});
+
+		scroller.addEventListener('pointermove', (e) => {
+			if (!isDragging) return;
+			const walk = e.clientX - startX;
+			if (Math.abs(walk) < DRAG_THRESHOLD_PX) return;
+			e.preventDefault();
+			scroller.scrollLeft = startScrollLeft - walk;
+		});
+
+		function endDrag(e: PointerEvent) {
+			if (!isDragging) return;
+			isDragging = false;
+			scroller!.style.cursor = 'grab';
+			scroller!.style.scrollSnapType = savedSnap;
+			if (scroller!.hasPointerCapture(e.pointerId)) {
+				scroller!.releasePointerCapture(e.pointerId);
+			}
+		}
+
+		scroller.addEventListener('pointerup', endDrag);
+		scroller.addEventListener('pointercancel', endDrag);
+	}
 
 	// --- IntersectionObserver: toggle data-inview for animated elements
 	// Uses the design's rootMargin (-18% top and bottom) so animations
