@@ -22,17 +22,18 @@
      register; distinct from ink text on warm off-white paper. */
   --color-accent: #8B1F1F;
 
-  /* Capability palette — one hue per rotating hero word. Every
-     colour is contrast-safe against --color-paper for large type
-     (WCAG AA 3:1). Coordinated by keeping saturation restrained
-     and tone deep across all seven. */
-  --color-cap-designing: #8B1F1F;   /* oxblood */
-  --color-cap-building: #1F4D2E;    /* bottle green */
-  --color-cap-prototyping: #86590C; /* ochre */
-  --color-cap-consulting: #4E2748;  /* plum */
-  --color-cap-directing: #1A3358;   /* ink navy */
-  --color-cap-auditing: #275757;    /* teal */
-  --color-cap-shipping: #8B4419;    /* copper */
+  /* Capability palette — one hue per rotating hero word. Bauhaus-
+     editorial register: saturated, confident primaries and
+     secondaries, coordinated by sitting at roughly the same
+     saturation level. Deliberately un-muted to escape the warm-
+     earth-tone register that has become an editorial cliché. */
+  --color-cap-designing: #D01C1F;   /* Bauhaus red */
+  --color-cap-building: #007A33;    /* WWF green */
+  --color-cap-prototyping: #E8A800; /* warm gold */
+  --color-cap-consulting: #002FA7;  /* Klein blue */
+  --color-cap-directing: #6B2C91;   /* deep violet */
+  --color-cap-auditing: #00A2C7;    /* cyan */
+  --color-cap-shipping: #E85D04;    /* Bauhaus orange */
 }
 
 @layer base {
