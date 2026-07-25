@@ -1,0 +1,338 @@
+---
+// Shared homepage body used by both `/` (oxblood accent) and
+// `/blue` (cyan accent). The accent colour is driven by the
+// CSS custom property --color-accent, which each page redefines
+// on its wrapper element — no code change needed here to swap
+// accents between variants.
+---
+
+<div class="min-h-screen">
+	<header class="px-6 md:px-12 pt-8 pb-24">
+		<nav class="flex items-center justify-between text-sm">
+			<span>Ben Young</span>
+			<a
+				href="#contact"
+				class="text-ink-muted hover:text-ink transition-colors duration-300"
+			>
+				Get in touch
+			</a>
+		</nav>
+	</header>
+
+	<section class="px-6 md:px-12 pb-40">
+		<h1 class="font-display font-normal text-[clamp(2.75rem,8vw,8rem)] leading-[0.95] tracking-[-0.03em] max-w-[16ch]">
+			<span class="sr-only">
+				Twenty-one years designing the web end-to-end — Designing, Building,
+				Prototyping, Consulting, Directing, Auditing, Shipping and more.
+			</span>
+			<span aria-hidden="true">
+				Twenty-one years,<br />
+				<span id="rotating-word" class="italic text-accent">Designing</span><br />
+				the web end-to-end.
+			</span>
+		</h1>
+		<p class="mt-16 max-w-2xl font-display italic text-2xl md:text-3xl leading-snug">
+			Now founding, and building with AI.
+		</p>
+	</section>
+
+	<section id="about" class="hairline-t px-6 md:px-12 py-24">
+		<div class="grid grid-cols-1 md:grid-cols-12 gap-y-12 gap-x-8">
+			<h2 class="md:col-span-3 font-display italic text-lg text-ink-muted">
+				About
+			</h2>
+			<div class="md:col-span-9 space-y-12">
+				<p class="text-xl leading-relaxed max-w-3xl">
+					Ben Young is a design and AI consultant based in Bournemouth, UK.
+					Twenty-one years digital, most of it across senior design roles at
+					agencies working with Channel 4, WWF, the UN Environment Programme
+					and The Royal Society. Now the founder of
+					<a
+						href="https://cernago.com"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="border-b border-current pb-0.5 hover:text-accent hover:border-accent transition-colors"
+						>Cernago</a
+					>
+					and co-founder of
+					<a
+						href="https://bookbagmedia.com"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="border-b border-current pb-0.5 hover:text-accent hover:border-accent transition-colors"
+						>Bookbag</a
+					>, designing and building products end-to-end with AI, without a
+					development team.
+				</p>
+				<p class="font-display italic text-3xl md:text-4xl leading-[1.15] text-accent max-w-2xl">
+					Available two or three days a week for teams that need a senior
+					operator in the design–product–AI corner. Fractional, remote,
+					alongside
+					<a
+						href="https://cernago.com"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="border-b-2 border-current pb-0.5 no-underline hover:opacity-70 transition-opacity"
+						>Cernago</a
+					>
+					and
+					<a
+						href="https://bookbagmedia.com"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="border-b-2 border-current pb-0.5 no-underline hover:opacity-70 transition-opacity"
+						>Bookbag</a
+					>.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="hairline-t px-6 md:px-12 py-24">
+		<div class="grid grid-cols-1 md:grid-cols-12 gap-y-16 gap-x-8">
+			<h2 class="md:col-span-3 font-display italic text-lg text-ink-muted">
+				What I do
+			</h2>
+			<dl class="md:col-span-9 space-y-0">
+				<div class="grid grid-cols-1 md:grid-cols-9 gap-4 py-8">
+					<dt class="md:col-span-3 font-display italic text-2xl leading-tight">
+						UX & product design
+					</dt>
+					<dd class="md:col-span-6 text-lg leading-relaxed text-ink">
+						Discovery, information architecture, wireframing, prototyping,
+						interface and visual design, design systems, usability testing.
+					</dd>
+				</div>
+				<div class="grid grid-cols-1 md:grid-cols-9 gap-4 py-8 hairline-t">
+					<dt class="md:col-span-3 font-display italic text-2xl leading-tight">
+						AI-assisted development
+					</dt>
+					<dd class="md:col-span-6 text-lg leading-relaxed text-ink">
+						Designing and building production websites and web apps end-to-end
+						with AI. Taking products from concept to live without the cost or
+						lead time of a development team.
+					</dd>
+				</div>
+				<div class="grid grid-cols-1 md:grid-cols-9 gap-4 py-8 hairline-t">
+					<dt class="md:col-span-3 font-display italic text-2xl leading-tight">
+						AI & automation
+					</dt>
+					<dd class="md:col-span-6 text-lg leading-relaxed text-ink">
+						Multi-agent workflows, AI content pipelines, image generation, API
+						integrations, business automations.
+					</dd>
+				</div>
+				<div class="grid grid-cols-1 md:grid-cols-9 gap-4 py-8 hairline-t">
+					<dt class="md:col-span-3 font-display italic text-2xl leading-tight">
+						Consultancy & auditing
+					</dt>
+					<dd class="md:col-span-6 text-lg leading-relaxed text-ink">
+						UX and website audits, positioning, go-to-market and AI search
+						visibility (AEO / GEO) audits with prioritised roadmaps clients can
+						act on.
+					</dd>
+				</div>
+			</dl>
+		</div>
+	</section>
+
+	<section class="hairline-t px-6 md:px-12 py-24">
+		<div class="grid grid-cols-1 md:grid-cols-12 gap-y-16 gap-x-8">
+			<h2 class="md:col-span-3 font-display italic text-lg text-ink-muted">
+				Selected work
+			</h2>
+			<div class="md:col-span-9 space-y-24">
+				<article class="grid grid-cols-1 md:grid-cols-9 gap-y-6 gap-x-8">
+					<p class="md:col-span-3 text-sm text-ink-muted">
+						<span class="tabular">2025 —</span>
+						<span class="mx-2">·</span>
+						<span>Co-founder</span>
+					</p>
+					<div class="md:col-span-6 space-y-5">
+						<h3 class="font-display text-5xl md:text-6xl leading-[1] tracking-[-0.02em]">
+							<a
+								href="https://bookbagmedia.com"
+								target="_blank"
+								rel="noopener noreferrer"
+								class="group inline-flex items-baseline gap-3 hover:text-accent transition-colors duration-300"
+							>
+								<span>Bookbag</span>
+								<span
+									aria-hidden="true"
+									class="text-2xl md:text-3xl text-ink-muted group-hover:text-accent transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+									>↗</span
+								>
+							</a>
+						</h3>
+						<p class="font-display italic text-xl text-ink-muted leading-snug">
+							A marketplace connecting brands with UK primary schools
+						</p>
+						<p class="text-lg leading-relaxed text-ink pt-2">
+							Designed and built the marketing site and the web application
+							end-to-end with three user roles — brand, school, and admin —
+							without a development team. React, Vite, TypeScript, Tailwind,
+							deployed on Vercel. Educational activity content produced through
+							a custom AI image-generation and print fulfilment pipeline.
+						</p>
+					</div>
+				</article>
+
+				<article class="grid grid-cols-1 md:grid-cols-9 gap-y-6 gap-x-8">
+					<p class="md:col-span-3 text-sm text-ink-muted">
+						<span class="tabular">2021 —</span>
+						<span class="mx-2">·</span>
+						<span>Founder</span>
+					</p>
+					<div class="md:col-span-6 space-y-5">
+						<h3 class="font-display text-5xl md:text-6xl leading-[1] tracking-[-0.02em]">
+							<a
+								href="https://cernago.com"
+								target="_blank"
+								rel="noopener noreferrer"
+								class="group inline-flex items-baseline gap-3 hover:text-accent transition-colors duration-300"
+							>
+								<span>Cernago</span>
+								<span
+									aria-hidden="true"
+									class="text-2xl md:text-3xl text-ink-muted group-hover:text-accent transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+									>↗</span
+								>
+							</a>
+						</h3>
+						<p class="font-display italic text-xl text-ink-muted leading-snug">
+							A design and AI consultancy for B2B companies
+						</p>
+						<p class="text-lg leading-relaxed text-ink pt-2">
+							Solo-led design and build of websites, web apps and AI-assisted
+							go-to-market systems for retained B2B clients including Philips,
+							Solstice AV, Wholegood and Osmond Ergonomics. Positioning, UX and
+							AI-search audits with roadmaps clients act on. Everything shipped
+							end-to-end — no development team.
+						</p>
+					</div>
+				</article>
+			</div>
+		</div>
+	</section>
+
+	<section class="hairline-t px-6 md:px-12 py-20">
+		<div class="grid grid-cols-1 md:grid-cols-12 gap-y-8 gap-x-8">
+			<h2 class="md:col-span-3 font-display italic text-lg text-ink-muted">
+				Selected clients
+			</h2>
+			<p class="md:col-span-9 font-display text-2xl md:text-3xl leading-snug text-ink text-balance">
+				Channel 4 · WWF · Philips · UN Environment Programme · The Royal
+				Society · Royal College of Surgeons · Vodafone · Department for
+				Education · UNEP Finance Initiative · ISEAL Alliance · Global Canopy
+			</p>
+		</div>
+	</section>
+
+	<section id="contact" class="hairline-t px-6 md:px-12 pt-24 pb-32">
+		<div class="grid grid-cols-1 md:grid-cols-12 gap-y-8 gap-x-8">
+			<h2 class="md:col-span-3 font-display italic text-lg text-ink-muted">
+				Get in touch
+			</h2>
+			<div class="md:col-span-9">
+				<p class="font-display text-4xl md:text-6xl leading-[1] tracking-[-0.02em]">
+					<a
+						href="mailto:ben@benyoung.me"
+						class="border-b-2 border-accent pb-1 transition-colors duration-300 hover:text-accent"
+					>
+						ben@benyoung.me
+					</a>
+				</p>
+				<p class="mt-10 text-base text-ink-muted">
+					Bournemouth, UK
+					<span class="mx-2">·</span>
+					<a href="tel:+447788100874" class="hover:text-ink transition-colors">07788 100874</a>
+					<span class="mx-2">·</span>
+					<a href="https://linkedin.com/in/bensyoung" class="hover:text-ink transition-colors">LinkedIn</a>
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<footer class="hairline-t px-6 md:px-12 py-8">
+		<p class="text-sm text-ink-faint">
+			© Ben Young {new Date().getFullYear()}
+		</p>
+	</footer>
+</div>
+
+<script>
+	const el = document.getElementById('rotating-word');
+	if (el) {
+		const words = [
+			'Designing',
+			'Building',
+			'Prototyping',
+			'Consulting',
+			'Directing',
+			'Auditing',
+			'Shipping',
+		];
+
+		const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+		if (!reduced) {
+			const HOLD_MS = 2400;
+			const CHAR_STAGGER_MS = 28;
+			const CHAR_ENTER_MS = 260;
+			const CHAR_EXIT_MS = 140;
+			const CHAR_EXIT_STAGGER_MS = 14;
+
+			const easeOut = 'cubic-bezier(0.16, 1, 0.3, 1)';
+			const easeIn = 'cubic-bezier(0.7, 0, 0.84, 0)';
+
+			let i = 0;
+
+			function render(word: string) {
+				if (!el) return 0;
+				el.textContent = '';
+				const chars = [...word];
+				chars.forEach((ch, idx) => {
+					const span = document.createElement('span');
+					span.textContent = ch === ' ' ? ' ' : ch;
+					span.style.display = 'inline-block';
+					span.style.opacity = '0';
+					span.style.transform = 'translateY(0.35em)';
+					span.style.transition = `opacity ${CHAR_ENTER_MS}ms ${easeOut} ${idx * CHAR_STAGGER_MS}ms, transform ${CHAR_ENTER_MS}ms ${easeOut} ${idx * CHAR_STAGGER_MS}ms`;
+					el.appendChild(span);
+				});
+				requestAnimationFrame(() => {
+					el.querySelectorAll('span').forEach((span) => {
+						(span as HTMLElement).style.opacity = '1';
+						(span as HTMLElement).style.transform = 'translateY(0)';
+					});
+				});
+				return chars.length * CHAR_STAGGER_MS + CHAR_ENTER_MS;
+			}
+
+			function exit(cb: () => void) {
+				if (!el) return;
+				const spans = el.querySelectorAll('span');
+				spans.forEach((span, idx) => {
+					const s = span as HTMLElement;
+					s.style.transition = `opacity ${CHAR_EXIT_MS}ms ${easeIn} ${idx * CHAR_EXIT_STAGGER_MS}ms, transform ${CHAR_EXIT_MS}ms ${easeIn} ${idx * CHAR_EXIT_STAGGER_MS}ms`;
+					s.style.opacity = '0';
+					s.style.transform = 'translateY(-0.35em)';
+				});
+				setTimeout(cb, CHAR_EXIT_MS + spans.length * CHAR_EXIT_STAGGER_MS);
+			}
+
+			render(words[0]);
+			const firstEnter = words[0].length * CHAR_STAGGER_MS + CHAR_ENTER_MS;
+
+			function tick() {
+				exit(() => {
+					i = (i + 1) % words.length;
+					const enterDuration = render(words[i]);
+					setTimeout(tick, HOLD_MS + enterDuration);
+				});
+			}
+
+			setTimeout(tick, HOLD_MS + firstEnter);
+		}
+	}
+</script>

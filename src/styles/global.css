@@ -5,21 +5,15 @@
 @import "@fontsource/ibm-plex-sans/500.css";
 @import "@fontsource/ibm-plex-sans/600.css";
 @import "@fontsource-variable/jetbrains-mono/index.css";
-@import "@fontsource-variable/bricolage-grotesque/index.css";
 
 @theme inline {
   --font-display: "Fraunces Variable", ui-serif, Georgia, serif;
   --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, monospace;
 
-  /* Grotesk stack — used only by the /grotesk alt page for the
-     serif-vs-grotesk comparison. Bricolage Grotesque is a variable
-     face with weight AND width axes, giving real editorial character
-     without slipping into Inter / Space Grotesk template territory. */
-  --font-grotesk: "Bricolage Grotesque Variable", "Helvetica Neue", Helvetica, ui-sans-serif, system-ui, sans-serif;
-
-  /* Alternate accent — used only by /grotesk. Same cyan as the
-     original "Auditing" capability colour. */
+  /* Alternate accent — used by the /blue variant page. Same cyan
+     as the previous "Auditing" capability colour. Page overrides
+     --color-accent to this value via inline style on the wrapper. */
   --color-accent-alt: #00A2C7;
 
   --color-paper: #F4F1EA;
