@@ -1,1 +1,59 @@
 @import "tailwindcss";
+
+@import "@fontsource-variable/fraunces/index.css";
+@import "@fontsource/ibm-plex-sans/400.css";
+@import "@fontsource/ibm-plex-sans/500.css";
+@import "@fontsource/ibm-plex-sans/600.css";
+@import "@fontsource-variable/jetbrains-mono/index.css";
+
+@theme inline {
+  --font-display: "Fraunces Variable", ui-serif, Georgia, serif;
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, monospace;
+
+  --color-paper: #F4F1EA;
+  --color-ink: #141412;
+  --color-ink-muted: #6B6862;
+  --color-ink-faint: #B8B2A6;
+  --color-rule: #1B1B18;
+  --color-accent: #16324F;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "kern", "liga", "calt";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-paper);
+  }
+
+  ::-moz-selection {
+    background-color: var(--color-accent);
+    color: var(--color-paper);
+  }
+}
+
+@utility hairline-t {
+  border-top: 0.5px solid var(--color-rule);
+}
+
+@utility hairline-b {
+  border-bottom: 0.5px solid var(--color-rule);
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}

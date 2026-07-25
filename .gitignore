@@ -34,3 +34,6 @@ pnpm-debug.log*
 
 # environment variable overrides (covers .env.local, .env.development, etc.)
 .env*
+
+# private brief materials (CVs, client docs, notes handed to the assistant)
+Claude briefs/
