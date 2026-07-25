@@ -95,12 +95,13 @@
 	   rule finishes drawing (~2.2s after data-inview), the icon
 	   falls from above (opacity 0 → 1) and overshoots a touch below
 	   the resting line before settling. Reads as landing, not just
-	   fading. */
+	   fading. Opacity is explicitly set at 100% so `both` fill leaves
+	   the icon fully visible at rest. */
 	0%   { opacity: 0; transform: translateY(-16px); }
 	50%  { opacity: 1; transform: translateY(6px); }
 	72%  { transform: translateY(-2px); }
 	88%  { transform: translateY(1px); }
-	100% { transform: translateY(0); }
+	100% { opacity: 1; transform: translateY(0); }
 }
 @keyframes growY {
 	from { transform: scaleY(0); }
