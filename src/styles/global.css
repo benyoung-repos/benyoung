@@ -1,86 +1,217 @@
 @import "tailwindcss";
 
-@import "@fontsource-variable/fraunces/index.css";
-@import "@fontsource/ibm-plex-sans/400.css";
-@import "@fontsource/ibm-plex-sans/500.css";
-@import "@fontsource/ibm-plex-sans/600.css";
-@import "@fontsource-variable/jetbrains-mono/index.css";
+/* Fonts — from the "Ben Young Portfolio Rebuild" design handoff.
+   Newsreader (serif, hero + section labels + service headings + venture
+   names + client names + email); Instrument Sans (body); IBM Plex Mono
+   (header nav, metadata, tags, numerals, footer). All self-hosted via
+   Fontsource. */
+@import "@fontsource-variable/newsreader/opsz.css";
+@import "@fontsource-variable/newsreader/opsz-italic.css";
+@import "@fontsource-variable/instrument-sans/index.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
 
-/* @theme (without `inline`) so utilities like `text-accent` compile to
-   `color: var(--color-accent)` at runtime — required for the /blue page
-   to swap the accent by redefining --color-accent on a wrapper element.
-   `@theme inline` would inline the token value at build time, breaking
-   the override. */
+/* @theme (not @theme inline) so token overrides on a wrapper element
+   would cascade through — see docs/CONVENTIONS.md. Not currently
+   used by any variant page since /blue was deleted for the rebuild,
+   but the pattern is preserved for future variants. */
 @theme {
-  --font-display: "Fraunces Variable", ui-serif, Georgia, serif;
-  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, monospace;
+	--font-serif: "Newsreader Variable", Newsreader, Georgia, serif;
+	--font-sans: "Instrument Sans Variable", "Instrument Sans", "Helvetica Neue", Helvetica, ui-sans-serif, system-ui, sans-serif;
+	--font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  /* Alternate accent — used by the /blue variant page. Same cyan
-     as the previous "Auditing" capability colour. Page overrides
-     --color-accent to this value via inline style on the wrapper. */
-  --color-accent-alt: #00A2C7;
-
-  --color-paper: #F4F1EA;
-  --color-ink: #141412;
-  --color-ink-muted: #6B6862;
-  --color-ink-faint: #B8B2A6;
-  --color-rule: #1B1B18;
-
-  /* Primary accent — oxblood. Used on availability line, email
-     underline, and hover states. Warm-red, editorial pull-quote
-     register; distinct from ink text on warm off-white paper. */
-  --color-accent: #8B1F1F;
-
-  /* Capability palette — one hue per rotating hero word. Bauhaus-
-     editorial register: saturated, confident primaries and
-     secondaries, coordinated by sitting at roughly the same
-     saturation level. Deliberately un-muted to escape the warm-
-     earth-tone register that has become an editorial cliché. */
-  --color-cap-designing: #D01C1F;   /* Bauhaus red */
-  --color-cap-building: #007A33;    /* WWF green */
-  --color-cap-prototyping: #E8A800; /* warm gold */
-  --color-cap-consulting: #002FA7;  /* Klein blue */
-  --color-cap-directing: #6B2C91;   /* deep violet */
-  --color-cap-auditing: #00A2C7;    /* cyan */
-  --color-cap-shipping: #E85D04;    /* Bauhaus orange */
+	/* Palette — verbatim from the design handoff (README.md tokens
+	   table). Do not rename or repurpose; the accent token is used
+	   in ~15 places across the page. */
+	--color-bg1: #17181b;
+	--color-bg2: #121316;
+	--color-acc: #e6c455;
+	--color-acc-ink: #16171a;
+	--color-glow: rgba(230, 196, 85, 0.10);
+	--color-ink: #e9e8e2;
+	--color-ink2: #d6d5cd;
+	--color-ink3: #bcbbb3;
+	--color-ink4: #96958d;
+	--color-rule: rgba(233, 232, 226, 0.16);
+	--color-rule2: rgba(233, 232, 226, 0.30);
+	--color-head: rgba(23, 24, 27, 0.85);
+	--color-hover: rgba(230, 196, 85, 0.06);
 }
 
 @layer base {
-  html {
-    background-color: var(--color-paper);
-    color: var(--color-ink);
-    font-family: var(--font-sans);
-    font-feature-settings: "kern", "liga", "calt";
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-  }
+	html {
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		text-rendering: optimizeLegibility;
+	}
 
-  body {
-    background-color: var(--color-paper);
-    color: var(--color-ink);
-  }
+	body {
+		margin: 0;
+		background: var(--color-bg1);
+		color: var(--color-ink);
+		font-family: var(--font-sans);
+	}
 
-  ::selection {
-    background-color: var(--color-accent);
-    color: var(--color-paper);
-  }
+	a {
+		color: inherit;
+		text-decoration: none;
+	}
 
-  ::-moz-selection {
-    background-color: var(--color-accent);
-    color: var(--color-paper);
-  }
+	a:hover {
+		color: var(--color-acc);
+	}
+
+	::selection {
+		background: var(--color-acc);
+		color: var(--color-acc-ink);
+	}
 }
 
-@utility hairline-t {
-  border-top: 0.5px solid var(--color-rule);
+/* Custom scrollbar for the horizontal client-work rail. */
+[data-rail]::-webkit-scrollbar {
+	height: 5px;
+}
+[data-rail]::-webkit-scrollbar-track {
+	background: transparent;
+}
+[data-rail]::-webkit-scrollbar-thumb {
+	background: rgba(233, 232, 226, 0.18);
+	border-radius: 3px;
 }
 
-@utility hairline-b {
-  border-bottom: 0.5px solid var(--color-rule);
+/* Keyframes — all from the design handoff. Each is triggered by CSS
+   selectors matching data-anim + data-inview (populated at runtime by
+   an IntersectionObserver in Homepage.astro). */
+@keyframes trackIn {
+	from { transform: translateX(52vw); }
+	to { transform: translateX(0); }
+}
+@keyframes growY {
+	from { transform: scaleY(0); }
+	to { transform: scaleY(1); }
+}
+@keyframes tint {
+	0% { color: var(--color-ink); }
+	20% { color: var(--color-acc); }
+	52% { color: var(--color-acc); }
+	100% { color: var(--color-ink); }
+}
+@keyframes tint2 {
+	0% { color: var(--color-ink2); }
+	22% { color: var(--color-acc); }
+	55% { color: var(--color-acc); }
+	100% { color: var(--color-ink2); }
+}
+@keyframes nudge {
+	0%, 100% { transform: none; }
+	40% { transform: translate(9px, -9px); }
+}
+@keyframes sweep {
+	from { background-position: 100% 0; }
+	to { background-position: 0% 0; }
+}
+@keyframes rise {
+	from { opacity: 0; transform: translateY(18px); }
+	to { opacity: 1; transform: none; }
+}
+@keyframes wipe {
+	from { transform: scaleX(0); }
+	to { transform: scaleX(1); }
+}
+@keyframes fade {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+@keyframes pulse {
+	0%, 100% { opacity: 1; }
+	50% { opacity: 0.35; }
+}
+@keyframes cycle {
+	0%, 9.5% { transform: translateY(0); }
+	12.5%, 22% { transform: translateY(-11.1111%); }
+	25%, 34.5% { transform: translateY(-22.2222%); }
+	37.5%, 47% { transform: translateY(-33.3333%); }
+	50%, 59.5% { transform: translateY(-44.4444%); }
+	62.5%, 72% { transform: translateY(-55.5555%); }
+	75%, 84.5% { transform: translateY(-66.6666%); }
+	87.5%, 97% { transform: translateY(-77.7777%); }
+	100% { transform: translateY(-88.8888%); }
 }
 
-@utility tabular {
-  font-variant-numeric: tabular-nums;
+/* Bindings from data-attributes to animations. */
+[data-anim="track"] {
+	will-change: transform;
+}
+[data-anim="track"][data-inview] {
+	animation: trackIn 1.9s cubic-bezier(.16, 1, .3, 1) .3s both;
+	pointer-events: none;
+}
+[data-rail][data-unlocked] [data-anim="track"] {
+	pointer-events: auto;
+}
+[data-rail][data-unlocked] {
+	overflow-x: auto;
+}
+[data-anim="rule"][data-inview] {
+	animation: growY 1.1s cubic-bezier(.2, .7, .2, 1) 1.1s both;
+}
+[data-anim="head"][data-inview] {
+	animation: tint 3.4s ease both;
+}
+[data-anim="name"][data-inview] {
+	animation: tint2 1s ease both;
+}
+[data-anim="arrow"][data-inview] {
+	animation: nudge 1.6s cubic-bezier(.3, .6, .2, 1) 2 both;
+}
+[data-anim="email"][data-inview] {
+	animation: sweep 3s linear infinite;
+}
+[data-cycle] {
+	animation: cycle 19s cubic-bezier(.7, 0, .15, 1) -1.4s infinite;
+}
+
+/* All animations disabled under reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+	[data-anim][data-inview],
+	[data-cycle] {
+		animation: none;
+	}
+}
+
+/* Responsive breakpoints — attribute-hook media queries per the design. */
+@media (max-width: 1000px) {
+	[data-sec] {
+		grid-template-columns: minmax(0, 1fr) !important;
+		gap: 20px !important;
+	}
+	[data-row] {
+		grid-template-columns: minmax(0, 1fr) !important;
+		gap: 10px !important;
+	}
+	[data-sub] {
+		grid-template-columns: minmax(0, 1fr) !important;
+		gap: 24px !important;
+	}
+	[data-hero] {
+		padding-top: 76px !important;
+		padding-bottom: 64px !important;
+	}
+}
+
+@media (max-width: 620px) {
+	[data-pad] {
+		padding-left: 22px !important;
+		padding-right: 22px !important;
+	}
+	[data-rail] {
+		scroll-padding-left: 22px !important;
+	}
+	[data-hide-sm] {
+		display: none !important;
+	}
+	[data-hero] {
+		padding-top: 56px !important;
+		padding-bottom: 48px !important;
+	}
 }

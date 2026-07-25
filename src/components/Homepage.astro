@@ -1,338 +1,396 @@
 ---
-// Shared homepage body used by both `/` (oxblood accent) and
-// `/blue` (cyan accent). The accent colour is driven by the
-// CSS custom property --color-accent, which each page redefines
-// on its wrapper element — no code change needed here to swap
-// accents between variants.
+// Homepage — faithful translation of the "Ben Young Portfolio Rebuild"
+// design handoff (2026-07-25). Structure, copy, spacing, motion and
+// timings are copied verbatim from the reference `.dc.html`. Inline
+// styles are used throughout to preserve 1:1 fidelity with the source;
+// refactoring to Tailwind utilities later is safe but not required.
+//
+// Design tokens and keyframes live in src/styles/global.css. Behaviour
+// that requires JS — the IntersectionObserver, the rail scroller, the
+// rail unlock timeout — is at the bottom of this file.
+
+const projects = [
+	{
+		client: 'Philips',
+		year: '2024',
+		title: 'B2B product site and design system',
+		blurb: 'Interface design and a component system for a multi-market product site, handed over as a working front end.',
+		role: 'UX / UI / build',
+	},
+	{
+		client: 'Solstice AV',
+		year: '2025',
+		title: 'Website design, build and AI search visibility',
+		blurb: 'Positioning, a new site designed and built end to end, and an AEO/GEO audit with a prioritised roadmap.',
+		role: 'Positioning / design / build',
+	},
+	{
+		client: 'Wholegood',
+		year: '2024',
+		title: 'Ordering experience audit and roadmap',
+		blurb: 'UX audit of the trade ordering journey, with prioritised fixes and prototypes for the highest-value changes.',
+		role: 'UX audit / prototypes',
+	},
+	{
+		client: 'Osmond Ergonomics',
+		year: '2023',
+		title: 'Product site rebuild',
+		blurb: 'Information architecture, interface design and build for a specialist catalogue with a complex product set.',
+		role: 'IA / UI / build',
+	},
+];
+
+const clientList = [
+	'Channel 4',
+	'WWF',
+	'Philips',
+	'UN Environment Programme',
+	'The Royal Society',
+	'Royal College of Surgeons',
+	'Vodafone',
+	'Department for Education',
+	'UNEP Finance Initiative',
+	'ISEAL Alliance',
+	'Global Canopy',
+];
 ---
 
-<div class="min-h-screen">
-	<header class="px-6 md:px-12 pt-8 pb-24">
-		<nav class="flex items-center justify-between text-sm">
-			<span>Ben Young</span>
-			<a
-				href="#contact"
-				class="text-ink-muted hover:text-ink transition-colors duration-300"
-			>
-				Get in touch
-			</a>
-		</nav>
+<div style="position:relative;background:radial-gradient(120% 80% at 8% -10%, var(--color-glow) 0%, transparent 55%), radial-gradient(90% 60% at 100% 100%, rgba(233,232,226,0.07) 0%, transparent 60%), linear-gradient(var(--color-bg1), var(--color-bg2));color:var(--color-ink);font-family:var(--font-sans);min-height:100vh">
+
+	<!-- Header (sticky, translucent) -->
+	<header data-pad style="position:sticky;top:0;z-index:10;backdrop-filter:blur(6px);background:var(--color-head);display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px 48px;font-family:var(--font-mono);font-size:12px;border-bottom:1px solid var(--color-rule);animation:fade .8s ease both">
+		<a href="#top" style="font-family:var(--font-serif);font-size:17px">Ben Young</a>
+		<div style="display:flex;align-items:center;gap:26px">
+			<span data-hide-sm style="display:flex;align-items:center;gap:8px;color:var(--color-ink4)">
+				<span style="width:6px;height:6px;border-radius:50%;background:var(--color-acc);display:block;animation:pulse 3.2s ease-in-out infinite"></span>
+				<span>available 2–3 days a week</span>
+			</span>
+			<a href="mailto:ben@benyoung.me" style="border-bottom:1px solid var(--color-rule2);padding-bottom:2px">Get in touch</a>
+		</div>
 	</header>
 
-	<section class="px-6 md:px-12 pb-40">
-		<h1 class="font-display font-normal text-[clamp(2.75rem,8vw,8rem)] leading-[0.95] tracking-[-0.03em] max-w-[16ch]">
-			<span class="sr-only">
-				Twenty-one years designing the web end-to-end — Designing, Building,
-				Prototyping, Consulting, Directing, Auditing, Shipping and more.
+	<!-- Hero -->
+	<section id="top" data-hero data-pad style="padding:104px 48px 84px">
+		<h1
+			aria-label="Twenty years designing the web, end to end."
+			style="margin:0;font-family:var(--font-serif);font-weight:400;font-size:clamp(54px,9vw,132px);line-height:1.04;letter-spacing:-0.028em;max-width:14ch;animation:rise .9s cubic-bezier(.2,.7,.2,1) both;animation-delay:.12s"
+		>
+			<span style="display:block">Twenty years</span>
+			<span aria-hidden="true" style="display:block;height:1.24em;overflow:hidden;font-style:italic;color:var(--color-acc)">
+				<span data-cycle style="display:block">
+					<span style="display:block;height:1.24em;line-height:1.24">designing</span>
+					<span style="display:block;height:1.24em;line-height:1.24">prototyping</span>
+					<span style="display:block;height:1.24em;line-height:1.24">building</span>
+					<span style="display:block;height:1.24em;line-height:1.24">shipping</span>
+					<span style="display:block;height:1.24em;line-height:1.24">auditing</span>
+					<span style="display:block;height:1.24em;line-height:1.24">directing</span>
+					<span style="display:block;height:1.24em;line-height:1.24">consulting</span>
+					<span style="display:block;height:1.24em;line-height:1.24">launching</span>
+					<span style="display:block;height:1.24em;line-height:1.24">designing</span>
+				</span>
 			</span>
-			<span aria-hidden="true">
-				Twenty-one years,<br />
-				<span id="rotating-word" class="italic text-accent">Designing</span><br />
-				the web end-to-end.
-			</span>
+			<span style="display:block">the web, end to end.</span>
 		</h1>
-		<p class="mt-16 max-w-2xl font-display italic text-2xl md:text-3xl leading-snug">
-			Now founding, and building with AI.
-		</p>
-	</section>
-
-	<section id="about" class="hairline-t px-6 md:px-12 py-24">
-		<div class="grid grid-cols-1 md:grid-cols-12 gap-y-12 gap-x-8">
-			<h2 class="md:col-span-3 font-display italic text-lg text-ink-muted">
-				About
-			</h2>
-			<div class="md:col-span-9 space-y-12">
-				<p class="text-xl leading-relaxed max-w-3xl">
-					Ben Young is a design and AI consultant based in Bournemouth, UK.
-					Twenty-one years digital, most of it across senior design roles at
-					agencies working with Channel 4, WWF, the UN Environment Programme
-					and The Royal Society. Now the founder of
-					<a
-						href="https://cernago.com"
-						target="_blank"
-						rel="noopener noreferrer"
-						class="border-b border-current pb-0.5 hover:text-accent hover:border-accent transition-colors"
-						>Cernago</a
-					>
-					and co-founder of
-					<a
-						href="https://bookbagmedia.com"
-						target="_blank"
-						rel="noopener noreferrer"
-						class="border-b border-current pb-0.5 hover:text-accent hover:border-accent transition-colors"
-						>Bookbag</a
-					>, designing and building products end-to-end with AI, without a
-					development team.
-				</p>
-				<p class="font-display italic text-3xl md:text-4xl leading-[1.15] text-accent max-w-2xl">
-					Available two or three days a week for teams that need a senior
-					operator in the design–product–AI corner. Fractional, remote,
-					alongside
-					<a
-						href="https://cernago.com"
-						target="_blank"
-						rel="noopener noreferrer"
-						class="border-b-2 border-current pb-0.5 no-underline hover:opacity-70 transition-opacity"
-						>Cernago</a
-					>
-					and
-					<a
-						href="https://bookbagmedia.com"
-						target="_blank"
-						rel="noopener noreferrer"
-						class="border-b-2 border-current pb-0.5 no-underline hover:opacity-70 transition-opacity"
-						>Bookbag</a
-					>.
-				</p>
-			</div>
-		</div>
-	</section>
-
-	<section class="hairline-t px-6 md:px-12 py-24">
-		<div class="grid grid-cols-1 md:grid-cols-12 gap-y-16 gap-x-8">
-			<h2 class="md:col-span-3 font-display italic text-lg text-ink-muted">
-				What I do
-			</h2>
-			<dl class="md:col-span-9 space-y-0">
-				<div class="grid grid-cols-1 md:grid-cols-9 gap-4 py-8">
-					<dt class="md:col-span-3 font-display italic text-2xl leading-tight">
-						UX & product design
-					</dt>
-					<dd class="md:col-span-6 text-lg leading-relaxed text-ink">
-						Discovery, information architecture, wireframing, prototyping,
-						interface and visual design, design systems, usability testing.
-					</dd>
-				</div>
-				<div class="grid grid-cols-1 md:grid-cols-9 gap-4 py-8 hairline-t">
-					<dt class="md:col-span-3 font-display italic text-2xl leading-tight">
-						AI-assisted development
-					</dt>
-					<dd class="md:col-span-6 text-lg leading-relaxed text-ink">
-						Designing and building production websites and web apps end-to-end
-						with AI. Taking products from concept to live without the cost or
-						lead time of a development team.
-					</dd>
-				</div>
-				<div class="grid grid-cols-1 md:grid-cols-9 gap-4 py-8 hairline-t">
-					<dt class="md:col-span-3 font-display italic text-2xl leading-tight">
-						AI & automation
-					</dt>
-					<dd class="md:col-span-6 text-lg leading-relaxed text-ink">
-						Multi-agent workflows, AI content pipelines, image generation, API
-						integrations, business automations.
-					</dd>
-				</div>
-				<div class="grid grid-cols-1 md:grid-cols-9 gap-4 py-8 hairline-t">
-					<dt class="md:col-span-3 font-display italic text-2xl leading-tight">
-						Consultancy & auditing
-					</dt>
-					<dd class="md:col-span-6 text-lg leading-relaxed text-ink">
-						UX and website audits, positioning, go-to-market and AI search
-						visibility (AEO / GEO) audits with prioritised roadmaps clients can
-						act on.
-					</dd>
-				</div>
-			</dl>
-		</div>
-	</section>
-
-	<section class="hairline-t px-6 md:px-12 py-24">
-		<div class="grid grid-cols-1 md:grid-cols-12 gap-y-16 gap-x-8">
-			<h2 class="md:col-span-3 font-display italic text-lg text-ink-muted">
-				Selected work
-			</h2>
-			<div class="md:col-span-9 space-y-24">
-				<article class="grid grid-cols-1 md:grid-cols-9 gap-y-6 gap-x-8">
-					<p class="md:col-span-3 text-sm text-ink-muted">
-						<span class="tabular">2025 —</span>
-						<span class="mx-2">·</span>
-						<span>Co-founder</span>
-					</p>
-					<div class="md:col-span-6 space-y-5">
-						<h3 class="font-display text-5xl md:text-6xl leading-[1] tracking-[-0.02em]">
-							<a
-								href="https://bookbagmedia.com"
-								target="_blank"
-								rel="noopener noreferrer"
-								class="group inline-flex items-baseline gap-3 hover:text-accent transition-colors duration-300"
-							>
-								<span>Bookbag</span>
-								<span
-									aria-hidden="true"
-									class="text-2xl md:text-3xl text-ink-muted group-hover:text-accent transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
-									>↗</span
-								>
-							</a>
-						</h3>
-						<p class="font-display italic text-xl text-ink-muted leading-snug">
-							A marketplace connecting brands with UK primary schools
-						</p>
-						<p class="text-lg leading-relaxed text-ink pt-2">
-							Designed and built the marketing site and the web application
-							end-to-end with three user roles — brand, school, and admin —
-							without a development team. React, Vite, TypeScript, Tailwind,
-							deployed on Vercel. Educational activity content produced through
-							a custom AI image-generation and print fulfilment pipeline.
-						</p>
-					</div>
-				</article>
-
-				<article class="grid grid-cols-1 md:grid-cols-9 gap-y-6 gap-x-8">
-					<p class="md:col-span-3 text-sm text-ink-muted">
-						<span class="tabular">2021 —</span>
-						<span class="mx-2">·</span>
-						<span>Founder</span>
-					</p>
-					<div class="md:col-span-6 space-y-5">
-						<h3 class="font-display text-5xl md:text-6xl leading-[1] tracking-[-0.02em]">
-							<a
-								href="https://cernago.com"
-								target="_blank"
-								rel="noopener noreferrer"
-								class="group inline-flex items-baseline gap-3 hover:text-accent transition-colors duration-300"
-							>
-								<span>Cernago</span>
-								<span
-									aria-hidden="true"
-									class="text-2xl md:text-3xl text-ink-muted group-hover:text-accent transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
-									>↗</span
-								>
-							</a>
-						</h3>
-						<p class="font-display italic text-xl text-ink-muted leading-snug">
-							A design and AI consultancy for B2B companies
-						</p>
-						<p class="text-lg leading-relaxed text-ink pt-2">
-							Solo-led design and build of websites, web apps and AI-assisted
-							go-to-market systems for retained B2B clients including Philips,
-							Solstice AV, Wholegood and Osmond Ergonomics. Positioning, UX and
-							AI-search audits with roadmaps clients act on. Everything shipped
-							end-to-end — no development team.
-						</p>
-					</div>
-				</article>
-			</div>
-		</div>
-	</section>
-
-	<section class="hairline-t px-6 md:px-12 py-20">
-		<div class="grid grid-cols-1 md:grid-cols-12 gap-y-8 gap-x-8">
-			<h2 class="md:col-span-3 font-display italic text-lg text-ink-muted">
-				Selected clients
-			</h2>
-			<p class="md:col-span-9 font-display text-2xl md:text-3xl leading-snug text-ink text-balance">
-				Channel 4 · WWF · Philips · UN Environment Programme · The Royal
-				Society · Royal College of Surgeons · Vodafone · Department for
-				Education · UNEP Finance Initiative · ISEAL Alliance · Global Canopy
+		<div style="margin-top:58px;height:1px;background:var(--color-ink);opacity:0.22;transform-origin:left;animation:wipe 1s cubic-bezier(.5,0,.1,1) both;animation-delay:.3s"></div>
+		<div data-sub style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,340px);gap:48px;align-items:end;padding-top:22px;animation:rise .8s cubic-bezier(.2,.7,.2,1) both;animation-delay:.42s">
+			<p style="margin:0;font-family:var(--font-serif);font-style:italic;font-size:clamp(20px,2.1vw,28px);line-height:1.28">
+				Now founding, and building with AI.
+			</p>
+			<p style="margin:0;font-family:var(--font-mono);font-size:12px;line-height:1.75;color:var(--color-ink4)">
+				Design and AI consultant. Remote, with teams across the UK, EU and US.
 			</p>
 		</div>
 	</section>
 
-	<section id="contact" class="hairline-t px-6 md:px-12 pt-24 pb-32">
-		<div class="grid grid-cols-1 md:grid-cols-12 gap-y-8 gap-x-8">
-			<h2 class="md:col-span-3 font-display italic text-lg text-ink-muted">
-				Get in touch
-			</h2>
-			<div class="md:col-span-9">
-				<p class="font-display text-4xl md:text-6xl leading-[1] tracking-[-0.02em]">
-					<a
-						href="mailto:ben@benyoung.me"
-						class="border-b-2 border-accent pb-1 transition-colors duration-300 hover:text-accent"
-					>
-						ben@benyoung.me
-					</a>
+	<!-- 01 About -->
+	<section data-sec data-pad style="border-top:1px solid var(--color-rule);padding:64px 48px 76px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px">
+		<div style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
+			<span style="color:var(--color-acc);font-family:var(--font-mono);font-style:normal;font-size:11px">01</span>About
+		</div>
+		<div style="max-width:780px">
+			<p style="margin:0;font-size:17px;line-height:1.68;max-width:60ch;color:var(--color-ink2)">
+				Ben Young is a design and AI consultant based in Bournemouth, UK. Twenty years in digital, most of it in senior design roles at agencies working with Channel 4, WWF, the UN Environment Programme and The Royal Society. Now founder of <a href="https://cernago.com" target="_blank" rel="noopener" style="border-bottom:1px solid var(--color-rule2)">Cernago</a><span style="font-size:0.72em;color:var(--color-acc);margin-left:2px;vertical-align:0.18em">↗</span> and co-founder of <a href="https://bookbagmedia.com" target="_blank" rel="noopener" style="border-bottom:1px solid var(--color-rule2)">Bookbag</a><span style="font-size:0.72em;color:var(--color-acc);margin-left:2px;vertical-align:0.18em">↗</span>, designing and building products end to end with AI — without a development team.
+			</p>
+			<div style="margin-top:44px;position:relative;padding-left:26px">
+				<div data-anim="rule" style="position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--color-acc);transform:scaleY(0);transform-origin:top"></div>
+				<p style="margin:0;font-family:var(--font-serif);font-style:italic;color:var(--color-acc);font-size:clamp(23px,2.7vw,32px);line-height:1.3;max-width:21ch;text-wrap:pretty">
+					Available two or three days a week for teams that need a senior operator in the design–product–AI corner.
 				</p>
-				<p class="mt-10 text-base text-ink-muted">
-					Bournemouth, UK
-					<span class="mx-2">·</span>
-					<a href="tel:+447788100874" class="hover:text-ink transition-colors">07788 100874</a>
-					<span class="mx-2">·</span>
-					<a href="https://linkedin.com/in/bensyoung" class="hover:text-ink transition-colors">LinkedIn</a>
+				<p style="margin:16px 0 0;font-size:14px;color:var(--color-ink4)">
+					Fractional, remote, alongside Cernago and Bookbag.
 				</p>
 			</div>
 		</div>
 	</section>
 
-	<footer class="hairline-t px-6 md:px-12 py-8">
-		<p class="text-sm text-ink-faint">
-			© Ben Young {new Date().getFullYear()}
-		</p>
+	<!-- 02 What I do -->
+	<section data-sec data-pad style="border-top:1px solid var(--color-rule);padding:64px 48px 76px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px">
+		<div style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
+			<span style="color:var(--color-acc);font-family:var(--font-mono);font-style:normal;font-size:11px">02</span>What I do
+		</div>
+		<div style="display:grid;max-width:900px">
+			<div data-row style="display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr);gap:40px;padding:24px 0;border-top:1px solid var(--color-rule)">
+				<h3 data-anim="head" style="margin:0;font-family:var(--font-serif);font-style:italic;font-weight:400;font-size:22px;animation-delay:0s">UX & product design</h3>
+				<p style="margin:0;font-size:15px;line-height:1.62;color:var(--color-ink3);max-width:52ch">
+					Discovery, information architecture, wireframing, prototyping, interface and visual design, design systems, usability testing.
+				</p>
+			</div>
+			<div data-row style="display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr);gap:40px;padding:24px 0;border-top:1px solid var(--color-rule)">
+				<h3 data-anim="head" style="margin:0;font-family:var(--font-serif);font-style:italic;font-weight:400;font-size:22px;animation-delay:1s">AI-assisted development</h3>
+				<p style="margin:0;font-size:15px;line-height:1.62;color:var(--color-ink3);max-width:52ch">
+					Designing and building production websites and web apps end to end with AI. Concept to live without the cost or lead time of a development team.
+				</p>
+			</div>
+			<div data-row style="display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr);gap:40px;padding:24px 0;border-top:1px solid var(--color-rule)">
+				<h3 data-anim="head" style="margin:0;font-family:var(--font-serif);font-style:italic;font-weight:400;font-size:22px;animation-delay:2s">AI & automation</h3>
+				<p style="margin:0;font-size:15px;line-height:1.62;color:var(--color-ink3);max-width:52ch">
+					Multi-agent workflows, AI content pipelines, image generation, API integrations, business automations.
+				</p>
+			</div>
+			<div data-row style="display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr);gap:40px;padding:24px 0;border-top:1px solid var(--color-rule);border-bottom:1px solid var(--color-rule)">
+				<h3 data-anim="head" style="margin:0;font-family:var(--font-serif);font-style:italic;font-weight:400;font-size:22px;animation-delay:3s">Consultancy & auditing</h3>
+				<p style="margin:0;font-size:15px;line-height:1.62;color:var(--color-ink3);max-width:52ch">
+					UX and website audits, positioning, go-to-market, and AI search visibility (AEO / GEO) audits with prioritised roadmaps clients can act on.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<!-- Philosophy band (unnumbered) -->
+	<section data-sec data-pad style="border-top:1px solid var(--color-rule);background:rgba(230,196,85,0.035);padding:78px 48px 84px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px">
+		<div style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4)"></div>
+		<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:56px;align-items:center;max-width:1000px">
+			<!-- Diagram: pure-CSS sketch → build → live -->
+			<div aria-hidden="true" style="position:relative;width:100%;max-width:340px;aspect-ratio:4/5;background-image:radial-gradient(var(--color-rule) 1px, transparent 1px);background-size:22px 22px;background-position:6px 6px">
+				<div style="position:absolute;left:17%;top:26.8%;width:1px;height:6.6%;background:var(--color-rule)"></div>
+				<div style="position:absolute;left:17%;top:33.4%;width:27%;height:1px;background:var(--color-rule)"></div>
+				<div style="position:absolute;left:44%;top:33.4%;width:1px;height:6.6%;background:var(--color-rule)"></div>
+				<div style="position:absolute;left:44%;top:60.8%;width:1px;height:6.6%;background:var(--color-rule)"></div>
+				<div style="position:absolute;left:44%;top:67.4%;width:27%;height:1px;background:var(--color-rule)"></div>
+				<div style="position:absolute;left:71%;top:67.4%;width:1px;height:6.6%;background:var(--color-rule)"></div>
+				<div style="position:absolute;left:4%;top:6%;width:26%;aspect-ratio:1;border:1px dashed var(--color-ink4)"></div>
+				<div style="position:absolute;left:31%;top:40%;width:26%;aspect-ratio:1;border:1px solid var(--color-ink3);background:rgba(233,232,226,0.04)"></div>
+				<div style="position:absolute;left:58%;top:74%;width:26%;aspect-ratio:1;background:var(--color-acc)"></div>
+				<div style="position:absolute;left:34%;top:6.5%;font-family:var(--font-mono);font-size:10px;line-height:1;color:var(--color-ink4)">sketch</div>
+				<div style="position:absolute;left:61%;top:40.5%;font-family:var(--font-mono);font-size:10px;line-height:1;color:var(--color-ink4)">build</div>
+				<div style="position:absolute;left:88%;top:74.5%;font-family:var(--font-mono);font-size:10px;line-height:1;color:var(--color-acc)">live</div>
+			</div>
+			<div>
+				<p style="margin:0;font-family:var(--font-serif);font-weight:400;font-size:clamp(30px,3.6vw,46px);line-height:1.16;letter-spacing:-0.015em;text-wrap:pretty;color:var(--color-ink)">
+					Design stops being an opinion the <span style="font-style:italic;color:var(--color-acc)">moment it ships.</span>
+				</p>
+				<p style="margin:26px 0 0;font-size:16px;line-height:1.68;color:var(--color-ink3);max-width:46ch">
+					So I build what I draw. Twenty years of handing files to developers taught me where the thinking leaks out — in the estimate, in the handover, in the fortnight it takes to see whether an idea was any good. Doing both ends myself closes that gap to an afternoon.
+				</p>
+				<p style="margin:24px 0 0;font-family:var(--font-mono);font-size:12px;color:var(--color-ink4)">
+					Ben Young — on working end to end
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<!-- 03 Client work — horizontally scrolling rail -->
+	<section id="clients" style="border-top:1px solid var(--color-rule);padding:64px 0 76px">
+		<div data-sec data-pad style="display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px;padding:0 48px;align-items:start">
+			<div style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
+				<span style="color:var(--color-acc);font-family:var(--font-mono);font-style:normal;font-size:11px">03</span>Client work
+			</div>
+			<div style="display:flex;align-items:baseline;justify-content:space-between;gap:24px">
+				<p style="margin:0;font-size:16px;line-height:1.6;color:var(--color-ink3);max-width:46ch">
+					Recent delivery for retained and project clients — design and build, shipped end to end.
+				</p>
+				<div style="display:flex;gap:8px;flex:none">
+					<button type="button" data-rail-prev aria-label="Previous projects" style="width:34px;height:34px;border-radius:50%;border:1px solid var(--color-rule);background:transparent;color:var(--color-ink3);cursor:pointer;font-size:14px;line-height:1">←</button>
+					<button type="button" data-rail-next aria-label="Next projects" style="width:34px;height:34px;border-radius:50%;border:1px solid var(--color-rule);background:transparent;color:var(--color-ink3);cursor:pointer;font-size:14px;line-height:1">→</button>
+				</div>
+			</div>
+		</div>
+		<div data-rail data-scroller data-pad style="margin-top:40px;overflow-x:hidden;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-padding-left:48px;scroll-padding-right:48px;scroll-behavior:smooth;padding:0 48px 14px">
+			<div data-anim="track" style="display:flex;gap:28px">
+				{
+					projects.map((p) => (
+						<article style="flex:none;width:min(78vw,420px);scroll-snap-align:start">
+							<div style="position:relative;width:100%;aspect-ratio:16/10;background:rgba(233,232,226,0.04);border:1px solid var(--color-rule);display:flex;align-items:center;justify-content:center">
+								<span style="font-family:var(--font-mono);font-size:11px;color:var(--color-ink4)">Project screen</span>
+							</div>
+							<div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-top:18px">
+								<h3 style="margin:0;font-family:var(--font-serif);font-weight:400;font-size:26px;letter-spacing:-0.01em">{p.client}</h3>
+								<span style="font-family:var(--font-mono);font-size:11px;color:var(--color-ink4)">{p.year}</span>
+							</div>
+							<p style="margin:8px 0 0;font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4)">{p.title}</p>
+							<p style="margin:12px 0 0;font-size:14px;line-height:1.6;color:var(--color-ink3)">{p.blurb}</p>
+							<p style="margin:14px 0 0;font-family:var(--font-mono);font-size:11px;color:var(--color-ink4)">{p.role}</p>
+						</article>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<!-- 04 What I run -->
+	<section id="work" data-sec data-pad style="border-top:1px solid var(--color-rule);padding:64px 48px 76px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px">
+		<div style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
+			<span style="color:var(--color-acc);font-family:var(--font-mono);font-style:normal;font-size:11px">04</span>What I run
+		</div>
+		<div style="display:grid;max-width:900px">
+			<a
+				href="https://bookbagmedia.com"
+				target="_blank"
+				rel="noopener"
+				class="venture-row"
+				style="display:grid;grid-template-columns:minmax(0,150px) minmax(0,1fr);gap:40px;padding:36px 0;border-top:1px solid var(--color-rule)"
+			>
+				<div style="font-family:var(--font-mono);font-size:12px;color:var(--color-ink4);line-height:1.9">
+					<div>2025 —</div>
+					<div>Co-founder</div>
+				</div>
+				<div>
+					<div style="display:flex;align-items:baseline;gap:14px">
+						<h3 style="margin:0;font-family:var(--font-serif);font-weight:400;font-size:clamp(36px,4.6vw,56px);line-height:1;letter-spacing:-0.02em">Bookbag</h3>
+						<span data-anim="arrow" style="display:inline-block;font-size:20px;color:var(--color-acc)">↗</span>
+					</div>
+					<p style="margin:14px 0 0;font-family:var(--font-serif);font-style:italic;font-size:20px;color:var(--color-ink4)">A marketplace connecting brands with UK primary schools</p>
+					<p style="margin:20px 0 0;font-size:15px;line-height:1.66;color:var(--color-ink3);max-width:56ch">
+						Designed and built the marketing site and the web application end to end with three user roles — brand, school and admin — without a development team. Educational activity content runs through a custom AI image-generation and print-fulfilment pipeline.
+					</p>
+					<div style="display:flex;flex-wrap:wrap;gap:6px 12px;margin-top:22px;font-family:var(--font-mono);font-size:11px;color:var(--color-ink4)">
+						<span>React</span><span style="color:var(--color-acc)">/</span><span>Vite</span><span style="color:var(--color-acc)">/</span><span>TypeScript</span><span style="color:var(--color-acc)">/</span><span>Tailwind</span><span style="color:var(--color-acc)">/</span><span>Vercel</span>
+					</div>
+				</div>
+			</a>
+
+			<a
+				href="https://cernago.com"
+				target="_blank"
+				rel="noopener"
+				class="venture-row"
+				style="display:grid;grid-template-columns:minmax(0,150px) minmax(0,1fr);gap:40px;padding:36px 0;border-top:1px solid var(--color-rule);border-bottom:1px solid var(--color-rule)"
+			>
+				<div style="font-family:var(--font-mono);font-size:12px;color:var(--color-ink4);line-height:1.9">
+					<div>2021 —</div>
+					<div>Founder</div>
+				</div>
+				<div>
+					<div style="display:flex;align-items:baseline;gap:14px">
+						<h3 style="margin:0;font-family:var(--font-serif);font-weight:400;font-size:clamp(36px,4.6vw,56px);line-height:1;letter-spacing:-0.02em">Cernago</h3>
+						<span data-anim="arrow" style="display:inline-block;font-size:20px;color:var(--color-acc)">↗</span>
+					</div>
+					<p style="margin:14px 0 0;font-family:var(--font-serif);font-style:italic;font-size:20px;color:var(--color-ink4)">A design and AI consultancy for B2B companies</p>
+					<p style="margin:20px 0 0;font-size:15px;line-height:1.66;color:var(--color-ink3);max-width:56ch">
+						Solo-led design and build of websites, web apps and AI-assisted go-to-market systems for retained clients including Philips, Solstice AV, Wholegood and Osmond Ergonomics. Positioning, UX and AI-search audits with roadmaps clients act on. Everything shipped end to end.
+					</p>
+					<div style="display:flex;flex-wrap:wrap;gap:6px 12px;margin-top:22px;font-family:var(--font-mono);font-size:11px;color:var(--color-ink4)">
+						<span>Positioning</span><span style="color:var(--color-acc)">/</span><span>UX audits</span><span style="color:var(--color-acc)">/</span><span>AI search</span><span style="color:var(--color-acc)">/</span><span>Web apps</span>
+					</div>
+				</div>
+			</a>
+		</div>
+	</section>
+
+	<!-- 05 Selected clients -->
+	<section data-sec data-pad style="border-top:1px solid var(--color-rule);padding:64px 48px 76px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px">
+		<div style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
+			<span style="color:var(--color-acc);font-family:var(--font-mono);font-style:normal;font-size:11px">05</span>Selected clients
+		</div>
+		<div style="display:flex;flex-wrap:wrap;gap:8px 24px;font-family:var(--font-serif);font-size:clamp(23px,2.6vw,32px);line-height:1.32;max-width:900px;color:var(--color-ink2)">
+			{
+				clientList.map((name, i) => (
+					<span data-anim="name" style={`animation-delay:${i.toFixed(2)}s`}>{name}</span>
+				))
+			}
+		</div>
+	</section>
+
+	<!-- 06 Get in touch -->
+	<section data-sec data-pad style="border-top:1px solid var(--color-rule);padding:72px 48px 92px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px">
+		<div style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
+			<span style="color:var(--color-acc);font-family:var(--font-mono);font-style:normal;font-size:11px">06</span>Get in touch
+		</div>
+		<div>
+			<p style="margin:0 0 22px;font-size:15px;line-height:1.6;color:var(--color-acc);max-width:44ch">
+				Available two or three days a week for teams that need a senior operator in the design–product–AI corner.
+			</p>
+			<a href="mailto:ben@benyoung.me" data-anim="email" style="font-family:var(--font-serif);font-size:clamp(34px,5.2vw,64px);line-height:1.04;letter-spacing:-0.025em;border-bottom:2px solid var(--color-rule2);display:inline-block;padding-bottom:6px;background-image:linear-gradient(100deg,var(--color-ink) 0%,var(--color-ink) 38%,var(--color-acc) 50%,var(--color-ink) 62%,var(--color-ink) 100%);background-size:300% 100%;background-position:100% 0;background-repeat:repeat;-webkit-background-clip:text;background-clip:text;color:transparent">
+				ben@benyoung.me
+			</a>
+			<div style="display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:28px;font-family:var(--font-mono);font-size:12px;color:var(--color-ink4)">
+				<span>Bournemouth, UK</span>
+				<a href="tel:+447788100874">07788 100874</a>
+				<a href="https://linkedin.com/in/bensyoung" target="_blank" rel="noopener" style="border-bottom:1px solid var(--color-rule2);padding-bottom:1px">LinkedIn</a>
+			</div>
+		</div>
+	</section>
+
+	<!-- Footer -->
+	<footer data-pad style="border-top:1px solid var(--color-rule);padding:22px 48px;display:flex;justify-content:space-between;gap:24px;font-family:var(--font-mono);font-size:12px;color:var(--color-ink4)">
+		<span>© Ben Young {new Date().getFullYear()}</span>
+		<a href="#top">Back to top ↑</a>
 	</footer>
 </div>
 
-<script>
-	const el = document.getElementById('rotating-word');
-	if (el) {
-		const words = [
-			'Designing',
-			'Building',
-			'Prototyping',
-			'Consulting',
-			'Directing',
-			'Auditing',
-			'Shipping',
-		];
-
-		const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-		if (!reduced) {
-			const HOLD_MS = 2400;
-			const CHAR_STAGGER_MS = 28;
-			const CHAR_ENTER_MS = 260;
-			const CHAR_EXIT_MS = 140;
-			const CHAR_EXIT_STAGGER_MS = 14;
-
-			const easeOut = 'cubic-bezier(0.16, 1, 0.3, 1)';
-			const easeIn = 'cubic-bezier(0.7, 0, 0.84, 0)';
-
-			let i = 0;
-
-			function render(word: string) {
-				if (!el) return 0;
-				el.textContent = '';
-				const chars = [...word];
-				chars.forEach((ch, idx) => {
-					const span = document.createElement('span');
-					span.textContent = ch === ' ' ? ' ' : ch;
-					span.style.display = 'inline-block';
-					span.style.opacity = '0';
-					span.style.transform = 'translateY(0.35em)';
-					span.style.transition = `opacity ${CHAR_ENTER_MS}ms ${easeOut} ${idx * CHAR_STAGGER_MS}ms, transform ${CHAR_ENTER_MS}ms ${easeOut} ${idx * CHAR_STAGGER_MS}ms`;
-					el.appendChild(span);
-				});
-				requestAnimationFrame(() => {
-					el.querySelectorAll('span').forEach((span) => {
-						(span as HTMLElement).style.opacity = '1';
-						(span as HTMLElement).style.transform = 'translateY(0)';
-					});
-				});
-				return chars.length * CHAR_STAGGER_MS + CHAR_ENTER_MS;
-			}
-
-			function exit(cb: () => void) {
-				if (!el) return;
-				const spans = el.querySelectorAll('span');
-				spans.forEach((span, idx) => {
-					const s = span as HTMLElement;
-					s.style.transition = `opacity ${CHAR_EXIT_MS}ms ${easeIn} ${idx * CHAR_EXIT_STAGGER_MS}ms, transform ${CHAR_EXIT_MS}ms ${easeIn} ${idx * CHAR_EXIT_STAGGER_MS}ms`;
-					s.style.opacity = '0';
-					s.style.transform = 'translateY(-0.35em)';
-				});
-				setTimeout(cb, CHAR_EXIT_MS + spans.length * CHAR_EXIT_STAGGER_MS);
-			}
-
-			render(words[0]);
-			const firstEnter = words[0].length * CHAR_STAGGER_MS + CHAR_ENTER_MS;
-
-			function tick() {
-				exit(() => {
-					i = (i + 1) % words.length;
-					const enterDuration = render(words[i]);
-					setTimeout(tick, HOLD_MS + enterDuration);
-				});
-			}
-
-			setTimeout(tick, HOLD_MS + firstEnter);
-		}
+<style>
+	/* Venture-row hover wash — the design uses the --color-hover token
+	   on `a.venture-row:hover`. Scoped so no other links pick it up. */
+	.venture-row:hover {
+		background: var(--color-hover);
 	}
+</style>
+
+<script>
+	// --- Rail scroller (client-work section) --------------------------
+	const scroller = document.querySelector<HTMLElement>('[data-scroller]');
+	const railPrev = document.querySelector<HTMLButtonElement>('[data-rail-prev]');
+	const railNext = document.querySelector<HTMLButtonElement>('[data-rail-next]');
+
+	function scrollRail(dir: -1 | 1) {
+		if (!scroller) return;
+		scroller.scrollBy({
+			left: dir * Math.min(scroller.clientWidth * 0.8, 460),
+			behavior: 'smooth',
+		});
+	}
+
+	railPrev?.addEventListener('click', () => scrollRail(-1));
+	railNext?.addEventListener('click', () => scrollRail(1));
+
+	// --- IntersectionObserver: toggle data-inview for animated elements
+	// Uses the design's rootMargin (-18% top and bottom) so animations
+	// fire once the element is properly in the reading zone, not just
+	// touching the viewport edge. The client-work track is a special
+	// case: it fires once and never re-arms; after 2.5s the rail is
+	// unlocked so the user can scroll it manually.
+	let unlockTimer: ReturnType<typeof setTimeout> | undefined;
+
+	const io = new IntersectionObserver(
+		(entries) => {
+			for (const entry of entries) {
+				if (entry.isIntersecting) {
+					entry.target.setAttribute('data-inview', '1');
+					if (entry.target.getAttribute('data-anim') === 'track') {
+						const rail = entry.target.parentElement;
+						if (rail) {
+							clearTimeout(unlockTimer);
+							rail.removeAttribute('data-unlocked');
+							unlockTimer = setTimeout(() => rail.setAttribute('data-unlocked', '1'), 2500);
+						}
+						io.unobserve(entry.target);
+					}
+				} else if (entry.target.getAttribute('data-anim') !== 'track') {
+					entry.target.removeAttribute('data-inview');
+				}
+			}
+		},
+		{ threshold: 0, rootMargin: '-18% 0px -18% 0px' }
+	);
+
+	function watch() {
+		document.querySelectorAll('[data-anim]').forEach((el) => {
+			if (el.getAttribute('data-anim') === 'track' && el.hasAttribute('data-inview')) return;
+			io.observe(el);
+		});
+	}
+	watch();
+	// Retry once — some elements may render slightly after initial JS
+	// because of font loading / layout shifts.
+	setTimeout(watch, 600);
 </script>
