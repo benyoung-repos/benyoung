@@ -1,14 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-const rotatingClients = [
-	'Channel 4',
-	'WWF',
-	'The Royal Society',
-	'the UN Environment Programme',
-	'the Royal College of Surgeons',
-	'Vodafone',
-	'the Department for Education',
+const rotatingCapabilities = [
+	'Designing',
+	'Building',
+	'Prototyping',
+	'Consulting',
+	'Directing',
+	'Auditing',
+	'Shipping',
 ];
 
 const selectedClients = [
@@ -61,38 +61,63 @@ const work = [
 	},
 ];
 
-const rotatingClientsForA11y = rotatingClients.join(', ');
+const rotatingForA11y = rotatingCapabilities.join(', ');
 ---
 
 <Layout>
 	<div class="min-h-screen">
 		<header class="px-6 md:px-12 pt-8 pb-24">
-			<nav class="flex items-center justify-between font-mono text-xs uppercase tracking-widest text-ink-muted">
-				<span class="text-ink">Ben Young</span>
-				<a href="#contact" class="hover:text-ink transition-colors duration-300">Get in touch</a>
+			<nav class="flex items-center justify-between text-sm">
+				<span>Ben Young</span>
+				<a
+					href="#contact"
+					class="text-ink-muted hover:text-ink transition-colors duration-300"
+				>
+					Get in touch
+				</a>
 			</nav>
 		</header>
 
 		<section class="px-6 md:px-12 pb-40">
-			<h1 class="font-display font-normal text-[clamp(2.75rem,8vw,8rem)] leading-[0.95] tracking-[-0.03em] text-balance max-w-[18ch]">
-				<span class="sr-only">Twenty-one years designing the web for organisations including {rotatingClientsForA11y}.</span>
+			<h1 class="font-display font-normal text-[clamp(2.75rem,8vw,8rem)] leading-[0.95] tracking-[-0.03em] max-w-[16ch]">
+				<span class="sr-only">
+					Twenty-one years designing the web end-to-end — {rotatingForA11y} and more.
+				</span>
 				<span aria-hidden="true">
-					Twenty-one years<br />
-					designing the web<br />
-					for <span id="rotating-client" class="italic">Channel 4</span>.
+					Twenty-one years,<br />
+					<span id="rotating-word" class="italic text-accent">Designing</span><br />
+					the web end-to-end.
 				</span>
 			</h1>
-			<p class="mt-16 max-w-2xl font-display italic text-2xl md:text-3xl leading-snug text-ink">
-				Now founding, and building end-to-end with AI.
+			<p class="mt-16 max-w-2xl font-display italic text-2xl md:text-3xl leading-snug">
+				Now founding, and building with AI.
 			</p>
-			<p class="mt-10 font-mono text-xs uppercase tracking-widest text-ink-muted">
-				Available fractional, remote — two to three days a week
-			</p>
+		</section>
+
+		<section id="about" class="hairline-t px-6 md:px-12 py-24">
+			<div class="grid grid-cols-1 md:grid-cols-12 gap-y-12 gap-x-8">
+				<h2 class="md:col-span-3 font-display italic text-lg text-ink-muted">
+					About
+				</h2>
+				<div class="md:col-span-9 space-y-12">
+					<p class="text-xl leading-relaxed max-w-3xl">
+						Ben Young is a design and AI consultant based in Bournemouth, UK.
+						Twenty-one years digital, most of it across senior design roles at
+						agencies working with Channel 4, WWF, the UN Environment Programme
+						and The Royal Society. Now the founder of Cernago and co-founder of
+						Bookbag, designing and building products end-to-end with AI, without
+						a development team.
+					</p>
+					<p class="font-display italic text-3xl md:text-4xl leading-[1.15] text-accent max-w-2xl">
+						Available for fractional and remote work — two to three days a week.
+					</p>
+				</div>
+			</div>
 		</section>
 
 		<section class="hairline-t px-6 md:px-12 py-24">
 			<div class="grid grid-cols-1 md:grid-cols-12 gap-y-16 gap-x-8">
-				<h2 class="md:col-span-3 font-mono text-xs uppercase tracking-widest text-ink-muted">
+				<h2 class="md:col-span-3 font-display italic text-lg text-ink-muted">
 					What I do
 				</h2>
 				<dl class="md:col-span-9 space-y-0">
@@ -114,15 +139,15 @@ const rotatingClientsForA11y = rotatingClients.join(', ');
 
 		<section class="hairline-t px-6 md:px-12 py-24">
 			<div class="grid grid-cols-1 md:grid-cols-12 gap-y-16 gap-x-8">
-				<h2 class="md:col-span-3 font-mono text-xs uppercase tracking-widest text-ink-muted">
+				<h2 class="md:col-span-3 font-display italic text-lg text-ink-muted">
 					Selected work
 				</h2>
 				<div class="md:col-span-9 space-y-24">
 					{
 						work.map((item) => (
 							<article class="grid grid-cols-1 md:grid-cols-9 gap-y-6 gap-x-8">
-								<p class="md:col-span-3 font-mono text-xs uppercase tracking-widest tabular text-ink-muted">
-									<span>{item.year}</span>
+								<p class="md:col-span-3 text-sm text-ink-muted">
+									<span class="tabular">{item.year}</span>
 									<span class="mx-2">·</span>
 									<span>{item.role}</span>
 								</p>
@@ -146,7 +171,7 @@ const rotatingClientsForA11y = rotatingClients.join(', ');
 
 		<section class="hairline-t px-6 md:px-12 py-20">
 			<div class="grid grid-cols-1 md:grid-cols-12 gap-y-8 gap-x-8">
-				<h2 class="md:col-span-3 font-mono text-xs uppercase tracking-widest text-ink-muted">
+				<h2 class="md:col-span-3 font-display italic text-lg text-ink-muted">
 					Selected clients
 				</h2>
 				<p class="md:col-span-9 font-display text-2xl md:text-3xl leading-snug text-ink text-balance">
@@ -157,19 +182,19 @@ const rotatingClientsForA11y = rotatingClients.join(', ');
 
 		<section id="contact" class="hairline-t px-6 md:px-12 pt-24 pb-32">
 			<div class="grid grid-cols-1 md:grid-cols-12 gap-y-8 gap-x-8">
-				<h2 class="md:col-span-3 font-mono text-xs uppercase tracking-widest text-ink-muted">
+				<h2 class="md:col-span-3 font-display italic text-lg text-ink-muted">
 					Get in touch
 				</h2>
 				<div class="md:col-span-9">
 					<p class="font-display text-4xl md:text-6xl leading-[1] tracking-[-0.02em]">
 						<a
 							href="mailto:ben@benyoung.me"
-							class="border-b border-current pb-1 hover:text-accent transition-colors duration-300"
+							class="border-b-2 border-accent pb-1 transition-colors duration-300 hover:text-accent"
 						>
 							ben@benyoung.me
 						</a>
 					</p>
-					<p class="mt-10 font-mono text-xs uppercase tracking-widest text-ink-muted">
+					<p class="mt-10 text-base text-ink-muted">
 						Bournemouth, UK
 						<span class="mx-2">·</span>
 						<a href="tel:+447788100874" class="hover:text-ink transition-colors">07788 100874</a>
@@ -181,23 +206,23 @@ const rotatingClientsForA11y = rotatingClients.join(', ');
 		</section>
 
 		<footer class="hairline-t px-6 md:px-12 py-8">
-			<p class="font-mono text-xs uppercase tracking-widest text-ink-faint">
+			<p class="text-sm text-ink-faint">
 				© Ben Young {new Date().getFullYear()}
 			</p>
 		</footer>
 	</div>
 
 	<script>
-		const el = document.getElementById('rotating-client');
+		const el = document.getElementById('rotating-word');
 		if (el) {
-			const clients = [
-				'Channel 4',
-				'WWF',
-				'The Royal Society',
-				'the UN Environment Programme',
-				'the Royal College of Surgeons',
-				'Vodafone',
-				'the Department for Education',
+			const words = [
+				'Designing',
+				'Building',
+				'Prototyping',
+				'Consulting',
+				'Directing',
+				'Auditing',
+				'Shipping',
 			];
 
 			const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -215,12 +240,12 @@ const rotatingClientsForA11y = rotatingClients.join(', ');
 				let i = 0;
 
 				function render(text: string) {
-					if (!el) return;
+					if (!el) return 0;
 					el.textContent = '';
 					const chars = [...text];
 					chars.forEach((ch, idx) => {
 						const span = document.createElement('span');
-						span.textContent = ch === ' ' ? ' ' : ch;
+						span.textContent = ch === ' ' ? ' ' : ch;
 						span.style.display = 'inline-block';
 						span.style.opacity = '0';
 						span.style.transform = 'translateY(0.35em)';
@@ -248,21 +273,18 @@ const rotatingClientsForA11y = rotatingClients.join(', ');
 					setTimeout(cb, CHAR_EXIT_MS + spans.length * CHAR_EXIT_STAGGER_MS);
 				}
 
-				function replaceInitialWithSpans() {
-					const text = el?.textContent ?? '';
-					render(text);
-				}
+				const initialText = el.textContent ?? '';
+				render(initialText);
+				const firstEnter = initialText.length * CHAR_STAGGER_MS + CHAR_ENTER_MS;
 
 				function tick() {
 					exit(() => {
-						i = (i + 1) % clients.length;
-						const enterDuration = render(clients[i]) ?? 0;
+						i = (i + 1) % words.length;
+						const enterDuration = render(words[i]);
 						setTimeout(tick, HOLD_MS + enterDuration);
 					});
 				}
 
-				replaceInitialWithSpans();
-				const firstEnter = (el.textContent?.length ?? 0) * CHAR_STAGGER_MS + CHAR_ENTER_MS;
 				setTimeout(tick, HOLD_MS + firstEnter);
 			}
 		}
