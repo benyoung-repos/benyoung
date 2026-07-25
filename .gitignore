@@ -25,3 +25,9 @@ pnpm-debug.log*
 
 # local Claude Code settings
 .claude/
+
+# Vercel CLI local project state
+.vercel
+
+# environment variable overrides (covers .env.local, .env.development, etc.)
+.env*
