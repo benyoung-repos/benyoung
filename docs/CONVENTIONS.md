@@ -43,6 +43,14 @@ and body; `gap-6` between body paragraphs.
 TBD — populate once the visual identity is decided. Do not reuse
 the Bookbag `iw-*` palette; that's a separate brand.
 
-Once decided, colour tokens live in a `src/styles/theme.css` file
-exposed to Tailwind v4 via `@theme inline`. Use utility names
-(e.g. `bg-brand-primary`) instead of inline hex codes.
+Colour tokens live in `src/styles/global.css` inside a `@theme { … }`
+block (NOT `@theme inline`). The `inline` variant compiles token
+values directly into utility class definitions at build time — which
+breaks any pattern that overrides a token on a wrapper element (e.g.
+the `/blue` page variant, which redefines `--color-accent` on its
+wrapping div). Plain `@theme` generates utilities like
+`.text-accent { color: var(--color-accent); }`, so cascade overrides
+work as expected.
+
+Use utility names (e.g. `text-accent`, `bg-paper`) throughout the
+markup instead of inline hex codes.
