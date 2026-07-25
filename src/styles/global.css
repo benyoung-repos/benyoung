@@ -6,7 +6,12 @@
 @import "@fontsource/ibm-plex-sans/600.css";
 @import "@fontsource-variable/jetbrains-mono/index.css";
 
-@theme inline {
+/* @theme (without `inline`) so utilities like `text-accent` compile to
+   `color: var(--color-accent)` at runtime — required for the /blue page
+   to swap the accent by redefining --color-accent on a wrapper element.
+   `@theme inline` would inline the token value at build time, breaking
+   the override. */
+@theme {
   --font-display: "Fraunces Variable", ui-serif, Georgia, serif;
   --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, monospace;
