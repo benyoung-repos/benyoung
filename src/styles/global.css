@@ -16,7 +16,23 @@
   --color-ink-muted: #6B6862;
   --color-ink-faint: #B8B2A6;
   --color-rule: #1B1B18;
-  --color-accent: #16324F;
+
+  /* Primary accent — oxblood. Used on availability line, email
+     underline, and hover states. Warm-red, editorial pull-quote
+     register; distinct from ink text on warm off-white paper. */
+  --color-accent: #8B1F1F;
+
+  /* Capability palette — one hue per rotating hero word. Every
+     colour is contrast-safe against --color-paper for large type
+     (WCAG AA 3:1). Coordinated by keeping saturation restrained
+     and tone deep across all seven. */
+  --color-cap-designing: #8B1F1F;   /* oxblood */
+  --color-cap-building: #1F4D2E;    /* bottle green */
+  --color-cap-prototyping: #86590C; /* ochre */
+  --color-cap-consulting: #4E2748;  /* plum */
+  --color-cap-directing: #1A3358;   /* ink navy */
+  --color-cap-auditing: #275757;    /* teal */
+  --color-cap-shipping: #8B4419;    /* copper */
 }
 
 @layer base {

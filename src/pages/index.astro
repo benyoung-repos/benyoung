@@ -2,13 +2,13 @@
 import Layout from '../layouts/Layout.astro';
 
 const rotatingCapabilities = [
-	'Designing',
-	'Building',
-	'Prototyping',
-	'Consulting',
-	'Directing',
-	'Auditing',
-	'Shipping',
+	{ word: 'Designing', color: 'var(--color-cap-designing)' },
+	{ word: 'Building', color: 'var(--color-cap-building)' },
+	{ word: 'Prototyping', color: 'var(--color-cap-prototyping)' },
+	{ word: 'Consulting', color: 'var(--color-cap-consulting)' },
+	{ word: 'Directing', color: 'var(--color-cap-directing)' },
+	{ word: 'Auditing', color: 'var(--color-cap-auditing)' },
+	{ word: 'Shipping', color: 'var(--color-cap-shipping)' },
 ];
 
 const selectedClients = [
@@ -63,7 +63,8 @@ const work = [
 	},
 ];
 
-const rotatingForA11y = rotatingCapabilities.join(', ');
+const rotatingForA11y = rotatingCapabilities.map((c) => c.word).join(', ');
+const firstCapability = rotatingCapabilities[0];
 ---
 
 <Layout>
@@ -87,7 +88,10 @@ const rotatingForA11y = rotatingCapabilities.join(', ');
 				</span>
 				<span aria-hidden="true">
 					Twenty-one years,<br />
-					<span id="rotating-word" class="italic text-accent">Designing</span><br />
+					<span
+						id="rotating-word"
+						class="italic"
+						style={`color: ${firstCapability.color}`}>{firstCapability.word}</span><br />
 					the web end-to-end.
 				</span>
 			</h1>
@@ -121,7 +125,20 @@ const rotatingForA11y = rotatingCapabilities.join(', ');
 						development team.
 					</p>
 					<p class="font-display italic text-3xl md:text-4xl leading-[1.15] text-accent max-w-2xl">
-						Available for fractional and remote work — two to three days a week.
+						Available two or three days a week for teams that need a senior
+						operator in the design–product–AI corner. Fractional, remote,
+						alongside
+						<a
+							href="https://cernago.com"
+							class="border-b-2 border-current pb-0.5 no-underline hover:opacity-70 transition-opacity"
+							>Cernago</a
+						>
+						and
+						<a
+							href="https://bookbagmedia.com"
+							class="border-b-2 border-current pb-0.5 no-underline hover:opacity-70 transition-opacity"
+							>Bookbag</a
+						>.
 					</p>
 				</div>
 			</div>
@@ -238,13 +255,13 @@ const rotatingForA11y = rotatingCapabilities.join(', ');
 		const el = document.getElementById('rotating-word');
 		if (el) {
 			const words = [
-				'Designing',
-				'Building',
-				'Prototyping',
-				'Consulting',
-				'Directing',
-				'Auditing',
-				'Shipping',
+				{ text: 'Designing', color: 'var(--color-cap-designing)' },
+				{ text: 'Building', color: 'var(--color-cap-building)' },
+				{ text: 'Prototyping', color: 'var(--color-cap-prototyping)' },
+				{ text: 'Consulting', color: 'var(--color-cap-consulting)' },
+				{ text: 'Directing', color: 'var(--color-cap-directing)' },
+				{ text: 'Auditing', color: 'var(--color-cap-auditing)' },
+				{ text: 'Shipping', color: 'var(--color-cap-shipping)' },
 			];
 
 			const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -261,10 +278,11 @@ const rotatingForA11y = rotatingCapabilities.join(', ');
 
 				let i = 0;
 
-				function render(text: string) {
+				function render(word: { text: string; color: string }) {
 					if (!el) return 0;
 					el.textContent = '';
-					const chars = [...text];
+					el.style.color = word.color;
+					const chars = [...word.text];
 					chars.forEach((ch, idx) => {
 						const span = document.createElement('span');
 						span.textContent = ch === ' ' ? ' ' : ch;
@@ -295,9 +313,11 @@ const rotatingForA11y = rotatingCapabilities.join(', ');
 					setTimeout(cb, CHAR_EXIT_MS + spans.length * CHAR_EXIT_STAGGER_MS);
 				}
 
-				const initialText = el.textContent ?? '';
-				render(initialText);
-				const firstEnter = initialText.length * CHAR_STAGGER_MS + CHAR_ENTER_MS;
+				// Re-render the SSR-rendered initial word as animated spans so
+				// the first->second transition uses the same exit path as later
+				// transitions.
+				render(words[0]);
+				const firstEnter = words[0].text.length * CHAR_STAGGER_MS + CHAR_ENTER_MS;
 
 				function tick() {
 					exit(() => {
