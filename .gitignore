@@ -23,8 +23,11 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
-# local Claude Code settings
-.claude/
+# Claude Code local settings — ignore everything under .claude/ EXCEPT
+# the shared settings.json (hooks, project-wide config) which we DO want
+# tracked so the automation survives a fresh clone.
+.claude/*
+!.claude/settings.json
 
 # Vercel CLI local project state
 .vercel
