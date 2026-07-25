@@ -90,6 +90,18 @@
 	from { opacity: 0; }
 	to { opacity: 1; }
 }
+@keyframes landing {
+	/* Availability icon "drops in and bounces" — after the About
+	   rule finishes drawing (~2.2s after data-inview), the icon
+	   falls from above (opacity 0 → 1) and overshoots a touch below
+	   the resting line before settling. Reads as landing, not just
+	   fading. */
+	0%   { opacity: 0; transform: translateY(-16px); }
+	50%  { opacity: 1; transform: translateY(6px); }
+	72%  { transform: translateY(-2px); }
+	88%  { transform: translateY(1px); }
+	100% { transform: translateY(0); }
+}
 @keyframes growY {
 	from { transform: scaleY(0); }
 	to { transform: scaleY(1); }
@@ -171,18 +183,31 @@
 [data-anim="email"][data-inview] {
 	animation: sweep 3s linear infinite;
 }
+/* Availability icon default state — invisible before data-inview so
+   there's no flash of the resting icon before the ripple starts. */
+[data-anim="landing"] {
+	opacity: 0;
+}
+[data-anim="landing"][data-inview] {
+	/* Delay 2.3s ≈ end of the rule's growY (1.1s delay + 1.1s
+	   duration) + 100ms breathing room. Duration 0.9s covers the
+	   drop + overshoot + settle. */
+	animation: landing 0.9s ease-out 2.3s both;
+}
 [data-cycle] {
 	animation: cycle 19s cubic-bezier(.7, 0, .15, 1) -1.4s infinite;
 }
 
-/* All animations disabled under reduced motion. Cards need an
-   explicit opacity reset because their default state is invisible. */
+/* All animations disabled under reduced motion. Cards and the
+   landing icon need explicit opacity resets because their default
+   state is invisible. */
 @media (prefers-reduced-motion: reduce) {
 	[data-anim][data-inview],
 	[data-cycle] {
 		animation: none;
 	}
-	[data-anim="track"] > article {
+	[data-anim="track"] > article,
+	[data-anim="landing"] {
 		opacity: 1;
 		animation: none;
 	}
