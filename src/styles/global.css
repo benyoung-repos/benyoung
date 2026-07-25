@@ -83,7 +83,11 @@
    selectors matching data-anim + data-inview (populated at runtime by
    an IntersectionObserver in Homepage.astro). */
 @keyframes trackIn {
-	from { transform: translateX(52vw); }
+	/* Start fully off-screen to the right, glide left to rest at the
+	   normal left-of-panel position. Was translateX(52vw) which only
+	   partly hid the first card and produced a visible "settling"
+	   micro-motion at the end — read as jerky. */
+	from { transform: translateX(100vw); }
 	to { transform: translateX(0); }
 }
 @keyframes growY {
@@ -143,7 +147,11 @@
 	will-change: transform;
 }
 [data-anim="track"][data-inview] {
-	animation: trackIn 1.9s cubic-bezier(.16, 1, .3, 1) .3s both;
+	/* cubic-bezier(0.22, 1, 0.36, 1) = ease-out-quart: a smooth
+	   deceleration curve without the sharp late-stage "landing"
+	   of ease-out-expo. Reads as one clean glide from off-screen
+	   right to resting position. */
+	animation: trackIn 1.5s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
 	pointer-events: none;
 }
 [data-rail][data-unlocked] [data-anim="track"] {
