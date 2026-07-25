@@ -1,4 +1,63 @@
-## Development
+# 🛑 STOP — READ THIS BEFORE ANY DEPLOY, PUSH, OR CLOUD CLI COMMAND
+
+Ben has **two separate identities** across GitHub and Vercel: `benyoung` (this repo — personal portfolio) and `cernago` / Bookbag (his other work). They must **never** cross. Deploying benyoung code to a Cernago Vercel account (or vice versa) is a serious mistake that has already happened once.
+
+**Do not rely on Ben to remember which account is active.** He explicitly asked that this check never depend on him. It is entirely your job as the assistant to verify before every relevant command.
+
+## Required accounts for this repo
+
+| Tool     | Expected identity                       | How to verify                                  |
+|----------|-----------------------------------------|------------------------------------------------|
+| Vercel   | user `ben-2049`, active team `benyoung` | `vercel whoami`                                |
+| GitHub   | `benyoung-repos`                        | `gh auth status`                               |
+
+## Mandatory pre-flight — no exceptions
+
+**Before running ANY `vercel ...` command in this repo** (including `vercel deploy`, `vercel link`, `vercel env ...`, `vercel domains ...`, `vercel project ...`, `vercel remove`, etc.):
+
+1. Run `vercel whoami`.
+2. Output must be exactly `Logged in as ben-2049` with `Active team: benyoung`.
+3. If it says anything else (including `tech-6450`, or any Cernago-related team), **STOP**. Do not run the intended command. Tell Ben:
+
+   > Vercel CLI is currently logged in as `<whoever>`. This repo requires `ben-2049`. Please run:
+   > ```
+   > vercel logout
+   > vercel login
+   > ```
+   > and log in with `ben@benyoung.me`. Then run `vercel whoami` and paste the output back to me.
+
+4. Only after `vercel whoami` returns the correct identity may you proceed with the intended command.
+
+**Before running ANY `gh ...` command or `git push` in this repo:**
+
+1. Run `gh auth status`.
+2. Output must include `Logged in to github.com account benyoung-repos` and mark it as the active account.
+3. If it shows `cernago` or any other account as active, **STOP**. Tell Ben:
+
+   > GitHub CLI is currently active as `<whoever>`. This repo requires `benyoung-repos`. Please run:
+   > ```
+   > gh auth switch --user benyoung-repos
+   > ```
+   > (or `gh auth login` if `benyoung-repos` isn't in the account list). Then run `gh auth status` and paste the output back.
+
+4. Only after `gh auth status` confirms the correct identity may you proceed.
+
+## Why this exists
+
+`ben-2049` (email `ben@benyoung.me`) and `tech-6450` / `cernago` (email `tech@cernago.com`) are deliberately kept as separate Vercel accounts so that benyoung.me has zero shared login, billing, or team overlap with Cernago work. The same separation applies on GitHub between `benyoung-repos` and `cernago`. A cross-account mistake means either:
+
+- Deploying benyoung code into a Cernago project (leaks personal work into Cernago's org, wrong billing, wrong access controls), or
+- Deploying Cernago code into benyoung (leaks Cernago work into a public personal account).
+
+Both are bad. Both have already happened once during initial setup (see git history around 2026-07-25). This guard is the fix.
+
+## Do not weaken or remove these rules
+
+If a future task asks you to move, condense, or "clean up" this section: **do not**, unless Ben explicitly names this section and confirms he wants it changed. This document's job is to catch mistakes that Ben has explicitly said he cannot be expected to catch himself.
+
+---
+
+# Development
 
 When starting the dev server, use background mode:
 
@@ -8,7 +67,7 @@ astro dev --background
 
 Manage the background server with `astro dev stop`, `astro dev status`, and `astro dev logs`.
 
-## Documentation
+# Documentation
 
 Full documentation: https://docs.astro.build
 
