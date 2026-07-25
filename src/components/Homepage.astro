@@ -104,7 +104,7 @@ const clientList = [
 		</div>
 		<div style="max-width:780px">
 			<p style="margin:0;font-size:17px;line-height:1.68;max-width:60ch;color:var(--color-ink2)">
-				Ben Young is a design and AI consultant based in Bournemouth, UK. Twenty years in digital, most of it in senior design roles at agencies working with the likes of Channel 4, WWF, the UN Environment Programme and The Royal Society. Now founder of <a href="https://cernago.com" target="_blank" rel="noopener" style="color:var(--color-acc);border-bottom:1px solid var(--color-acc)">Cernago</a><span style="font-size:0.72em;color:var(--color-acc);margin-left:2px;vertical-align:0.18em">↗</span> and co-founder of <a href="https://bookbagmedia.com" target="_blank" rel="noopener" style="color:var(--color-acc);border-bottom:1px solid var(--color-acc)">Bookbag</a><span style="font-size:0.72em;color:var(--color-acc);margin-left:2px;vertical-align:0.18em">↗</span>, designing and building products end to end with AI — without a development team.
+				Ben Young is a design and AI consultant based in Bournemouth, UK. Twenty years in digital, most of it in senior design roles at agencies working with the likes of Channel 4, WWF, the UN Environment Programme and The Royal Society. Now founder of <span data-link-group><a href="https://cernago.com" target="_blank" rel="noopener" style="color:var(--link-color, var(--color-ink));border-bottom:1px solid var(--color-acc);transition:color 200ms ease">Cernago</a><span style="font-size:0.72em;color:var(--link-color, var(--color-ink));margin-left:2px;vertical-align:0.18em;transition:color 200ms ease">↗</span></span> and co-founder of <span data-link-group><a href="https://bookbagmedia.com" target="_blank" rel="noopener" style="color:var(--link-color, var(--color-ink));border-bottom:1px solid var(--color-acc);transition:color 200ms ease">Bookbag</a><span style="font-size:0.72em;color:var(--link-color, var(--color-ink));margin-left:2px;vertical-align:0.18em;transition:color 200ms ease">↗</span></span>, designing and building products end to end with AI — without a development team.
 			</p>
 			<div style="margin-top:44px;position:relative;padding-left:26px">
 				<div data-anim="rule" style="position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--color-acc);transform:scaleY(0);transform-origin:top"></div>
@@ -193,18 +193,17 @@ const clientList = [
 	<section data-sec data-pad style="border-top:1px solid var(--color-rule);background:rgba(230,196,85,0.035);padding:78px 48px 84px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px">
 		<div style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4)"></div>
 		<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:56px;align-items:center;max-width:1000px">
-			<!-- Diagram: three concentric squares — idea, build, shipped.
-			     The outer dashed square is the sketch, the middle outline is
-			     the built prototype, the filled butter square is the shipped
-			     product. Visually reinforces that "shipped" is what the whole
-			     process converges on, without the punchier-than-warranted
-			     linearity of stepping-arrow diagrams. -->
-			<div aria-hidden="true" style="position:relative;width:100%;max-width:340px;aspect-ratio:4/5;background-image:radial-gradient(var(--color-rule) 1px, transparent 1px);background-size:22px 22px;background-position:6px 6px;display:flex;align-items:center;justify-content:center">
-				<div style="position:relative;width:78%;aspect-ratio:1;border:1px dashed var(--color-ink4);display:flex;align-items:center;justify-content:center">
-					<div style="width:66%;aspect-ratio:1;border:1px solid var(--color-ink3);background:rgba(233,232,226,0.04);display:flex;align-items:center;justify-content:center">
-						<div style="width:52%;aspect-ratio:1;background:var(--color-acc);display:flex;align-items:center;justify-content:center">
-							<span style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.02em;color:var(--color-acc-ink)">shipped</span>
-						</div>
+			<!-- Diagram: three concentric squares — sketch, build, ship — on a
+			     dotted grid. Each layer fades in one at a time (grid, then
+			     outer dashed, then middle outline, then inner filled), keyed
+			     off data-anim="illus" via the IntersectionObserver. Grid is
+			     now an absolutely-positioned layer of its own so its opacity
+			     can animate independently of the squares layered above it. -->
+			<div aria-hidden="true" data-anim="illus" style="position:relative;width:100%;max-width:340px;aspect-ratio:1;display:flex;align-items:center;justify-content:center">
+				<div data-illus-layer="0" style="position:absolute;inset:0;background-image:radial-gradient(var(--color-rule) 1px, transparent 1px);background-size:22px 22px;background-position:6px 6px"></div>
+				<div data-illus-layer="1" style="position:relative;width:78%;aspect-ratio:1;border:1px dashed var(--color-ink4);display:flex;align-items:center;justify-content:center">
+					<div data-illus-layer="2" style="width:66%;aspect-ratio:1;border:1px solid var(--color-ink3);background:rgba(233,232,226,0.04);display:flex;align-items:center;justify-content:center">
+						<div data-illus-layer="3" style="width:52%;aspect-ratio:1;background:var(--color-acc)"></div>
 					</div>
 				</div>
 			</div>
@@ -384,6 +383,14 @@ const clientList = [
 		--btn-color: var(--color-acc);
 		--btn-border: var(--color-acc);
 	}
+
+	/* About-paragraph text links — text and arrow both read
+	   --link-color inline. Wrapping <span data-link-group> covers
+	   both children so hover fires whether the mouse is on the anchor
+	   or the arrow. Anchor keeps its yellow underline at rest. */
+	[data-link-group]:hover {
+		--link-color: var(--color-acc);
+	}
 </style>
 
 <script>
@@ -465,7 +472,7 @@ const clientList = [
 	// scroll-out and the animation doesn't reset each time the section
 	// re-enters view. Other animations (heading tint, name sweep, arrow
 	// nudge, email sweep) re-arm on re-entry.
-	const RUN_ONCE = new Set(['track', 'landing']);
+	const RUN_ONCE = new Set(['track', 'landing', 'illus']);
 
 	const io = new IntersectionObserver(
 		(entries) => {
