@@ -83,11 +83,12 @@
    selectors matching data-anim + data-inview (populated at runtime by
    an IntersectionObserver in Homepage.astro). */
 @keyframes trackIn {
-	/* Start fully off-screen to the right, glide left to rest at the
-	   normal left-of-panel position. Was translateX(52vw) which only
-	   partly hid the first card and produced a visible "settling"
-	   micro-motion at the end — read as jerky. */
-	from { transform: translateX(100vw); }
+	/* Modest offset from the resting position — the whole track slides
+	   in from 350px to the right of where it settles. Previously tried
+	   translateX(100vw) so the track started fully off-screen, but that
+	   was too much travel over 1.5s and read as jerky. This shorter
+	   trip lets the ease-out curve breathe. */
+	from { transform: translateX(350px); }
 	to { transform: translateX(0); }
 }
 @keyframes growY {
