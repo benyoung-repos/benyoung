@@ -275,4 +275,10 @@
 		padding-top: 56px !important;
 		padding-bottom: 48px !important;
 	}
+	/* Philosophy illustration horizontally centred once it stacks
+	   above the text (single-column layout below this breakpoint). */
+	[data-anim="illus"] {
+		margin-left: auto !important;
+		margin-right: auto !important;
+	}
 }
