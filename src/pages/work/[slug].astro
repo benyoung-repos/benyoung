@@ -18,7 +18,12 @@ const prev = projects[(idx - 1 + projects.length) % projects.length];
 const next = projects[(idx + 1) % projects.length];
 ---
 
-<Layout>
+<Layout
+	title={`${project.client} — Ben Young`}
+	description={project.summary}
+	image={project.image}
+	type="article"
+>
 	<div style="position:relative;background:radial-gradient(120% 80% at 8% -10%, var(--color-glow) 0%, transparent 55%), radial-gradient(90% 60% at 100% 100%, rgba(233,232,226,0.07) 0%, transparent 60%), linear-gradient(var(--color-bg1), var(--color-bg2));color:var(--color-ink);font-family:var(--font-sans);min-height:100vh">
 
 		<header data-pad style="position:sticky;top:0;z-index:10;backdrop-filter:blur(6px);background:var(--color-head);display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px 48px;font-family:var(--font-mono);font-size:12px;border-bottom:1px solid var(--color-rule);animation:fade .8s ease both">
@@ -34,7 +39,6 @@ const next = projects[(idx + 1) % projects.length];
 			<section data-pad style="padding:88px 48px 40px">
 				<p style="margin:0 0 20px;font-family:var(--font-mono);font-size:11px;color:var(--color-acc);letter-spacing:0.04em">
 					Case study
-					{project.year && <span style="color:var(--color-ink4);margin-left:8px">· {project.year}</span>}
 					{project.workingWith && <span style="color:var(--color-ink4);margin-left:8px">· Working with {project.workingWith}</span>}
 				</p>
 				<h1 style="margin:0;font-family:var(--font-serif);font-weight:400;font-size:clamp(48px,8vw,120px);line-height:1;letter-spacing:-0.03em;max-width:14ch;animation:rise .8s cubic-bezier(.2,.7,.2,1) both;animation-delay:.1s">
@@ -89,7 +93,8 @@ const next = projects[(idx + 1) % projects.length];
 				</div>
 			</section>
 
-			<!-- Gallery (optional) -->
+			<!-- Gallery (optional). Click any image to enlarge into the
+			     modal below via View Transitions. -->
 			{
 				project.gallery && project.gallery.length > 0 && (
 					<section data-sec data-pad style="border-top:1px solid var(--color-rule);padding:64px 48px 80px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px">
@@ -98,14 +103,22 @@ const next = projects[(idx + 1) % projects.length];
 						</div>
 						<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:24px;max-width:1100px">
 							{project.gallery.map((src, i) => (
-								<div style="position:relative;width:100%;aspect-ratio:16/10;background:rgba(233,232,226,0.04);border:1px solid var(--color-rule);overflow:hidden">
+								<button
+									type="button"
+									class="gallery-tile"
+									data-gallery-open
+									data-src={src}
+									data-alt={`${project.client} — supporting image ${i + 1}`}
+									aria-label={`Enlarge supporting image ${i + 1}`}
+									style="all:unset;cursor:zoom-in;display:block;position:relative;width:100%;aspect-ratio:16/10;background:rgba(233,232,226,0.04);border:1px solid var(--color-rule);overflow:hidden;transition:border-color 300ms ease"
+								>
 									<img
 										src={src}
 										alt={`${project.client} — supporting image ${i + 1}`}
 										loading="lazy"
 										style="display:block;width:100%;height:100%;object-fit:cover"
 									/>
-								</div>
+								</button>
 							))}
 						</div>
 					</section>
@@ -130,4 +143,140 @@ const next = projects[(idx + 1) % projects.length];
 			<a href="/work">← All work</a>
 		</footer>
 	</div>
+
+	<!-- Enlarge-image modal. Uses the native <dialog> element for
+	     built-in focus lock + Escape-to-close behaviour. Backdrop is
+	     styled via the ::backdrop pseudo. The zoom animation uses the
+	     View Transitions API when available, so the thumbnail
+	     morphs smoothly into the fullscreen image. In browsers
+	     without support, the modal still opens (just without the
+	     morph) — see the feature check in the script. -->
+	<dialog
+		id="image-modal"
+		style="background:transparent;border:0;padding:0;max-width:none;max-height:none;width:100vw;height:100vh;color:var(--color-ink)"
+	>
+		<button
+			type="button"
+			id="image-modal-close"
+			aria-label="Close"
+			style="all:unset;cursor:pointer;position:absolute;top:24px;right:24px;z-index:2;width:44px;height:44px;border-radius:50%;background:rgba(23,24,27,0.6);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:14px;color:var(--color-ink)"
+		>
+			✕
+		</button>
+		<div id="image-modal-surface" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:48px;box-sizing:border-box;cursor:zoom-out">
+			<img
+				id="image-modal-img"
+				alt=""
+				style="display:block;max-width:100%;max-height:100%;object-fit:contain"
+			/>
+		</div>
+	</dialog>
+
+	<style>
+		.gallery-tile:hover {
+			border-color: var(--color-acc) !important;
+		}
+		#image-modal::backdrop {
+			background: rgba(15, 16, 18, 0.85);
+			backdrop-filter: blur(12px);
+		}
+		#image-modal[open] {
+			animation: modalFade 240ms ease both;
+		}
+		@keyframes modalFade {
+			from { opacity: 0; }
+			to { opacity: 1; }
+		}
+		/* View-transition names: only set during the transition itself,
+		   via JS. The names below are the fallback in case the JS-set
+		   inline style is ever missing — a shared name lets the browser
+		   morph elements between the two DOM states. */
+		::view-transition-old(gallery-zoom),
+		::view-transition-new(gallery-zoom) {
+			animation-duration: 340ms;
+			animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+		}
+		@media (prefers-reduced-motion: reduce) {
+			#image-modal[open] { animation: none; }
+			::view-transition-old(gallery-zoom),
+			::view-transition-new(gallery-zoom) { animation-duration: 0s; }
+		}
+	</style>
+
+	<script>
+		type DocWithVT = Document & {
+			startViewTransition?: (cb: () => void) => { finished: Promise<void> };
+		};
+
+		const dialog = document.getElementById('image-modal') as HTMLDialogElement | null;
+		const modalImg = document.getElementById('image-modal-img') as HTMLImageElement | null;
+		const modalSurface = document.getElementById('image-modal-surface');
+		const closeBtn = document.getElementById('image-modal-close');
+		const openers = document.querySelectorAll<HTMLButtonElement>('[data-gallery-open]');
+
+		let sourceEl: HTMLElement | null = null;
+
+		function withTransition(cb: () => void) {
+			const doc = document as DocWithVT;
+			if (typeof doc.startViewTransition === 'function') {
+				return doc.startViewTransition(cb).finished;
+			}
+			cb();
+			return Promise.resolve();
+		}
+
+		async function openModal(btn: HTMLButtonElement) {
+			if (!dialog || !modalImg) return;
+			const src = btn.dataset.src ?? '';
+			const alt = btn.dataset.alt ?? '';
+			modalImg.src = src;
+			modalImg.alt = alt;
+			sourceEl = btn;
+			// Set matching view-transition-name on the source and the
+			// destination for this one transition, then clean up after.
+			btn.style.viewTransitionName = 'gallery-zoom';
+			modalImg.style.viewTransitionName = 'gallery-zoom';
+			await withTransition(() => {
+				dialog.showModal();
+			});
+			// Clean up on the source; leave it on the modal image so a
+			// subsequent close transition can find it.
+			btn.style.viewTransitionName = '';
+		}
+
+		async function closeModal() {
+			if (!dialog || !modalImg) return;
+			if (sourceEl) {
+				sourceEl.style.viewTransitionName = 'gallery-zoom';
+			}
+			modalImg.style.viewTransitionName = 'gallery-zoom';
+			await withTransition(() => {
+				dialog.close();
+			});
+			if (sourceEl) {
+				sourceEl.style.viewTransitionName = '';
+				sourceEl = null;
+			}
+			modalImg.style.viewTransitionName = '';
+			modalImg.src = '';
+		}
+
+		openers.forEach((btn) => {
+			btn.addEventListener('click', () => openModal(btn));
+		});
+
+		closeBtn?.addEventListener('click', closeModal);
+		modalSurface?.addEventListener('click', (e) => {
+			// Click on the surface (backdrop area) closes; clicks on the
+			// image itself don't close (they'd hit the img, not surface).
+			if (e.target === modalSurface) closeModal();
+		});
+
+		// <dialog> native Escape → close event. Intercept so we route
+		// through the View Transitions path instead of the raw .close().
+		dialog?.addEventListener('cancel', (e) => {
+			e.preventDefault();
+			closeModal();
+		});
+	</script>
 </Layout>

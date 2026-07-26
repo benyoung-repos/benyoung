@@ -1,5 +1,26 @@
 ---
+import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
+
+interface Props {
+	title?: string;
+	description?: string;
+	image?: string; // optional absolute or root-relative path for og:image
+	type?: 'website' | 'article';
+}
+
+const {
+	title = 'Ben Young — Design and AI consultant',
+	description = 'Twenty years designing for the web. Design and AI consultant based in Bournemouth, UK. Founder of Cernago and co-founder of Bookbag. Available two or three days a week for fractional and remote engagements.',
+	image,
+	type = 'website',
+} = Astro.props;
+
+// Absolute URLs for the OpenGraph / Twitter tags. Astro.site is set
+// in astro.config.mjs; falls back to Astro.url.origin at build time.
+const siteOrigin = Astro.site?.origin ?? Astro.url.origin;
+const canonical = new URL(Astro.url.pathname, siteOrigin).href;
+const ogImage = image ? new URL(image, siteOrigin).href : undefined;
 ---
 <!doctype html>
 <html lang="en">
@@ -7,7 +28,32 @@ import '../styles/global.css';
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="author" content="Ben Young" />
-		<title>Ben Young</title>
+		<meta name="theme-color" content="#17181b" />
+		<meta name="color-scheme" content="dark" />
+
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<link rel="canonical" href={canonical} />
+
+		<!-- OpenGraph -->
+		<meta property="og:site_name" content="Ben Young" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonical} />
+		<meta property="og:type" content={type} />
+		<meta property="og:locale" content="en_GB" />
+		{ogImage && <meta property="og:image" content={ogImage} />}
+
+		<!-- Twitter -->
+		<meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		{ogImage && <meta name="twitter:image" content={ogImage} />}
+
+		<!-- ClientRouter enables Astro's built-in View Transitions
+		     between page navigations (Homepage → /work → case study).
+		     Falls back to normal navigation in browsers without support. -->
+		<ClientRouter />
 	</head>
 	<body>
 		<slot />

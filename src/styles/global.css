@@ -168,10 +168,10 @@
    track once, which turns on each child's fadeIn animation. Each
    card sets its own --card-delay inline (0ms, 200ms, 400ms, 600ms…)
    to produce the ripple. */
-[data-anim="track"] > article {
+[data-anim="track"] > .work-card {
 	opacity: 0;
 }
-[data-anim="track"][data-inview] > article {
+[data-anim="track"][data-inview] > .work-card {
 	animation: fadeIn 0.7s ease both;
 	animation-delay: var(--card-delay, 0s);
 }
@@ -235,7 +235,7 @@
 	[data-cycle] {
 		animation: none;
 	}
-	[data-anim="track"] > article,
+	[data-anim="track"] > .work-card,
 	[data-anim="landing"],
 	[data-illus-layer] {
 		opacity: 1;
