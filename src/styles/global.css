@@ -226,12 +226,12 @@
 	opacity: 0;
 }
 [data-anim="landing"][data-inview] {
-	/* Delay 0.9s: relative to the rule's new 0.2s delay + 1.1s
-	   duration (rule ends at 1.3s), the icon still overlaps the
-	   final third of the rule's growth (starts at 0.9s = 7/11 of
-	   the rule's run). Per-keyframe timing functions inside the
-	   animation handle the fall + bounce curve. */
-	animation: landing 0.9s linear 0.9s both;
+	/* Delay 0.2s — matches the rule's delay so the icon drops and
+	   the accent rule grow together as a single choreographed
+	   moment rather than sequential events. Per-keyframe timing
+	   functions inside the animation handle the fall + bounce
+	   curve. */
+	animation: landing 0.9s linear 0.2s both;
 }
 [data-cycle] {
 	animation: cycle 19s cubic-bezier(.7, 0, .15, 1) -1.4s infinite;
