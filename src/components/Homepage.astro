@@ -395,10 +395,29 @@ const clientList = [
 </style>
 
 <script>
+	// The whole setup below runs inside init(), which fires on both
+	// the initial page load and after every ClientRouter navigation
+	// (via astro:page-load). Without this the observers get attached
+	// to the first homepage visit's DOM elements — when the user
+	// navigates to a case study and comes back, the new homepage
+	// DOM has no observers and animations never trigger. Old
+	// observers are disconnected via the previousCleanup closure
+	// so they don't accumulate across navigations.
+	let previousCleanup: (() => void) | null = null;
+
+	function init() {
 	// --- Rail scroller (client-work section) --------------------------
 	const scroller = document.querySelector<HTMLElement>('[data-scroller]');
 	const railPrev = document.querySelector<HTMLButtonElement>('[data-rail-prev]');
 	const railNext = document.querySelector<HTMLButtonElement>('[data-rail-next]');
+
+	// If none of the homepage-specific elements are here, we're on
+	// another route (e.g. /work) — skip setup entirely.
+	if (!scroller && !railPrev && !railNext) return;
+
+	// Tear down any observers from the previous visit to this page.
+	previousCleanup?.();
+	previousCleanup = null;
 
 	function scrollRail(dir: -1 | 1) {
 		if (!scroller) return;
@@ -505,7 +524,7 @@ const clientList = [
 	// changes: during a very fast scroll, or on initial page load when
 	// the user is already past a section, the observer can end up with
 	// isIntersecting=false and the animation never plays.
-	function shouldFire(entry) {
+	function shouldFire(entry: IntersectionObserverEntry) {
 		return entry.isIntersecting || entry.boundingClientRect.bottom < 0;
 	}
 
@@ -591,8 +610,26 @@ const clientList = [
 			io.observe(el);
 		});
 	}
+	const watchTimer = setTimeout(watch, 600);
 	watch();
-	// Retry once — some elements may render slightly after initial JS
-	// because of font loading / layout shifts.
-	setTimeout(watch, 600);
+
+	// Expose cleanup for the next navigation. DOM listeners on
+	// scroller / rail buttons don't need explicit removal — those
+	// elements are garbage-collected when the next page swap
+	// replaces them. Observers do need explicit disconnection
+	// because they hold references to their observed targets.
+	previousCleanup = () => {
+		io.disconnect();
+		trackIo.disconnect();
+		availabilityIo.disconnect();
+		clearTimeout(watchTimer);
+	};
+	} // end init()
+
+	// Astro fires astro:page-load on the initial page load AND after
+	// every ClientRouter navigation. Registering here covers both.
+	// Also call init() eagerly in case the module loads AFTER the
+	// initial page-load event has already fired.
+	document.addEventListener('astro:page-load', init);
+	init();
 </script>
