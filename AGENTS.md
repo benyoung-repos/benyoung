@@ -59,13 +59,14 @@ If a future task asks you to move, condense, or "clean up" this section: **do no
 
 # Development
 
-When starting the dev server, use background mode:
-
-```
-astro dev --background
-```
-
-Manage the background server with `astro dev stop`, `astro dev status`, and `astro dev logs`.
+**Do not start the dev server yourself.** Ben runs `npm run dev` in
+his own terminal so he sees the live build output and can catch
+errors as they happen. If you need to verify a change against a
+running server, first check whether one is up (`curl -sS -o
+/dev/null -w "%{http_code}\n" http://localhost:4321/`). If port 4321
+returns nothing, ask Ben to start `npm run dev` before you verify.
+Never start the server in `--background` mode — Ben prefers
+visibility into the process.
 
 # Documentation
 
