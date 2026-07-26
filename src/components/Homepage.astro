@@ -509,11 +509,34 @@ const clientList = [
 		{ threshold: 0, rootMargin: '0px 0px -40% 0px' }
 	);
 
+	// Third, earlier-triggering observer for the About availability
+	// block — its rule and landing icon should attract the eye the
+	// moment the block appears in view, not wait for the reader to
+	// dwell in the middle-of-viewport reading zone. rootMargin
+	// -5% bottom = fires as soon as ~95% of the viewport is available,
+	// which for the availability block means "just about visible" is
+	// enough to start the choreography.
+	const availabilityIo = new IntersectionObserver(
+		(entries) => {
+			for (const entry of entries) {
+				if (entry.isIntersecting) {
+					entry.target.setAttribute('data-inview', '1');
+					availabilityIo.unobserve(entry.target);
+				}
+			}
+		},
+		{ threshold: 0, rootMargin: '0px 0px -5% 0px' }
+	);
+
 	function watch() {
 		document.querySelectorAll('[data-anim]').forEach((el) => {
 			const anim = el.getAttribute('data-anim');
 			if (anim === 'track') {
 				if (!el.hasAttribute('data-inview')) trackIo.observe(el);
+				return;
+			}
+			if (anim === 'rule' || anim === 'landing') {
+				if (!el.hasAttribute('data-inview')) availabilityIo.observe(el);
 				return;
 			}
 			io.observe(el);

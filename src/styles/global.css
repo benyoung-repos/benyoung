@@ -195,7 +195,10 @@
 [data-anim="illus"][data-inview] [data-illus-layer="2"] { animation-delay: 1.2s; }
 [data-anim="illus"][data-inview] [data-illus-layer="3"] { animation-delay: 1.8s; }
 [data-anim="rule"][data-inview] {
-	animation: growY 1.1s cubic-bezier(.2, .7, .2, 1) 1.1s both;
+	/* Delay reduced from 1.1s → 0.2s so the About availability block
+	   attracts the eye the moment it enters view instead of waiting
+	   for the reader to dwell. */
+	animation: growY 1.1s cubic-bezier(.2, .7, .2, 1) 0.2s both;
 }
 [data-anim="head"][data-inview] {
 	animation: tint 3.4s ease both;
@@ -217,13 +220,12 @@
 	opacity: 0;
 }
 [data-anim="landing"][data-inview] {
-	/* Delay 1.8s — half a second earlier than before so the icon
-	   arrives while the rule is still visibly landing (rule ends
-	   at 2.2s = 1.1s delay + 1.1s duration; icon now overlaps the
-	   final third of the rule instead of waiting for it). Per-
-	   keyframe timing functions inside the animation itself
-	   handle the fall + bounce curve. */
-	animation: landing 0.9s linear 1.8s both;
+	/* Delay 0.9s: relative to the rule's new 0.2s delay + 1.1s
+	   duration (rule ends at 1.3s), the icon still overlaps the
+	   final third of the rule's growth (starts at 0.9s = 7/11 of
+	   the rule's run). Per-keyframe timing functions inside the
+	   animation handle the fall + bounce curve. */
+	animation: landing 0.9s linear 0.9s both;
 }
 [data-cycle] {
 	animation: cycle 19s cubic-bezier(.7, 0, .15, 1) -1.4s infinite;
