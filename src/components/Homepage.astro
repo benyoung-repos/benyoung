@@ -9,12 +9,10 @@
 // that requires JS — the IntersectionObserver, the rail scroller, the
 // rail unlock timeout — is at the bottom of this file.
 
-// Featured projects pulled from src/data/projects.ts (which is
-// also the source for /work and /work/[slug]). Homepage rail shows
-// only entries flagged `featured: true`. Toggle the flag in the
-// data file to change what appears here.
-import { featuredProjects } from '../data/projects';
-const projects = featuredProjects;
+// All projects pulled from src/data/projects.ts. Homepage rail
+// shows every project in the order they appear in the data file
+// (ventures first, then Cernago, then Redweb).
+import { projects } from '../data/projects';
 
 const clientList = [
 	'Channel 4',
@@ -227,7 +225,7 @@ const clientList = [
 						<a
 							href={`/work/${p.slug}`}
 							class="work-card"
-							style={`flex:none;width:min(78vw,420px);scroll-snap-align:start;--card-delay:${i * 200}ms;text-decoration:none;color:inherit`}
+							style={`flex:none;width:min(78vw,420px);scroll-snap-align:start;--card-delay:${i * 100}ms;text-decoration:none;color:inherit`}
 						>
 							<div style="position:relative;width:100%;aspect-ratio:16/10;background:rgba(233,232,226,0.04);border:1px solid var(--work-border, var(--color-rule));transition:border-color 300ms ease;overflow:hidden">
 								<img
