@@ -9,34 +9,46 @@
 // that requires JS — the IntersectionObserver, the rail scroller, the
 // rail unlock timeout — is at the bottom of this file.
 
+// Projects pulled from the previous benyoungdesign.com portfolio
+// (~/Repos/benyoung/Claude briefs/old-website/), so the rail shows
+// real work from Ben's Redweb Creative Director / Lead Designer
+// years rather than placeholder copy. Years are approximate to the
+// 2012–2015 CD era at Redweb — needs Ben's confirmation before
+// launch. Images are the old thumbnails at their original sizes;
+// object-fit: cover crops each to the 16:10 slot until real @2x
+// screenshots replace them.
 const projects = [
 	{
-		client: 'Philips',
-		year: '2024',
-		title: 'B2B product site and design system',
-		blurb: 'Interface design and a component system for a multi-market product site, handed over as a working front end.',
-		role: 'UX / UI / build',
+		client: 'The Royal Society',
+		year: '2014',
+		title: 'A digital experience for a prestigious scientific organisation',
+		blurb: "Visual rebrand paired with a complete overhaul of the site's information architecture. As Creative Director at Redweb, brought the client's identity up to date while delivering their digital strategy.",
+		role: 'Creative direction / UX / visual design',
+		image: '/assets/client-project/royal-society.jpg',
 	},
 	{
-		client: 'Solstice AV',
-		year: '2025',
-		title: 'Website design, build and AI search visibility',
-		blurb: 'Positioning, a new site designed and built end to end, and an AEO/GEO audit with a prioritised roadmap.',
-		role: 'Positioning / design / build',
+		client: 'Stand Up To Cancer',
+		year: '2014',
+		title: 'A campaign homepage for Channel 4 and Cancer Research',
+		blurb: 'Unconventional layout, eye-catching colour and photography combined into an attention-grabbing single-page design that communicated the power and confidence of the movement.',
+		role: 'Visual design',
+		image: '/assets/client-project/stand-up-to-cancer.jpg',
 	},
 	{
-		client: 'Wholegood',
-		year: '2024',
-		title: 'Ordering experience audit and roadmap',
-		blurb: 'UX audit of the trade ordering journey, with prioritised fixes and prototypes for the highest-value changes.',
-		role: 'UX audit / prototypes',
+		client: 'Department for Education',
+		year: '2013',
+		title: 'Get Into Teaching — a recruitment tool',
+		blurb: 'Responsive designs for a new site supporting people through the teacher training journey. Positioned teaching as a rewarding challenge, with a segmented registration flow that made a previously lengthy sign-up feel intuitive.',
+		role: 'Responsive visual design',
+		image: '/assets/client-project/department-for-education.jpg',
 	},
 	{
-		client: 'Osmond Ergonomics',
-		year: '2023',
-		title: 'Product site rebuild',
-		blurb: 'Information architecture, interface design and build for a specialist catalogue with a complex product set.',
-		role: 'IA / UI / build',
+		client: 'Digital Wave',
+		year: '2015',
+		title: 'Brand identity for a digital conference',
+		blurb: "Brand and website for Bournemouth's digital conference for young people. Extensive user testing shaped a logo mark and typeface that felt cutting-edge yet approachable.",
+		role: 'Brand / visual design',
+		image: '/assets/client-project/digital-wave.jpg',
 	},
 ];
 
@@ -240,8 +252,8 @@ const clientList = [
 						<article class="work-card" style={`flex:none;width:min(78vw,420px);scroll-snap-align:start;--card-delay:${i * 200}ms`}>
 							<div style="position:relative;width:100%;aspect-ratio:16/10;background:rgba(233,232,226,0.04);border:1px solid var(--work-border, var(--color-rule));transition:border-color 300ms ease;overflow:hidden">
 								<img
-									src="/assets/client-project/royalsociety1.jpg"
-									alt={`${p.client} — project screenshot (placeholder)`}
+									src={p.image}
+									alt={`${p.client} — ${p.title}`}
 									loading="lazy"
 									style="display:block;width:100%;height:100%;object-fit:cover"
 								/>
