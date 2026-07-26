@@ -57,5 +57,97 @@ const ogImage = image ? new URL(image, siteOrigin).href : undefined;
 	</head>
 	<body>
 		<slot />
+
+		<!-- Pre-launch soft gate. Renders as an opaque overlay covering
+		     the whole viewport until the correct password is entered.
+		     Password stored in localStorage so the gate stays gone across
+		     visits. This is a light preview gate for the pre-launch
+		     window — the full HTML is still shipped to the browser, so
+		     anyone can view-source. When the site goes fully public,
+		     remove or noop the gate. -->
+		<div id="site-gate" data-astro-transition-persist="site-gate">
+			<div class="gate-panel">
+				<p class="gate-eyebrow">
+					<span class="gate-dot" aria-hidden="true"></span>
+					<span>Full site in development</span>
+				</p>
+				<h1 class="gate-wordmark">Ben Young</h1>
+				<p class="gate-tagline">Designer and AI consultant</p>
+				<p class="gate-copy">
+					The full site is launching shortly. Enter the preview
+					password to look around, or catch up with me on LinkedIn
+					in the meantime.
+				</p>
+				<form id="gate-form" class="gate-form" novalidate>
+					<label for="gate-pw" class="gate-label">Preview password</label>
+					<div class="gate-input-row">
+						<input
+							id="gate-pw"
+							type="password"
+							name="password"
+							autocomplete="off"
+							autocapitalize="off"
+							autocorrect="off"
+							spellcheck="false"
+						/>
+						<button type="submit" class="gate-submit">
+							<span>Enter</span>
+							<span aria-hidden="true">→</span>
+						</button>
+					</div>
+					<p id="gate-error" class="gate-error" hidden>Wrong password. Try again.</p>
+				</form>
+				<a
+					href="https://linkedin.com/in/bensyoung"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="gate-linkedin"
+				>
+					<span>Visit my LinkedIn</span>
+					<span aria-hidden="true">↗</span>
+				</a>
+			</div>
+		</div>
+
+		<script is:inline define:vars={{ password: 'bsy321' }}>
+			(function () {
+				const KEY = 'site-preview-2026';
+				const gate = document.getElementById('site-gate');
+				if (!gate) return;
+
+				try {
+					if (localStorage.getItem(KEY) === password) {
+						gate.remove();
+						return;
+					}
+				} catch (_) {
+					// localStorage blocked (private mode etc.) — fall through
+					// to the form flow; each session will re-prompt.
+				}
+
+				document.documentElement.classList.add('gate-open');
+
+				const form = document.getElementById('gate-form');
+				const input = document.getElementById('gate-pw');
+				const err = document.getElementById('gate-error');
+				input && input.focus();
+
+				form && form.addEventListener('submit', function (e) {
+					e.preventDefault();
+					if (!input) return;
+					if (input.value === password) {
+						try { localStorage.setItem(KEY, password); } catch (_) {}
+						gate.style.opacity = '0';
+						gate.style.pointerEvents = 'none';
+						document.documentElement.classList.remove('gate-open');
+						setTimeout(function () { gate.remove(); }, 260);
+					} else {
+						err && (err.hidden = false);
+						input.value = '';
+						input.focus();
+					}
+				});
+			})();
+		</script>
 	</body>
 </html>
