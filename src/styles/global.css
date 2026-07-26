@@ -36,6 +36,13 @@
 	--color-rule2: rgba(233, 232, 226, 0.30);
 	--color-head: rgba(23, 24, 27, 0.85);
 	--color-hover: rgba(230, 196, 85, 0.06);
+
+	/* Fresh green used only for the header availability status dot.
+	   Deliberately different from the butter accent so it reads as
+	   a live status indicator (green = go / available) rather than
+	   another brand accent. Emerald ~500; paired with a soft
+	   box-shadow to sell the "live" feel. */
+	--color-available: #34D399;
 }
 
 @layer base {
