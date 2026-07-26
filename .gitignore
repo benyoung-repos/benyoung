@@ -24,10 +24,13 @@ pnpm-debug.log*
 .idea/
 
 # Claude Code local settings — ignore everything under .claude/ EXCEPT
-# the shared settings.json (hooks, project-wide config) which we DO want
-# tracked so the automation survives a fresh clone.
+# the shared settings.json (hooks, project-wide config) and the shared
+# agents directory (custom subagent definitions like the employer
+# reviewer). Both should be tracked so the setup survives a fresh clone.
 .claude/*
 !.claude/settings.json
+!.claude/agents
+!.claude/agents/**
 
 # Vercel CLI local project state
 .vercel
