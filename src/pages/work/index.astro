@@ -5,12 +5,17 @@ import { projects } from '../../data/projects';
 const ventures = projects.filter((p) => p.era === 'ventures');
 const cernago = projects.filter((p) => p.era === 'cernago');
 const redweb = projects.filter((p) => p.era === 'redweb');
+
+// Bookbag is the sole ventures entry today — we destructure it for
+// the hero-featured treatment. If more ventures land later, split
+// them into featured (first) + rest (grid) as needed.
+const featured = ventures[0];
 ---
 
 <Layout
 	title="Selected work — Ben Young"
 	description="Twenty years of design and build for organisations including The Royal Society, Channel 4, the Department for Education, Philips and Wholegood. Case studies from Cernago and the Redweb agency years."
-	image="/assets/client-project/royal-society.jpg"
+	image="/assets/client-project/royal-society/rs-thumb.jpg"
 >
 	<div style="position:relative;background:radial-gradient(120% 80% at 8% -10%, var(--color-glow) 0%, transparent 55%), radial-gradient(90% 60% at 100% 100%, rgba(233,232,226,0.07) 0%, transparent 60%), linear-gradient(var(--color-bg1), var(--color-bg2));color:var(--color-ink);font-family:var(--font-sans);min-height:100vh">
 
@@ -23,41 +28,142 @@ const redweb = projects.filter((p) => p.era === 'redweb');
 			<a href="/#contact" style="border-bottom:1px solid var(--color-rule2);padding-bottom:2px">Get in touch</a>
 		</header>
 
-		<section data-pad style="padding:104px 48px 64px">
+		<!-- Editorial hero -->
+		<section data-pad style="padding:96px 48px 64px">
 			<p style="margin:0 0 20px;font-family:var(--font-mono);font-size:11px;color:var(--color-acc);letter-spacing:0.04em">Selected work</p>
-			<h1 style="margin:0;font-family:var(--font-serif);font-weight:400;font-size:clamp(48px,7vw,96px);line-height:1.04;letter-spacing:-0.028em;max-width:20ch;animation:rise .8s cubic-bezier(.2,.7,.2,1) both;animation-delay:.1s">
-				Twenty years of building the web for people trying to change something serious.
+			<h1 style="margin:0;font-family:var(--font-serif);font-weight:400;font-size:clamp(44px,7vw,96px);line-height:1.02;letter-spacing:-0.028em;max-width:20ch;animation:rise .8s cubic-bezier(.2,.7,.2,1) both;animation-delay:.1s">
+				Twenty years building the web for people trying to change something serious.
 			</h1>
-		</section>
-
-		<section data-sec data-pad style="border-top:1px solid var(--color-rule);padding:64px 48px 32px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px">
-			<div style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
-				<span style="color:var(--color-acc);font-family:var(--font-mono);font-style:normal;font-size:11px">01</span>Ventures
-			</div>
-			<p style="margin:0;font-size:16px;line-height:1.68;color:var(--color-ink3);max-width:60ch">
-				Products co-founded and built end to end. Designed, engineered and operated — not client work.
+			<p style="margin:36px 0 0;font-family:var(--font-serif);font-style:italic;font-size:clamp(18px,1.9vw,22px);line-height:1.5;color:var(--color-ink4);max-width:52ch;animation:rise .8s cubic-bezier(.2,.7,.2,1) both;animation-delay:.28s">
+				Ventures, retained clients, and agency-era design work.
 			</p>
 		</section>
 
-		<section data-pad style="padding:0 48px 40px">
-			<div style="display:grid;max-width:1100px;margin-left:auto;margin-right:auto">
+		<!-- 01 Ventures — featured Bookbag treatment -->
+		{
+			featured && (
+				<section data-pad style="border-top:1px solid var(--color-rule);padding:64px 48px 80px">
+					<div style="display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px;margin-bottom:44px">
+						<div style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
+							<span style="color:var(--color-acc);font-family:var(--font-mono);font-style:normal;font-size:11px">01</span>Ventures
+						</div>
+						<p style="margin:0;font-size:16px;line-height:1.68;color:var(--color-ink3);max-width:60ch">
+							Products co-founded and built end to end. Designed, engineered and operated — not client work.
+						</p>
+					</div>
+					<a
+						href={`/work/${featured.slug}`}
+						class="featured-card"
+						style="display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:56px;align-items:center;text-decoration:none;color:inherit;padding-top:24px"
+					>
+						<div style="position:relative;width:100%;aspect-ratio:16/10;background:rgba(233,232,226,0.04);border:1px solid var(--card-border, var(--color-rule));transition:border-color 300ms ease;overflow:hidden">
+							<img
+								src={featured.thumb}
+								alt={`${featured.client} — ${featured.title}`}
+								class="featured-img"
+								style="display:block;width:100%;height:100%;object-fit:cover;transition:transform 700ms cubic-bezier(0.22,1,0.36,1)"
+							/>
+						</div>
+						<div>
+							<p style="margin:0 0 12px;font-family:var(--font-mono);font-size:11px;color:var(--color-acc);letter-spacing:0.04em">Own product</p>
+							<h2 style="margin:0;font-family:var(--font-serif);font-weight:400;font-size:clamp(40px,4.6vw,72px);line-height:1;letter-spacing:-0.02em;color:var(--card-title, var(--color-ink));transition:color 300ms ease">
+								{featured.client}
+							</h2>
+							<p style="margin:18px 0 0;font-family:var(--font-serif);font-style:italic;font-size:clamp(20px,2.2vw,26px);line-height:1.28;color:var(--color-ink4)">
+								{featured.title}
+							</p>
+							<p style="margin:26px 0 0;font-size:16px;line-height:1.68;color:var(--color-ink3);max-width:52ch">
+								{featured.summary}
+							</p>
+							<p style="margin:22px 0 0;font-family:var(--font-mono);font-size:11px;color:var(--color-ink4)">
+								{featured.role}
+							</p>
+							<p style="margin:32px 0 0">
+								<span class="featured-cta" style="display:inline-flex;align-items:baseline;gap:8px;font-family:var(--font-mono);font-size:12px;color:var(--color-acc);border-bottom:1px solid var(--color-acc);padding-bottom:2px">
+									<span>View case study</span>
+									<span aria-hidden="true" class="featured-cta-arrow" style="transition:transform 200ms ease">→</span>
+								</span>
+							</p>
+						</div>
+					</a>
+				</section>
+			)
+		}
+
+		<!-- 02 Cernago — 2-column grid -->
+		<section data-pad style="border-top:1px solid var(--color-rule);padding:64px 48px 32px">
+			<div style="display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px;margin-bottom:44px">
+				<div style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
+					<span style="color:var(--color-acc);font-family:var(--font-mono);font-style:normal;font-size:11px">02</span>Cernago
+				</div>
+				<p style="margin:0;font-size:16px;line-height:1.68;color:var(--color-ink3);max-width:60ch">
+					As co-founder of <a href="https://cernago.com" target="_blank" rel="noopener noreferrer" style="color:var(--color-acc);border-bottom:1px solid var(--color-acc)">Cernago</a>, retained engagements with B2B teams. Positioning, product and web design, build and creative direction. The growth and campaign side is led by my business partner Adrian.
+				</p>
+			</div>
+			<div class="grid-2" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:56px 40px">
 				{
-					ventures.map((p) => (
+					cernago.map((p, i) => (
 						<a
 							href={`/work/${p.slug}`}
-							class="work-row"
-							style="display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:40px;padding:32px 0;border-top:1px solid var(--color-rule);text-decoration:none;color:inherit;align-items:start"
+							class="tile"
+							style={`display:block;text-decoration:none;color:inherit;--tile-delay:${i * 90}ms`}
 						>
-							<div style="position:relative;width:100%;aspect-ratio:16/10;background:rgba(233,232,226,0.04);border:1px solid var(--work-border, var(--color-rule));transition:border-color 300ms ease;overflow:hidden">
+							<div style="position:relative;width:100%;aspect-ratio:16/10;background:rgba(233,232,226,0.04);border:1px solid var(--card-border, var(--color-rule));transition:border-color 300ms ease;overflow:hidden">
 								<img
 									src={p.thumb}
 									alt={`${p.client} — ${p.title}`}
 									loading="lazy"
-									style="display:block;width:100%;height:100%;object-fit:cover"
+									class="tile-img"
+									style="display:block;width:100%;height:100%;object-fit:cover;transition:transform 700ms cubic-bezier(0.22,1,0.36,1)"
+								/>
+							</div>
+							<h3 style="margin:22px 0 0;font-family:var(--font-serif);font-weight:400;font-size:clamp(24px,2.4vw,32px);line-height:1.1;letter-spacing:-0.015em;color:var(--card-title, var(--color-ink));transition:color 300ms ease">
+								{p.client}
+							</h3>
+							<p style="margin:10px 0 0;font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4)">
+								{p.title}
+							</p>
+							<p style="margin:14px 0 0;font-size:14px;line-height:1.6;color:var(--color-ink3);max-width:44ch">
+								{p.summary}
+							</p>
+							<p style="margin:14px 0 0;font-family:var(--font-mono);font-size:11px;color:var(--color-ink4)">
+								{p.role}
+							</p>
+						</a>
+					))
+				}
+			</div>
+		</section>
+
+		<!-- 03 Redweb — editorial list -->
+		<section data-pad style="border-top:1px solid var(--color-rule);padding:64px 48px 32px;margin-top:32px">
+			<div style="display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px;margin-bottom:44px">
+				<div style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
+					<span style="color:var(--color-acc);font-family:var(--font-mono);font-style:normal;font-size:11px">03</span>Redweb
+				</div>
+				<p style="margin:0;font-size:16px;line-height:1.68;color:var(--color-ink3);max-width:60ch">
+					Design roles at Bournemouth agency Redweb — from Lead Designer through to Creative Director. Public-sector and institutional clients including Channel 4, The Royal Society, Department for Education and Cancer Research UK.
+				</p>
+			</div>
+			<div style="display:grid;max-width:1100px;margin-left:auto;margin-right:auto">
+				{
+					redweb.map((p, i) => (
+						<a
+							href={`/work/${p.slug}`}
+							class="work-row tile"
+							style={`display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr);gap:40px;padding:32px 0;border-top:1px solid var(--color-rule);text-decoration:none;color:inherit;align-items:start;--tile-delay:${i * 90}ms`}
+						>
+							<div style="position:relative;width:100%;aspect-ratio:16/10;background:rgba(233,232,226,0.04);border:1px solid var(--card-border, var(--color-rule));transition:border-color 300ms ease;overflow:hidden">
+								<img
+									src={p.thumb}
+									alt={`${p.client} — ${p.title}`}
+									loading="lazy"
+									class="tile-img"
+									style="display:block;width:100%;height:100%;object-fit:cover;transition:transform 700ms cubic-bezier(0.22,1,0.36,1)"
 								/>
 							</div>
 							<div>
-								<h2 style="margin:0;font-family:var(--font-serif);font-weight:400;font-size:clamp(28px,3vw,40px);line-height:1;letter-spacing:-0.015em;color:var(--work-title, var(--color-ink));transition:color 300ms ease">
+								<h2 style="margin:0;font-family:var(--font-serif);font-weight:400;font-size:clamp(28px,3vw,40px);line-height:1;letter-spacing:-0.015em;color:var(--card-title, var(--color-ink));transition:color 300ms ease">
 									{p.client}
 								</h2>
 								<p style="margin:10px 0 0;font-family:var(--font-serif);font-style:italic;font-size:18px;color:var(--color-ink4)">
@@ -76,116 +182,80 @@ const redweb = projects.filter((p) => p.era === 'redweb');
 			</div>
 		</section>
 
-		<section data-sec data-pad style="border-top:1px solid var(--color-rule);padding:64px 48px 32px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px">
-			<div style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
-				<span style="color:var(--color-acc);font-family:var(--font-mono);font-style:normal;font-size:11px">02</span>Cernago
-			</div>
-			<p style="margin:0;font-size:16px;line-height:1.68;color:var(--color-ink3);max-width:60ch">
-				As co-founder of <a href="https://cernago.com" target="_blank" rel="noopener" style="color:var(--color-acc);border-bottom:1px solid var(--color-acc)">Cernago</a>, retained engagements with B2B teams. Positioning, product and web design, build and creative direction. The growth and campaign side is led by my business partner Adrian.
-			</p>
-		</section>
-
-		<section data-pad style="padding:0 48px 40px">
-			<div style="display:grid;max-width:1100px;margin-left:auto;margin-right:auto">
-				{
-					cernago.map((p) => (
-						<a
-							href={`/work/${p.slug}`}
-							class="work-row"
-							style="display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:40px;padding:32px 0;border-top:1px solid var(--color-rule);text-decoration:none;color:inherit;align-items:start"
-						>
-							<div style="position:relative;width:100%;aspect-ratio:16/10;background:rgba(233,232,226,0.04);border:1px solid var(--work-border, var(--color-rule));transition:border-color 300ms ease;overflow:hidden">
-								<img
-									src={p.thumb}
-									alt={`${p.client} — ${p.title}`}
-									loading="lazy"
-									style="display:block;width:100%;height:100%;object-fit:cover"
-								/>
-							</div>
-							<div>
-								<h2 style="margin:0;font-family:var(--font-serif);font-weight:400;font-size:clamp(28px,3vw,40px);line-height:1;letter-spacing:-0.015em;color:var(--work-title, var(--color-ink));transition:color 300ms ease">
-									{p.client}
-								</h2>
-								<p style="margin:10px 0 0;font-family:var(--font-serif);font-style:italic;font-size:18px;color:var(--color-ink4)">
-									{p.title}
-								</p>
-								<p style="margin:16px 0 0;font-size:15px;line-height:1.66;color:var(--color-ink3);max-width:56ch">
-									{p.summary}
-								</p>
-								<p style="margin:14px 0 0;font-family:var(--font-mono);font-size:11px;color:var(--color-ink4)">
-									{p.role}
-								</p>
-							</div>
-						</a>
-					))
-				}
-			</div>
-		</section>
-
-		<section data-sec data-pad style="border-top:1px solid var(--color-rule);padding:64px 48px 32px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px">
-			<div style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
-				<span style="color:var(--color-acc);font-family:var(--font-mono);font-style:normal;font-size:11px">03</span>Redweb
-			</div>
-			<p style="margin:0;font-size:16px;line-height:1.68;color:var(--color-ink3);max-width:60ch">
-				Design roles at Bournemouth agency Redweb — from Lead Designer through to Creative Director. Public-sector and institutional clients including Channel 4, The Royal Society, Department for Education and Cancer Research UK.
-			</p>
-		</section>
-
-		<section data-pad style="padding:0 48px 96px">
-			<div style="display:grid;max-width:1100px;margin-left:auto;margin-right:auto">
-				{
-					redweb.map((p) => (
-						<a
-							href={`/work/${p.slug}`}
-							class="work-row"
-							style="display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:40px;padding:32px 0;border-top:1px solid var(--color-rule);text-decoration:none;color:inherit;align-items:start"
-						>
-							<div style="position:relative;width:100%;aspect-ratio:16/10;background:rgba(233,232,226,0.04);border:1px solid var(--work-border, var(--color-rule));transition:border-color 300ms ease;overflow:hidden">
-								<img
-									src={p.thumb}
-									alt={`${p.client} — ${p.title}`}
-									loading="lazy"
-									style="display:block;width:100%;height:100%;object-fit:cover"
-								/>
-							</div>
-							<div>
-								<h2 style="margin:0;font-family:var(--font-serif);font-weight:400;font-size:clamp(28px,3vw,40px);line-height:1;letter-spacing:-0.015em;color:var(--work-title, var(--color-ink));transition:color 300ms ease">
-									{p.client}
-								</h2>
-								<p style="margin:10px 0 0;font-family:var(--font-serif);font-style:italic;font-size:18px;color:var(--color-ink4)">
-									{p.title}
-								</p>
-								<p style="margin:16px 0 0;font-size:15px;line-height:1.66;color:var(--color-ink3);max-width:56ch">
-									{p.summary}
-								</p>
-								<p style="margin:14px 0 0;font-family:var(--font-mono);font-size:11px;color:var(--color-ink4)">
-									{p.role}
-								</p>
-							</div>
-						</a>
-					))
-				}
-			</div>
-		</section>
-
-		<footer data-pad style="border-top:1px solid var(--color-rule);padding:22px 48px;display:flex;justify-content:space-between;gap:24px;font-family:var(--font-mono);font-size:12px;color:var(--color-ink4)">
+		<footer data-pad style="border-top:1px solid var(--color-rule);padding:32px 48px;display:flex;justify-content:space-between;gap:24px;font-family:var(--font-mono);font-size:12px;color:var(--color-ink4)">
 			<span>© Ben Young {new Date().getFullYear()}</span>
 			<a href="/">← Back to home</a>
 		</footer>
 	</div>
 
 	<style>
-		/* Same hover pattern as the homepage rail: swap CSS vars on the
-		   parent, child inline styles read them with a fallback. */
-		.work-row:hover {
-			--work-border: var(--color-acc);
-			--work-title: var(--color-acc);
+		/* Featured Bookbag card — image scales slightly on hover, border
+		   and title tint butter accent, CTA arrow slides right. */
+		.featured-card {
+			--card-border: var(--color-rule);
+			--card-title: var(--color-ink);
 		}
-		/* Stack columns on narrow screens */
-		@media (max-width: 700px) {
+		.featured-card:hover {
+			--card-border: var(--color-acc);
+			--card-title: var(--color-acc);
+		}
+		.featured-card:hover .featured-img {
+			transform: scale(1.02);
+		}
+		.featured-card:hover .featured-cta-arrow {
+			transform: translateX(4px);
+		}
+
+		/* Cernago grid tiles + Redweb list rows share the same hover
+		   pattern — image scales, border + title tint accent. */
+		.tile {
+			--card-border: var(--color-rule);
+			--card-title: var(--color-ink);
+		}
+		.tile:hover {
+			--card-border: var(--color-acc);
+			--card-title: var(--color-acc);
+		}
+		.tile:hover .tile-img {
+			transform: scale(1.03);
+		}
+
+		/* Fade + rise on load, per-tile staggered via inline --tile-delay.
+		   CSS-only so no JS observer required — fires on page load
+		   regardless of scroll position. */
+		@keyframes tileIn {
+			from { opacity: 0; transform: translateY(14px); }
+			to { opacity: 1; transform: none; }
+		}
+		.tile {
+			opacity: 0;
+			animation: tileIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+			animation-delay: var(--tile-delay, 0s);
+		}
+
+		/* Responsive collapse to single column on tablet-and-below. */
+		@media (max-width: 900px) {
+			.grid-2 {
+				grid-template-columns: minmax(0, 1fr) !important;
+			}
+			.featured-card {
+				grid-template-columns: minmax(0, 1fr) !important;
+				gap: 32px !important;
+			}
 			.work-row {
 				grid-template-columns: minmax(0, 1fr) !important;
 				gap: 20px !important;
+			}
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.tile {
+				opacity: 1;
+				animation: none;
+			}
+			.tile:hover .tile-img,
+			.featured-card:hover .featured-img {
+				transform: none;
 			}
 		}
 	</style>
