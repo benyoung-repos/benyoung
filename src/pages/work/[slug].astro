@@ -28,15 +28,7 @@ const next = projects[(idx + 1) % projects.length];
 
 		<header data-pad style="position:sticky;top:0;z-index:10;backdrop-filter:blur(6px);background:var(--color-head);display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px 48px;font-family:var(--font-mono);font-size:12px;border-bottom:1px solid var(--color-rule);animation:fade .8s ease both">
 			<div style="display:inline-flex;align-items:baseline;gap:10px;min-width:0">
-				<a
-					href="/"
-					aria-label="Back to home"
-					class="back-home"
-					style="display:inline-flex;align-items:baseline;gap:10px;text-decoration:none;color:inherit;flex:none"
-				>
-					<span class="back-home-arrow" aria-hidden="true" style="font-family:var(--font-mono);font-size:14px;color:var(--color-ink4);transition:transform 200ms ease, color 200ms ease;position:relative;top:-1px">←</span>
-					<span style="font-family:var(--font-serif);font-size:17px">Ben Young</span>
-				</a>
+				<a href="/" style="font-family:var(--font-serif);font-size:17px;text-decoration:none;color:inherit;flex:none">Ben Young</a>
 				<span data-hide-sm aria-hidden="true" style="font-family:var(--font-serif);font-size:17px;color:var(--color-ink4)">–</span>
 				<span data-hide-sm style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);white-space:nowrap">Designer and AI consultant</span>
 			</div>
@@ -48,7 +40,15 @@ const next = projects[(idx + 1) % projects.length];
 
 		<article>
 			<!-- Case study hero -->
-			<section data-pad style="padding:88px 48px 40px">
+			<section data-pad style="padding:56px 48px 40px">
+				<a
+					href="/"
+					class="in-page-back"
+					style="display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:12px;color:var(--color-ink4);text-decoration:none;margin-bottom:44px;transition:color 200ms ease"
+				>
+					<span class="in-page-back-arrow" aria-hidden="true" style="transition:transform 200ms ease">←</span>
+					<span>Back to home</span>
+				</a>
 				<p style="margin:0 0 20px;font-family:var(--font-mono);font-size:11px;color:var(--color-acc);letter-spacing:0.04em">
 					Case study
 					{project.workingWith && <span style="color:var(--color-ink4);margin-left:8px">· Working with {project.workingWith}</span>}
@@ -185,8 +185,10 @@ const next = projects[(idx + 1) % projects.length];
 	</dialog>
 
 	<style>
-		.back-home:hover .back-home-arrow {
+		.in-page-back:hover {
 			color: var(--color-acc);
+		}
+		.in-page-back:hover .in-page-back-arrow {
 			transform: translateX(-4px);
 		}
 		.gallery-tile:hover {
@@ -229,8 +231,10 @@ const next = projects[(idx + 1) % projects.length];
 		const modalSurface = document.getElementById('image-modal-surface');
 		const closeBtn = document.getElementById('image-modal-close');
 		const openers = document.querySelectorAll<HTMLButtonElement>('[data-gallery-open]');
+		const galleryList = Array.from(openers);
 
 		let sourceEl: HTMLElement | null = null;
+		let currentIndex = -1;
 
 		function withTransition(cb: () => void) {
 			const doc = document as DocWithVT;
@@ -248,6 +252,7 @@ const next = projects[(idx + 1) % projects.length];
 			modalImg.src = src;
 			modalImg.alt = alt;
 			sourceEl = btn;
+			currentIndex = galleryList.indexOf(btn);
 			// Set matching view-transition-name on the source and the
 			// destination for this one transition, then clean up after.
 			btn.style.viewTransitionName = 'gallery-zoom';
@@ -255,9 +260,26 @@ const next = projects[(idx + 1) % projects.length];
 			await withTransition(() => {
 				dialog.showModal();
 			});
-			// Clean up on the source; leave it on the modal image so a
-			// subsequent close transition can find it.
+			// Clean up on the source; leave it on the modal image so
+			// subsequent nav / close transitions can find it.
 			btn.style.viewTransitionName = '';
+		}
+
+		// Cycle to the next / previous image in the gallery. Modal
+		// img retains its view-transition-name so the src swap
+		// crossfades via the View Transitions API. sourceEl updates
+		// so a subsequent close morphs back to whichever thumbnail
+		// is currently on show.
+		async function navGallery(delta: number) {
+			if (!modalImg || currentIndex < 0 || galleryList.length < 2) return;
+			const next = (currentIndex + delta + galleryList.length) % galleryList.length;
+			const nextBtn = galleryList[next];
+			await withTransition(() => {
+				modalImg.src = nextBtn.dataset.src ?? '';
+				modalImg.alt = nextBtn.dataset.alt ?? '';
+			});
+			currentIndex = next;
+			sourceEl = nextBtn;
 		}
 
 		async function closeModal() {
@@ -275,6 +297,7 @@ const next = projects[(idx + 1) % projects.length];
 			}
 			modalImg.style.viewTransitionName = '';
 			modalImg.src = '';
+			currentIndex = -1;
 		}
 
 		openers.forEach((btn) => {
@@ -293,6 +316,21 @@ const next = projects[(idx + 1) % projects.length];
 		dialog?.addEventListener('cancel', (e) => {
 			e.preventDefault();
 			closeModal();
+		});
+
+		// Keyboard nav — left / right when the modal is open cycle
+		// through the gallery. Only bind on document rather than
+		// dialog so the arrow keys work regardless of focus target
+		// inside the modal.
+		document.addEventListener('keydown', (e) => {
+			if (!dialog?.open) return;
+			if (e.key === 'ArrowLeft') {
+				e.preventDefault();
+				navGallery(-1);
+			} else if (e.key === 'ArrowRight') {
+				e.preventDefault();
+				navGallery(1);
+			}
 		});
 	</script>
 </Layout>
