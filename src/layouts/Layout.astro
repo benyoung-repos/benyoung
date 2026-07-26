@@ -78,7 +78,7 @@ const ogImage = image ? new URL(image, siteOrigin).href : undefined;
 					password to look around, or catch up with me on LinkedIn
 					in the meantime.
 				</p>
-				<form id="gate-form" class="gate-form" novalidate>
+				<div id="gate-form" class="gate-form">
 					<label for="gate-pw" class="gate-label">Preview password</label>
 					<div class="gate-input-row">
 						<input
@@ -90,13 +90,13 @@ const ogImage = image ? new URL(image, siteOrigin).href : undefined;
 							autocorrect="off"
 							spellcheck="false"
 						/>
-						<button type="submit" class="gate-submit">
+						<button type="button" id="gate-submit" class="gate-submit">
 							<span>Enter</span>
 							<span aria-hidden="true">→</span>
 						</button>
 					</div>
 					<p id="gate-error" class="gate-error" hidden>Wrong password. Try again.</p>
-				</form>
+				</div>
 				<a
 					href="https://linkedin.com/in/bensyoung"
 					target="_blank"
@@ -109,7 +109,11 @@ const ogImage = image ? new URL(image, siteOrigin).href : undefined;
 			</div>
 		</div>
 
-		<script is:inline define:vars={{ password: 'bsy321' }}>
+		<!-- data-astro-rerun makes the inline script re-execute on every
+		     ClientRouter navigation — otherwise the localStorage check
+		     only fires on the very first page load and each subsequent
+		     case-study page re-shows the gate. -->
+		<script is:inline data-astro-rerun define:vars={{ password: 'bsy321' }}>
 			(function () {
 				const KEY = 'site-preview-2026';
 				const gate = document.getElementById('site-gate');
@@ -127,13 +131,12 @@ const ogImage = image ? new URL(image, siteOrigin).href : undefined;
 
 				document.documentElement.classList.add('gate-open');
 
-				const form = document.getElementById('gate-form');
+				const submitBtn = document.getElementById('gate-submit');
 				const input = document.getElementById('gate-pw');
 				const err = document.getElementById('gate-error');
 				input && input.focus();
 
-				form && form.addEventListener('submit', function (e) {
-					e.preventDefault();
+				function attempt() {
 					if (!input) return;
 					if (input.value === password) {
 						try { localStorage.setItem(KEY, password); } catch (_) {}
@@ -145,6 +148,14 @@ const ogImage = image ? new URL(image, siteOrigin).href : undefined;
 						err && (err.hidden = false);
 						input.value = '';
 						input.focus();
+					}
+				}
+
+				submitBtn && submitBtn.addEventListener('click', attempt);
+				input && input.addEventListener('keydown', function (e) {
+					if (e.key === 'Enter') {
+						e.preventDefault();
+						attempt();
 					}
 				});
 			})();
