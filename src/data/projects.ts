@@ -39,10 +39,10 @@ export const projects: Project[] = [
 	{
 		slug: 'bookbag',
 		client: 'Bookbag',
-		title: 'The advertising channel that funds primary schools',
+		title: 'A marketplace platform funding UK primary schools',
 		summary:
-			'Co-founded venture — designed and built the marketing site and the web application end to end with AI-assisted development.',
-		role: 'Co-founder / Product design / Web design & build',
+			'Co-founded venture — a three-role marketplace with a physical print-and-deliver pipeline. Designed and built end to end, solo, with AI-assisted development.',
+		role: 'Co-founder / Product design / Full-stack build / Print pipeline',
 		thumb: '/assets/client-project/bookbag/bb-thumb.jpg',
 		hero: '/assets/client-project/bookbag/bb-thumb-large.jpg',
 		gallery: [
@@ -50,10 +50,17 @@ export const projects: Project[] = [
 			'/assets/client-project/bookbag/bb-brands.webp',
 		],
 		body: [
-			"Bookbag is an advertising channel that funds primary schools. Trusted businesses reach school families through printed activity resources; schools earn a 60% share of every campaign — £1,800–3,600 a year in direct, no-strings funding — with zero data collected from students or families.",
-			"Co-founded Bookbag and designed and built the marketing site and the web application end to end, with AI-assisted development and no development team. The product has three user roles: brands assemble campaigns, choose schools and customise creative in a self-serve builder; schools review, approve or decline anything before it is printed; and the Bookbag team runs the operational and approval layers connecting the two.",
-			"A dedicated print-processing workflow hands approved assets straight to a professional print partner, who prints on FSC-certified, fully recyclable paper and delivers directly to schools. What starts as a brand's campaign in the app ends as a physical activity sheet in a child's bookbag, with no manual step in between.",
-			"The result: money that would have gone to Meta or Google stays in the community, and schools get a funding channel they can trust.",
+			// Product context + design problem
+			"Bookbag is a marketplace for a physical advertising channel. Brands pay to run educational activity campaigns for UK primary school families — wordsearches, colouring sheets, scavenger hunts — which schools review and approve, and which are printed and delivered by post to arrive in pupils' bookbags. Schools earn 60% of every campaign in direct funding, and no data on individual children is ever collected. The design problem: three distinct user types (brand, school, and Bookbag team), each with a purpose-built interface, a strict approval flow between them, and a physical fulfilment pipeline behind them.",
+
+			// What shipped
+			"Designed and built end to end: a static marketing site (Astro), the signed-in React + Vite + TypeScript SPA covering all three user roles, a brand campaign-creation wizard, the school review-and-approve flow, an activity-sheet template engine that deterministically generates wordsearches, colouring pages and scavenger hunts, an operational back-office for the Bookbag team, and a Puppeteer-based print pipeline that hands press-ready ICC-managed PDFs straight to the professional print partner. Supabase for auth and storage with row-level security enforced across the three roles; Stripe Connect for escrow payments held until schools upload fulfilment proof; Vercel for hosting.",
+
+			// AI-assisted build honest section
+			"No development team. AI-assisted build compressed what would normally be a multi-quarter engineering programme into single-founder cycles: role-based auth with defence-in-depth RLS, a three-role SPA in TypeScript, payments with proof-of-fulfilment release, ICC-managed print artwork generation, and adversarial security tests — all shipped by one designer working with AI in the loop. The design work itself is unchanged; decisions still need designer judgement, patterns and craft, and the tools break in interesting ways at the edges. But the distance from a sketch to shipped code is now measured in hours instead of weeks.",
+
+			// Outcome / positioning
+			"Live product. Schools that take on 10–20 campaigns a year earn £1,800–3,600 in direct, no-strings funding. Brands reach families through a school-endorsed channel with no third-party tracking and no data collected from children. Money that would have gone to Meta or Google stays in local communities.",
 		],
 		liveUrl: 'https://bookbagmedia.com',
 		featured: true,

@@ -43,12 +43,12 @@ const next = projects[(idx + 1) % projects.length];
 			<!-- Case study hero -->
 			<section data-pad style="padding:56px 48px 40px">
 				<a
-					href="/"
+					href="/work"
 					class="in-page-back"
 					style="display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:12px;color:var(--color-ink4);text-decoration:none;margin-bottom:44px;transition:color 200ms ease"
 				>
 					<span class="in-page-back-arrow" aria-hidden="true" style="transition:transform 200ms ease">←</span>
-					<span>Back to home</span>
+					<span>Back to work</span>
 				</a>
 				<p style="margin:0 0 20px;font-family:var(--font-mono);font-size:11px;color:var(--color-acc);letter-spacing:0.04em">
 					Case study
@@ -79,7 +79,7 @@ const next = projects[(idx + 1) % projects.length];
 			<!-- Body copy -->
 			<section data-sec data-pad style="padding:32px 48px 40px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px">
 				<div style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
-					<span style="color:var(--color-acc);font-family:var(--font-mono);font-style:normal;font-size:11px">01</span>Background
+Background
 				</div>
 				<div style="max-width:60ch">
 					{
@@ -112,7 +112,7 @@ const next = projects[(idx + 1) % projects.length];
 				project.gallery && project.gallery.length > 0 && (
 					<section data-sec data-pad style="border-top:1px solid var(--color-rule);padding:64px 48px 80px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px">
 						<div style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
-							<span style="color:var(--color-acc);font-family:var(--font-mono);font-style:normal;font-size:11px">02</span>Gallery
+Gallery
 						</div>
 						<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:24px;max-width:1100px">
 							{project.gallery.map((src, i) => (
