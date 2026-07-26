@@ -9,48 +9,12 @@
 // that requires JS — the IntersectionObserver, the rail scroller, the
 // rail unlock timeout — is at the bottom of this file.
 
-// Projects pulled from the previous benyoungdesign.com portfolio
-// (~/Repos/benyoung/Claude briefs/old-website/), so the rail shows
-// real work from Ben's Redweb Creative Director / Lead Designer
-// years rather than placeholder copy. Years are approximate to the
-// 2012–2015 CD era at Redweb — needs Ben's confirmation before
-// launch. Images are the old thumbnails at their original sizes;
-// object-fit: cover crops each to the 16:10 slot until real @2x
-// screenshots replace them.
-const projects = [
-	{
-		client: 'The Royal Society',
-		year: '2014',
-		title: 'A digital experience for a prestigious scientific organisation',
-		blurb: "Visual rebrand paired with a complete overhaul of the site's information architecture. As Creative Director at Redweb, brought the client's identity up to date while delivering their digital strategy.",
-		role: 'Creative direction / UX / visual design',
-		image: '/assets/client-project/royal-society.jpg',
-	},
-	{
-		client: 'Stand Up To Cancer',
-		year: '2014',
-		title: 'A campaign homepage for Channel 4 and Cancer Research',
-		blurb: 'Unconventional layout, eye-catching colour and photography combined into an attention-grabbing single-page design that communicated the power and confidence of the movement.',
-		role: 'Visual design',
-		image: '/assets/client-project/stand-up-to-cancer.jpg',
-	},
-	{
-		client: 'Department for Education',
-		year: '2013',
-		title: 'Get Into Teaching — a recruitment tool',
-		blurb: 'Responsive designs for a new site supporting people through the teacher training journey. Positioned teaching as a rewarding challenge, with a segmented registration flow that made a previously lengthy sign-up feel intuitive.',
-		role: 'Responsive visual design',
-		image: '/assets/client-project/department-for-education.jpg',
-	},
-	{
-		client: 'Digital Wave',
-		year: '2015',
-		title: 'Brand identity for a digital conference',
-		blurb: "Brand and website for Bournemouth's digital conference for young people. Extensive user testing shaped a logo mark and typeface that felt cutting-edge yet approachable.",
-		role: 'Brand / visual design',
-		image: '/assets/client-project/digital-wave.jpg',
-	},
-];
+// Featured projects pulled from src/data/projects.ts (which is
+// also the source for /work and /work/[slug]). Homepage rail shows
+// only entries flagged `featured: true`. Toggle the flag in the
+// data file to change what appears here.
+import { featuredProjects } from '../data/projects';
+const projects = featuredProjects;
 
 const clientList = [
 	'Channel 4',
@@ -249,7 +213,11 @@ const clientList = [
 			<div data-anim="track" style="display:flex;gap:28px">
 				{
 					projects.map((p, i) => (
-						<article class="work-card" style={`flex:none;width:min(78vw,420px);scroll-snap-align:start;--card-delay:${i * 200}ms`}>
+						<a
+							href={`/work/${p.slug}`}
+							class="work-card"
+							style={`flex:none;width:min(78vw,420px);scroll-snap-align:start;--card-delay:${i * 200}ms;text-decoration:none;color:inherit`}
+						>
 							<div style="position:relative;width:100%;aspect-ratio:16/10;background:rgba(233,232,226,0.04);border:1px solid var(--work-border, var(--color-rule));transition:border-color 300ms ease;overflow:hidden">
 								<img
 									src={p.image}
@@ -260,12 +228,12 @@ const clientList = [
 							</div>
 							<div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-top:18px">
 								<h3 style="margin:0;font-family:var(--font-serif);font-weight:400;font-size:26px;letter-spacing:-0.01em;color:var(--work-title, var(--color-ink));transition:color 300ms ease">{p.client}</h3>
-								<span style="font-family:var(--font-mono);font-size:11px;color:var(--color-ink4)">{p.year}</span>
+								{p.year && <span style="font-family:var(--font-mono);font-size:11px;color:var(--color-ink4)">{p.year}</span>}
 							</div>
 							<p style="margin:8px 0 0;font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4)">{p.title}</p>
-							<p style="margin:12px 0 0;font-size:14px;line-height:1.6;color:var(--color-ink3)">{p.blurb}</p>
+							<p style="margin:12px 0 0;font-size:14px;line-height:1.6;color:var(--color-ink3)">{p.summary}</p>
 							<p style="margin:14px 0 0;font-family:var(--font-mono);font-size:11px;color:var(--color-ink4)">{p.role}</p>
-						</article>
+						</a>
 					))
 				}
 			</div>

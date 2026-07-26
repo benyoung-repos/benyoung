@@ -1,0 +1,142 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { projects } from '../../data/projects';
+
+const cernago = projects.filter((p) => p.era === 'cernago');
+const redweb = projects.filter((p) => p.era === 'redweb');
+---
+
+<Layout>
+	<div style="position:relative;background:radial-gradient(120% 80% at 8% -10%, var(--color-glow) 0%, transparent 55%), radial-gradient(90% 60% at 100% 100%, rgba(233,232,226,0.07) 0%, transparent 60%), linear-gradient(var(--color-bg1), var(--color-bg2));color:var(--color-ink);font-family:var(--font-sans);min-height:100vh">
+
+		<header data-pad style="position:sticky;top:0;z-index:10;backdrop-filter:blur(6px);background:var(--color-head);display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px 48px;font-family:var(--font-mono);font-size:12px;border-bottom:1px solid var(--color-rule);animation:fade .8s ease both">
+			<a href="/" style="font-family:var(--font-serif);font-size:17px">Ben Young</a>
+			<a href="/#contact" style="border-bottom:1px solid var(--color-rule2);padding-bottom:2px">Get in touch</a>
+		</header>
+
+		<section data-pad style="padding:104px 48px 64px">
+			<p style="margin:0 0 20px;font-family:var(--font-mono);font-size:11px;color:var(--color-acc);letter-spacing:0.04em">Selected work</p>
+			<h1 style="margin:0;font-family:var(--font-serif);font-weight:400;font-size:clamp(48px,7vw,96px);line-height:1.04;letter-spacing:-0.028em;max-width:20ch;animation:rise .8s cubic-bezier(.2,.7,.2,1) both;animation-delay:.1s">
+				Twenty years of building the web for people trying to change something serious.
+			</h1>
+		</section>
+
+		<section data-sec data-pad style="border-top:1px solid var(--color-rule);padding:64px 48px 32px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px">
+			<div style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
+				<span style="color:var(--color-acc);font-family:var(--font-mono);font-style:normal;font-size:11px">01</span>Cernago
+				<span style="margin-left:auto;font-family:var(--font-mono);font-style:normal;font-size:11px;color:var(--color-ink4)">2021 —</span>
+			</div>
+			<p style="margin:0;font-size:16px;line-height:1.68;color:var(--color-ink3);max-width:60ch">
+				As co-founder of <a href="https://cernago.com" target="_blank" rel="noopener" style="color:var(--color-acc);border-bottom:1px solid var(--color-acc)">Cernago</a>, retained engagements with B2B teams. Positioning, product and web design, build and creative direction. The growth and campaign side is led by my business partner Adrian.
+			</p>
+		</section>
+
+		<section data-pad style="padding:0 48px 40px">
+			<div style="display:grid;max-width:1100px;margin-left:auto;margin-right:auto">
+				{
+					cernago.map((p) => (
+						<a
+							href={`/work/${p.slug}`}
+							class="work-row"
+							style="display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:40px;padding:32px 0;border-top:1px solid var(--color-rule);text-decoration:none;color:inherit;align-items:start"
+						>
+							<div style="position:relative;width:100%;aspect-ratio:16/10;background:rgba(233,232,226,0.04);border:1px solid var(--work-border, var(--color-rule));transition:border-color 300ms ease;overflow:hidden">
+								<img
+									src={p.image}
+									alt={`${p.client} — ${p.title}`}
+									loading="lazy"
+									style="display:block;width:100%;height:100%;object-fit:cover"
+								/>
+							</div>
+							<div>
+								<h2 style="margin:0;font-family:var(--font-serif);font-weight:400;font-size:clamp(28px,3vw,40px);line-height:1;letter-spacing:-0.015em;color:var(--work-title, var(--color-ink));transition:color 300ms ease">
+									{p.client}
+								</h2>
+								<p style="margin:10px 0 0;font-family:var(--font-serif);font-style:italic;font-size:18px;color:var(--color-ink4)">
+									{p.title}
+								</p>
+								<p style="margin:16px 0 0;font-size:15px;line-height:1.66;color:var(--color-ink3);max-width:56ch">
+									{p.summary}
+								</p>
+								<p style="margin:14px 0 0;font-family:var(--font-mono);font-size:11px;color:var(--color-ink4)">
+									{p.role}
+								</p>
+							</div>
+						</a>
+					))
+				}
+			</div>
+		</section>
+
+		<section data-sec data-pad style="border-top:1px solid var(--color-rule);padding:64px 48px 32px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px">
+			<div style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
+				<span style="color:var(--color-acc);font-family:var(--font-mono);font-style:normal;font-size:11px">02</span>Redweb
+				<span style="margin-left:auto;font-family:var(--font-mono);font-style:normal;font-size:11px;color:var(--color-ink4)">2006 — 2015</span>
+			</div>
+			<p style="margin:0;font-size:16px;line-height:1.68;color:var(--color-ink3);max-width:60ch">
+				Design roles at Bournemouth agency Redweb — from Lead Designer through to Creative Director. Public-sector and institutional clients including Channel 4, The Royal Society, Department for Education and Cancer Research UK.
+			</p>
+		</section>
+
+		<section data-pad style="padding:0 48px 96px">
+			<div style="display:grid;max-width:1100px;margin-left:auto;margin-right:auto">
+				{
+					redweb.map((p) => (
+						<a
+							href={`/work/${p.slug}`}
+							class="work-row"
+							style="display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:40px;padding:32px 0;border-top:1px solid var(--color-rule);text-decoration:none;color:inherit;align-items:start"
+						>
+							<div style="position:relative;width:100%;aspect-ratio:16/10;background:rgba(233,232,226,0.04);border:1px solid var(--work-border, var(--color-rule));transition:border-color 300ms ease;overflow:hidden">
+								<img
+									src={p.image}
+									alt={`${p.client} — ${p.title}`}
+									loading="lazy"
+									style="display:block;width:100%;height:100%;object-fit:cover"
+								/>
+							</div>
+							<div>
+								<div style="display:flex;align-items:baseline;gap:16px">
+									<h2 style="margin:0;font-family:var(--font-serif);font-weight:400;font-size:clamp(28px,3vw,40px);line-height:1;letter-spacing:-0.015em;color:var(--work-title, var(--color-ink));transition:color 300ms ease">
+										{p.client}
+									</h2>
+									{p.year && <span style="font-family:var(--font-mono);font-size:11px;color:var(--color-ink4)">{p.year}</span>}
+								</div>
+								<p style="margin:10px 0 0;font-family:var(--font-serif);font-style:italic;font-size:18px;color:var(--color-ink4)">
+									{p.title}
+								</p>
+								<p style="margin:16px 0 0;font-size:15px;line-height:1.66;color:var(--color-ink3);max-width:56ch">
+									{p.summary}
+								</p>
+								<p style="margin:14px 0 0;font-family:var(--font-mono);font-size:11px;color:var(--color-ink4)">
+									{p.role}
+								</p>
+							</div>
+						</a>
+					))
+				}
+			</div>
+		</section>
+
+		<footer data-pad style="border-top:1px solid var(--color-rule);padding:22px 48px;display:flex;justify-content:space-between;gap:24px;font-family:var(--font-mono);font-size:12px;color:var(--color-ink4)">
+			<span>© Ben Young {new Date().getFullYear()}</span>
+			<a href="/">← Back to home</a>
+		</footer>
+	</div>
+
+	<style>
+		/* Same hover pattern as the homepage rail: swap CSS vars on the
+		   parent, child inline styles read them with a fallback. */
+		.work-row:hover {
+			--work-border: var(--color-acc);
+			--work-title: var(--color-acc);
+		}
+		/* Stack columns on narrow screens */
+		@media (max-width: 700px) {
+			.work-row {
+				grid-template-columns: minmax(0, 1fr) !important;
+				gap: 20px !important;
+			}
+		}
+	</style>
+</Layout>

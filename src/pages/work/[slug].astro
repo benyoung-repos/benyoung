@@ -1,0 +1,133 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { projects } from '../../data/projects';
+
+export function getStaticPaths() {
+	return projects.map((p) => ({
+		params: { slug: p.slug },
+		props: { project: p },
+	}));
+}
+
+const { project } = Astro.props;
+
+// Next/prev navigation — wraps around at the ends so there's
+// always something to move to.
+const idx = projects.findIndex((p) => p.slug === project.slug);
+const prev = projects[(idx - 1 + projects.length) % projects.length];
+const next = projects[(idx + 1) % projects.length];
+---
+
+<Layout>
+	<div style="position:relative;background:radial-gradient(120% 80% at 8% -10%, var(--color-glow) 0%, transparent 55%), radial-gradient(90% 60% at 100% 100%, rgba(233,232,226,0.07) 0%, transparent 60%), linear-gradient(var(--color-bg1), var(--color-bg2));color:var(--color-ink);font-family:var(--font-sans);min-height:100vh">
+
+		<header data-pad style="position:sticky;top:0;z-index:10;backdrop-filter:blur(6px);background:var(--color-head);display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px 48px;font-family:var(--font-mono);font-size:12px;border-bottom:1px solid var(--color-rule);animation:fade .8s ease both">
+			<a href="/" style="font-family:var(--font-serif);font-size:17px">Ben Young</a>
+			<div style="display:flex;align-items:center;gap:26px">
+				<a href="/work" style="border-bottom:1px solid var(--color-rule2);padding-bottom:2px">← All work</a>
+				<a href="/#contact" style="border-bottom:1px solid var(--color-rule2);padding-bottom:2px">Get in touch</a>
+			</div>
+		</header>
+
+		<article>
+			<!-- Case study hero -->
+			<section data-pad style="padding:88px 48px 40px">
+				<p style="margin:0 0 20px;font-family:var(--font-mono);font-size:11px;color:var(--color-acc);letter-spacing:0.04em">
+					Case study
+					{project.year && <span style="color:var(--color-ink4);margin-left:8px">· {project.year}</span>}
+					{project.workingWith && <span style="color:var(--color-ink4);margin-left:8px">· Working with {project.workingWith}</span>}
+				</p>
+				<h1 style="margin:0;font-family:var(--font-serif);font-weight:400;font-size:clamp(48px,8vw,120px);line-height:1;letter-spacing:-0.03em;max-width:14ch;animation:rise .8s cubic-bezier(.2,.7,.2,1) both;animation-delay:.1s">
+					{project.client}
+				</h1>
+				<p style="margin:28px 0 0;font-family:var(--font-serif);font-style:italic;font-size:clamp(20px,2.4vw,30px);line-height:1.28;color:var(--color-ink4);max-width:32ch">
+					{project.title}
+				</p>
+				<p style="margin:32px 0 0;font-family:var(--font-mono);font-size:12px;color:var(--color-ink4);letter-spacing:0.02em">
+					{project.role}
+				</p>
+			</section>
+
+			<!-- Primary image -->
+			<section data-pad style="padding:40px 48px 40px">
+				<div style="max-width:1100px;margin-left:auto;margin-right:auto;position:relative;width:100%;aspect-ratio:16/10;background:rgba(233,232,226,0.04);border:1px solid var(--color-rule);overflow:hidden">
+					<img
+						src={project.image}
+						alt={`${project.client} — ${project.title}`}
+						style="display:block;width:100%;height:100%;object-fit:cover"
+					/>
+				</div>
+			</section>
+
+			<!-- Body copy -->
+			<section data-sec data-pad style="padding:32px 48px 40px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px">
+				<div style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
+					<span style="color:var(--color-acc);font-family:var(--font-mono);font-style:normal;font-size:11px">01</span>Background
+				</div>
+				<div style="max-width:60ch">
+					{
+						project.body.map((para) => (
+							<p style="margin:0 0 18px;font-size:17px;line-height:1.68;color:var(--color-ink2)">
+								{para}
+							</p>
+						))
+					}
+					{
+						project.liveUrl && (
+							<p style="margin:28px 0 0">
+								<a
+									href={project.liveUrl}
+									target="_blank"
+									rel="noopener"
+									style="font-family:var(--font-serif);font-style:italic;font-size:20px;color:var(--color-acc);border-bottom:1px solid var(--color-acc);padding-bottom:2px"
+								>
+									Visit the live site ↗
+								</a>
+							</p>
+						)
+					}
+				</div>
+			</section>
+
+			<!-- Gallery (optional) -->
+			{
+				project.gallery && project.gallery.length > 0 && (
+					<section data-sec data-pad style="border-top:1px solid var(--color-rule);padding:64px 48px 80px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px">
+						<div style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
+							<span style="color:var(--color-acc);font-family:var(--font-mono);font-style:normal;font-size:11px">02</span>Gallery
+						</div>
+						<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:24px;max-width:1100px">
+							{project.gallery.map((src, i) => (
+								<div style="position:relative;width:100%;aspect-ratio:16/10;background:rgba(233,232,226,0.04);border:1px solid var(--color-rule);overflow:hidden">
+									<img
+										src={src}
+										alt={`${project.client} — supporting image ${i + 1}`}
+										loading="lazy"
+										style="display:block;width:100%;height:100%;object-fit:cover"
+									/>
+								</div>
+							))}
+						</div>
+					</section>
+				)
+			}
+
+			<!-- Prev / Next navigation -->
+			<section data-pad style="border-top:1px solid var(--color-rule);padding:48px 48px 32px;display:grid;grid-template-columns:1fr 1fr;gap:32px;max-width:1100px;margin-left:auto;margin-right:auto">
+				<a href={`/work/${prev.slug}`} style="text-decoration:none;color:inherit">
+					<p style="margin:0 0 8px;font-family:var(--font-mono);font-size:11px;color:var(--color-ink4);letter-spacing:0.04em">← Previous</p>
+					<p style="margin:0;font-family:var(--font-serif);font-size:22px;line-height:1.2;color:var(--color-ink)">{prev.client}</p>
+				</a>
+				<a href={`/work/${next.slug}`} style="text-decoration:none;color:inherit;text-align:right">
+					<p style="margin:0 0 8px;font-family:var(--font-mono);font-size:11px;color:var(--color-ink4);letter-spacing:0.04em">Next →</p>
+					<p style="margin:0;font-family:var(--font-serif);font-size:22px;line-height:1.2;color:var(--color-ink)">{next.client}</p>
+				</a>
+			</section>
+		</article>
+
+		<footer data-pad style="border-top:1px solid var(--color-rule);padding:22px 48px;display:flex;justify-content:space-between;gap:24px;font-family:var(--font-mono);font-size:12px;color:var(--color-ink4)">
+			<span>© Ben Young {new Date().getFullYear()}</span>
+			<a href="/work">← All work</a>
+		</footer>
+	</div>
+</Layout>
