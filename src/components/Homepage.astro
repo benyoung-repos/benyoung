@@ -35,9 +35,10 @@ const clientList = [
 
 	<!-- Header (sticky, translucent) -->
 	<header data-pad style="position:sticky;top:0;z-index:10;backdrop-filter:blur(6px);background:var(--color-head);display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px 48px;font-family:var(--font-mono);font-size:12px;border-bottom:1px solid var(--color-rule);animation:fade .8s ease both">
-		<div style="display:inline-flex;align-items:baseline;gap:14px;min-width:0">
+		<div style="display:inline-flex;align-items:baseline;gap:10px;min-width:0">
 			<a href="#top" style="font-family:var(--font-serif);font-size:17px;text-decoration:none;color:inherit;flex:none">Ben Young</a>
-			<span data-hide-sm style="font-family:var(--font-serif);font-style:italic;font-size:13px;color:var(--color-ink4);white-space:nowrap">Designer and AI consultant</span>
+			<span data-hide-sm aria-hidden="true" style="font-family:var(--font-serif);font-size:17px;color:var(--color-ink4)">–</span>
+			<span data-hide-sm style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);white-space:nowrap">Designer and AI consultant</span>
 		</div>
 		<div style="display:flex;align-items:center;gap:26px">
 			<span data-hide-sm style="display:flex;align-items:center;gap:8px;color:var(--color-ink4)">
@@ -459,7 +460,19 @@ const clientList = [
 	// scroll-out and the animation doesn't reset each time the section
 	// re-enters view. Other animations (heading tint, name sweep, arrow
 	// nudge, email sweep) re-arm on re-entry.
-	const RUN_ONCE = new Set(['track', 'landing', 'illus']);
+	// Every homepage scroll animation is treated as one-and-done — the
+	// entry effect plays once when the element scrolls into the reading
+	// zone, then stays put. No re-fire on scroll back.
+	const RUN_ONCE = new Set([
+		'track',    // client-work rail card ripple
+		'landing',  // About availability icon drop
+		'illus',    // Philosophy diagram layer reveal
+		'rule',     // About accent rule scale-in
+		'head',     // What I do heading tint sweeps
+		'name',     // Selected clients staggered tint sweep
+		'arrow',    // Bookbag / Cernago ↗ nudge
+		'email',    // Contact email gradient sweep
+	]);
 
 	const io = new IntersectionObserver(
 		(entries) => {
@@ -478,9 +491,31 @@ const clientList = [
 		{ threshold: 0, rootMargin: '-18% 0px -18% 0px' }
 	);
 
+	// Second, deeper-triggering observer just for the client-work track.
+	// The default -18% bottom rootMargin fires the ripple as the track
+	// only just crests the bottom of the viewport — often the user is
+	// still scrolling past it and misses the entry. -40% bottom means
+	// the track must be well into the reading zone before firing, so
+	// the ripple plays where the user is actually looking.
+	const trackIo = new IntersectionObserver(
+		(entries) => {
+			for (const entry of entries) {
+				if (entry.isIntersecting) {
+					entry.target.setAttribute('data-inview', '1');
+					trackIo.unobserve(entry.target);
+				}
+			}
+		},
+		{ threshold: 0, rootMargin: '0px 0px -40% 0px' }
+	);
+
 	function watch() {
 		document.querySelectorAll('[data-anim]').forEach((el) => {
-			if (el.getAttribute('data-anim') === 'track' && el.hasAttribute('data-inview')) return;
+			const anim = el.getAttribute('data-anim');
+			if (anim === 'track') {
+				if (!el.hasAttribute('data-inview')) trackIo.observe(el);
+				return;
+			}
 			io.observe(el);
 		});
 	}

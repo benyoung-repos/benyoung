@@ -207,7 +207,9 @@
 	animation: nudge 1.6s cubic-bezier(.3, .6, .2, 1) 2 both;
 }
 [data-anim="email"][data-inview] {
-	animation: sweep 3s linear infinite;
+	/* Was `infinite` — capped to a single play so all homepage
+	   scroll animations run once and stop, per Ben's request. */
+	animation: sweep 3s linear both;
 }
 /* Availability icon default state — invisible before data-inview so
    there's no flash of the resting icon before the ripple starts. */
