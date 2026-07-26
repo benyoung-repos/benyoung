@@ -27,11 +27,35 @@ export type Project = {
 	body: string[];
 	liveUrl?: string;
 	featured?: boolean;
-	era: 'redweb' | 'cernago';
+	era: 'ventures' | 'cernago' | 'redweb';
 	workingWith?: string;
 };
 
 export const projects: Project[] = [
+	// --- Own ventures ----------------------------------------------------
+	{
+		slug: 'bookbag',
+		client: 'Bookbag',
+		title: 'The advertising channel that funds primary schools',
+		summary:
+			'Co-founded venture — designed and built the marketing site and the web application end to end with AI-assisted development.',
+		role: 'Co-founder / Product design / Web design & build',
+		image: '/assets/client-project/bookbag-hero.webp',
+		gallery: [
+			'/assets/client-project/bookbag-schools.webp',
+			'/assets/client-project/bookbag-brands.webp',
+		],
+		body: [
+			"Bookbag is an advertising channel that funds primary schools. Trusted businesses reach school families through printed activity resources; schools earn a 60% share of every campaign — £1,800–3,600 a year in direct, no-strings funding — with zero data collected from students or families.",
+			"Co-founded Bookbag and designed and built the marketing site and the web application end to end, with AI-assisted development and no development team. The product has three user roles: brands assemble campaigns, choose schools and customise creative in a self-serve builder; schools review, approve or decline anything before it is printed; and the Bookbag team runs the operational and approval layers connecting the two.",
+			"A dedicated print-processing workflow hands approved assets straight to a professional print partner, who prints on FSC-certified, fully recyclable paper and delivers directly to schools. What starts as a brand's campaign in the app ends as a physical activity sheet in a child's bookbag, with no manual step in between.",
+			"The result: money that would have gone to Meta or Google stays in the community, and schools get a funding channel they can trust.",
+		],
+		liveUrl: 'https://bookbagmedia.com',
+		featured: true,
+		era: 'ventures',
+	},
+
 	// --- Cernago era (2021 — ) -------------------------------------------
 	{
 		slug: 'osmond-ergonomics',
