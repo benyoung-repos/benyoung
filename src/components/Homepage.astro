@@ -87,10 +87,11 @@ const clientList = [
 			</p>
 			<div style="margin-top:44px;position:relative;padding-left:26px">
 				<div data-anim="rule" style="position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--color-acc);transform:scaleY(0);transform-origin:top"></div>
-				<!-- Icon: available.svg (from src/assets/), inlined so the stroke
-				     colour inherits from `color: var(--color-acc)`. Original file
-				     used stroke:#000000; here strokes are set on the outer <svg>
-				     via `stroke="currentColor"` and inherit through all children.
+				<!-- Icon: source at /public/assets/icons/available.svg, inlined
+				     here so the stroke colour inherits from `color:
+				     var(--color-acc)`. Original file used stroke:#000000;
+				     here strokes are set on the outer <svg> via
+				     `stroke="currentColor"` and inherit through all children.
 				     data-anim="landing" triggers a delayed drop-in-and-bounce
 				     that starts once the left rule has finished growing. -->
 				<svg
@@ -224,7 +225,7 @@ const clientList = [
 						>
 							<div style="position:relative;width:100%;aspect-ratio:16/10;background:rgba(233,232,226,0.04);border:1px solid var(--work-border, var(--color-rule));transition:border-color 300ms ease;overflow:hidden">
 								<img
-									src={p.image}
+									src={p.thumb}
 									alt={`${p.client} — ${p.title}`}
 									loading="lazy"
 									style="display:block;width:100%;height:100%;object-fit:cover"
