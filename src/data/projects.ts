@@ -40,7 +40,7 @@ export const projects: Project[] = [
 		summary:
 			'Co-founded venture — designed and built the marketing site and the web application end to end with AI-assisted development.',
 		role: 'Co-founder / Product design / Web design & build',
-		image: '/assets/client-project/bookbag-hero.webp',
+		image: '/assets/client-project/bookbag-hero.jpg',
 		gallery: [
 			'/assets/client-project/bookbag-schools.webp',
 			'/assets/client-project/bookbag-brands.webp',
