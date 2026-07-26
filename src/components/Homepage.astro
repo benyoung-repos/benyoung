@@ -35,7 +35,10 @@ const clientList = [
 
 	<!-- Header (sticky, translucent) -->
 	<header data-pad style="position:sticky;top:0;z-index:10;backdrop-filter:blur(6px);background:var(--color-head);display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px 48px;font-family:var(--font-mono);font-size:12px;border-bottom:1px solid var(--color-rule);animation:fade .8s ease both">
-		<a href="#top" style="font-family:var(--font-serif);font-size:17px">Ben Young</a>
+		<div style="display:inline-flex;align-items:baseline;gap:14px;min-width:0">
+			<a href="#top" style="font-family:var(--font-serif);font-size:17px;text-decoration:none;color:inherit;flex:none">Ben Young</a>
+			<span data-hide-sm style="font-family:var(--font-serif);font-style:italic;font-size:13px;color:var(--color-ink4);white-space:nowrap">Designer and AI consultant</span>
+		</div>
 		<div style="display:flex;align-items:center;gap:26px">
 			<span data-hide-sm style="display:flex;align-items:center;gap:8px;color:var(--color-ink4)">
 				<span style="width:6px;height:6px;border-radius:50%;background:var(--color-acc);display:block;animation:pulse 3.2s ease-in-out infinite"></span>

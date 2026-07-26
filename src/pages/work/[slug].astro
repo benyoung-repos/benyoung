@@ -27,15 +27,18 @@ const next = projects[(idx + 1) % projects.length];
 	<div style="position:relative;background:radial-gradient(120% 80% at 8% -10%, var(--color-glow) 0%, transparent 55%), radial-gradient(90% 60% at 100% 100%, rgba(233,232,226,0.07) 0%, transparent 60%), linear-gradient(var(--color-bg1), var(--color-bg2));color:var(--color-ink);font-family:var(--font-sans);min-height:100vh">
 
 		<header data-pad style="position:sticky;top:0;z-index:10;backdrop-filter:blur(6px);background:var(--color-head);display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px 48px;font-family:var(--font-mono);font-size:12px;border-bottom:1px solid var(--color-rule);animation:fade .8s ease both">
-			<a
-				href="/"
-				aria-label="Back to home"
-				class="back-home"
-				style="display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:inherit"
-			>
-				<span class="back-home-arrow" aria-hidden="true" style="font-family:var(--font-mono);font-size:14px;color:var(--color-ink4);transition:transform 200ms ease, color 200ms ease">←</span>
-				<span style="font-family:var(--font-serif);font-size:17px">Ben Young</span>
-			</a>
+			<div style="display:inline-flex;align-items:baseline;gap:14px;min-width:0">
+				<a
+					href="/"
+					aria-label="Back to home"
+					class="back-home"
+					style="display:inline-flex;align-items:baseline;gap:10px;text-decoration:none;color:inherit;flex:none"
+				>
+					<span class="back-home-arrow" aria-hidden="true" style="font-family:var(--font-mono);font-size:14px;color:var(--color-ink4);transition:transform 200ms ease, color 200ms ease;position:relative;top:-1px">←</span>
+					<span style="font-family:var(--font-serif);font-size:17px">Ben Young</span>
+				</a>
+				<span data-hide-sm style="font-family:var(--font-serif);font-style:italic;font-size:13px;color:var(--color-ink4);white-space:nowrap">Designer and AI consultant</span>
+			</div>
 			<div style="display:flex;align-items:center;gap:26px">
 				<a href="/work" style="border-bottom:1px solid var(--color-rule2);padding-bottom:2px">All work</a>
 				<a href="/#contact" style="border-bottom:1px solid var(--color-rule2);padding-bottom:2px">Get in touch</a>
