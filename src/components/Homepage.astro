@@ -498,16 +498,26 @@ const clientList = [
 		'email',    // Contact email gradient sweep
 	]);
 
+	// Shared helper: an element counts as "should fire the animation"
+	// if it's intersecting the trigger zone OR the user has already
+	// scrolled past it entirely (rect.bottom < 0). The scrolled-past
+	// case matters because IntersectionObserver only fires on state
+	// changes: during a very fast scroll, or on initial page load when
+	// the user is already past a section, the observer can end up with
+	// isIntersecting=false and the animation never plays.
+	function shouldFire(entry) {
+		return entry.isIntersecting || entry.boundingClientRect.bottom < 0;
+	}
+
 	const io = new IntersectionObserver(
 		(entries) => {
 			for (const entry of entries) {
 				const anim = entry.target.getAttribute('data-anim') ?? '';
-				if (entry.isIntersecting) {
+				const isRunOnce = RUN_ONCE.has(anim);
+				if (shouldFire(entry)) {
 					entry.target.setAttribute('data-inview', '1');
-					if (RUN_ONCE.has(anim)) {
-						io.unobserve(entry.target);
-					}
-				} else if (!RUN_ONCE.has(anim)) {
+					if (isRunOnce) io.unobserve(entry.target);
+				} else if (!isRunOnce) {
 					entry.target.removeAttribute('data-inview');
 				}
 			}
@@ -524,7 +534,7 @@ const clientList = [
 	const trackIo = new IntersectionObserver(
 		(entries) => {
 			for (const entry of entries) {
-				if (entry.isIntersecting) {
+				if (shouldFire(entry)) {
 					entry.target.setAttribute('data-inview', '1');
 					trackIo.unobserve(entry.target);
 				}
@@ -543,7 +553,7 @@ const clientList = [
 	const availabilityIo = new IntersectionObserver(
 		(entries) => {
 			for (const entry of entries) {
-				if (entry.isIntersecting) {
+				if (shouldFire(entry)) {
 					entry.target.setAttribute('data-inview', '1');
 					availabilityIo.unobserve(entry.target);
 				}
@@ -554,13 +564,28 @@ const clientList = [
 
 	function watch() {
 		document.querySelectorAll('[data-anim]').forEach((el) => {
+			if (el.hasAttribute('data-inview')) return; // already fired
+
 			const anim = el.getAttribute('data-anim');
+
+			// If the element is already above the viewport by the time
+			// the observer is being set up, fire it immediately — no
+			// scroll event will trigger the observer for something
+			// the user has already passed. This is the single-page-load
+			// case; the observer callbacks handle the mid-scroll case
+			// via shouldFire() above.
+			const rect = el.getBoundingClientRect();
+			if (rect.bottom < 0) {
+				el.setAttribute('data-inview', '1');
+				return;
+			}
+
 			if (anim === 'track') {
-				if (!el.hasAttribute('data-inview')) trackIo.observe(el);
+				trackIo.observe(el);
 				return;
 			}
 			if (anim === 'rule' || anim === 'landing') {
-				if (!el.hasAttribute('data-inview')) availabilityIo.observe(el);
+				availabilityIo.observe(el);
 				return;
 			}
 			io.observe(el);

@@ -29,7 +29,15 @@ const featured = ventures[0];
 		</header>
 
 		<!-- Editorial hero -->
-		<section data-pad style="padding:96px 48px 64px">
+		<section data-pad style="padding:56px 48px 64px">
+			<a
+				href="/"
+				class="in-page-back"
+				style="display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:12px;color:var(--color-ink4);text-decoration:none;margin-bottom:44px;transition:color 200ms ease"
+			>
+				<span class="in-page-back-arrow" aria-hidden="true" style="transition:transform 200ms ease">←</span>
+				<span>Back to home</span>
+			</a>
 			<p style="margin:0 0 20px;font-family:var(--font-mono);font-size:11px;color:var(--color-acc);letter-spacing:0.04em">Selected work</p>
 			<h1 style="margin:0;font-family:var(--font-serif);font-weight:400;font-size:clamp(44px,7vw,96px);line-height:1.02;letter-spacing:-0.028em;max-width:20ch;animation:rise .8s cubic-bezier(.2,.7,.2,1) both;animation-delay:.1s">
 				Twenty years building the web for people trying to change something serious.
@@ -189,6 +197,16 @@ const featured = ventures[0];
 	</div>
 
 	<style>
+		/* In-page back-to-home link at the top of the hero — matches
+		   the pattern used on case-study pages. Arrow slides -4px and
+		   text tints butter on hover. */
+		.in-page-back:hover {
+			color: var(--color-acc);
+		}
+		.in-page-back:hover .in-page-back-arrow {
+			transform: translateX(-4px);
+		}
+
 		/* Featured Bookbag card — image scales slightly on hover, border
 		   and title tint butter accent, CTA arrow slides right. */
 		.featured-card {
