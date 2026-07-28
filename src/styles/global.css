@@ -57,6 +57,9 @@
 	}
 
 	body {
+		/* position:relative anchors the ::before grain layer so it
+		   spans the full document height, not just the viewport. */
+		position: relative;
 		margin: 0;
 		background: var(--color-bg1);
 		color: var(--color-ink);
@@ -76,6 +79,41 @@
 		background: var(--color-acc);
 		color: var(--color-acc-ink);
 	}
+}
+
+/* Procedural film grain — inline SVG turbulence blended over the
+   full document. Absolute-positioned (not fixed) so the grain
+   scrolls with the page and the content reads as though printed on
+   the same grainy surface, not sliding over a static film gate.
+   Screen blend lifts the brightest noise pixels toward white so
+   grain reads clearly on the near-black ground; overlay does not
+   work here because the ground is too dark for overlay's mid-tone
+   lift to register.
+
+   The look is deliberately non-uniform:
+     • type='turbulence' (not fractalNoise) clumps brighter regions
+       instead of distributing them evenly.
+     • numOctaves=3 layers coarse swirls beneath fine specks so the
+       grain has structure at more than one scale.
+     • Asymmetric baseFrequency (x ≠ y) breaks any residual grid
+       pattern so it doesn't read as a screen door.
+     • feColorMatrix alpha row 2A − 0.7 stretches contrast: dim
+       areas fall to zero and bright areas peak, producing patchy
+       highlights rather than uniform static.
+
+   Zero network cost, no image asset. Knobs to tune:
+     • opacity — overall visibility (0.06–0.15 sensible)
+     • baseFrequency — grain size (higher = finer specks)
+     • numOctaves — structural complexity (2 = flat, 4 = swirly) */
+body::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 9999;
+	pointer-events: none;
+	opacity: 0.04;
+	mix-blend-mode: screen;
+	background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='420' height='420'><filter id='n'><feTurbulence type='turbulence' baseFrequency='0.65 0.78' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 2 -0.7'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
 }
 
 /* Custom scrollbar for the horizontal client-work rail. */
@@ -255,6 +293,34 @@
 		opacity: 1;
 		animation: none;
 	}
+}
+
+/* "Ben Young" header link on non-homepage pages: on hover, a yellow
+   back-arrow slides in from the right and settles slightly to the
+   left of the wordmark. Absolute positioning keeps the wordmark's
+   layout still. */
+.home-back {
+	position: relative;
+	transition: color 220ms ease;
+}
+.home-back:hover {
+	color: var(--color-acc);
+}
+.home-back::before {
+	content: "←";
+	position: absolute;
+	right: 100%;
+	margin-right: 8px;
+	font-family: var(--font-mono);
+	color: var(--color-acc);
+	opacity: 0;
+	transform: translateX(6px);
+	transition: opacity 220ms ease-in, transform 220ms ease-in;
+	pointer-events: none;
+}
+.home-back:hover::before {
+	opacity: 1;
+	transform: translateX(0);
 }
 
 /* Responsive breakpoints — attribute-hook media queries per the design. */

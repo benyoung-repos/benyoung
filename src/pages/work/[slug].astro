@@ -1,9 +1,9 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { projects } from '../../data/projects';
+import { visibleProjects } from '../../data/projects';
 
 export function getStaticPaths() {
-	return projects.map((p) => ({
+	return visibleProjects.map((p) => ({
 		params: { slug: p.slug },
 		props: { project: p },
 	}));
@@ -14,9 +14,9 @@ const heroImage = project.hero ?? project.thumb;
 
 // Next/prev navigation — wraps around at the ends so there's
 // always something to move to.
-const idx = projects.findIndex((p) => p.slug === project.slug);
-const prev = projects[(idx - 1 + projects.length) % projects.length];
-const next = projects[(idx + 1) % projects.length];
+const idx = visibleProjects.findIndex((p) => p.slug === project.slug);
+const prev = visibleProjects[(idx - 1 + visibleProjects.length) % visibleProjects.length];
+const next = visibleProjects[(idx + 1) % visibleProjects.length];
 ---
 
 <Layout
@@ -29,11 +29,15 @@ const next = projects[(idx + 1) % projects.length];
 
 		<header data-pad style="position:sticky;top:0;z-index:10;backdrop-filter:blur(6px);background:var(--color-head);display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px 48px;font-family:var(--font-mono);font-size:12px;border-bottom:1px solid var(--color-rule);animation:fade .8s ease both">
 			<div style="display:inline-flex;align-items:baseline;gap:10px;min-width:0">
-				<a href="/" style="font-family:var(--font-serif);font-size:17px;text-decoration:none;color:inherit;flex:none">Ben Young</a>
+				<a href="/" class="home-back" style="font-family:var(--font-serif);font-size:17px;text-decoration:none;color:inherit;flex:none">Ben Young</a>
 				<span data-hide-sm aria-hidden="true" style="font-family:var(--font-serif);font-size:17px;color:var(--color-ink4)">–</span>
 				<span data-hide-sm style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);white-space:nowrap">Designer and AI Consultant</span>
 			</div>
 			<div style="display:flex;align-items:center;gap:26px">
+				<span data-hide-sm style="display:flex;align-items:center;gap:10px;color:var(--color-ink4)">
+					<span style="width:9px;height:9px;border-radius:50%;background:var(--color-available);box-shadow:0 0 12px rgba(52,211,153,0.55);display:block;animation:pulse 3.2s ease-in-out infinite"></span>
+					<span>available 2–3 days a week</span>
+				</span>
 				<a href="/work" style="border-bottom:1px solid var(--color-rule2);padding-bottom:2px">All work</a>
 				<a href="/#contact" style="border-bottom:1px solid var(--color-rule2);padding-bottom:2px">Get in touch</a>
 			</div>
