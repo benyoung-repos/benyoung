@@ -1,0 +1,68 @@
+---
+// Client work — horizontally scrolling rail of every visible project.
+//
+// Currently NOT rendered on the homepage (see Homepage.astro).
+//
+// IMPORTANT: this component links each card to /work/${slug}. Those
+// routes are also currently hidden — the whole /work tree has been
+// moved to src/pages/_work/ so Astro skips it. If you re-add
+// <ClientWork /> to the homepage without first restoring the routes,
+// every card will 404.
+//
+// Full re-enable checklist lives in the marker comment inside
+// Homepage.astro (search for "Client work section (formerly 03)").
+// It also covers restoring the "Work" nav link and renumbering the
+// homepage section labels back to their original values.
+
+import { visibleProjects as projects } from '../data/projects';
+---
+
+<!-- 03 Client work — horizontally scrolling rail -->
+<section id="clients" style="border-top:1px solid var(--color-rule);padding:64px 0 76px">
+	<div data-sec data-pad style="display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px;padding:0 48px;align-items:baseline">
+		<div style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
+			<span style="color:var(--color-acc);font-family:var(--font-mono);font-style:normal;font-size:11px">03</span>Client work
+		</div>
+		<div style="display:flex;align-items:baseline;justify-content:space-between;gap:24px;flex-wrap:wrap">
+			<p style="margin:0;font-size:16px;line-height:1.6;color:var(--color-ink3);max-width:46ch">
+				Delivery for retained and project clients.
+			</p>
+			<div style="display:flex;align-items:center;gap:24px;flex:none">
+				<a href="/work" class="view-all" style="display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:12px;color:var(--color-ink3);text-decoration:none;border-bottom:1px solid var(--color-rule2);padding-bottom:2px;transition:color 200ms ease, border-color 200ms ease">
+					<span>View all work</span>
+					<span aria-hidden="true" class="view-all-arrow" style="transition:transform 200ms ease">→</span>
+				</a>
+				<div style="display:flex;gap:8px">
+					<button type="button" data-rail-prev aria-label="Previous projects" style="width:34px;height:34px;border-radius:50%;border:1px solid var(--btn-border, var(--color-rule));background:transparent;color:var(--btn-color, var(--color-ink3));cursor:pointer;font-size:14px;line-height:1;transition:color 240ms ease, border-color 240ms ease">←</button>
+					<button type="button" data-rail-next aria-label="Next projects" style="width:34px;height:34px;border-radius:50%;border:1px solid var(--btn-border, var(--color-rule));background:transparent;color:var(--btn-color, var(--color-ink3));cursor:pointer;font-size:14px;line-height:1;transition:color 240ms ease, border-color 240ms ease">→</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div data-rail data-scroller data-pad style="margin-top:40px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-padding-left:48px;scroll-padding-right:48px;scroll-behavior:smooth;padding:0 48px 40px">
+		<div data-anim="track" style="display:flex;gap:28px">
+			{
+				projects.map((p, i) => (
+					<a
+						href={`/work/${p.slug}`}
+						class="work-card"
+						style={`flex:none;width:min(78vw,420px);scroll-snap-align:start;--card-delay:${i * 100}ms;text-decoration:none;color:inherit`}
+					>
+						<div style="position:relative;width:100%;aspect-ratio:16/10;background:rgba(233,232,226,0.04);border:1px solid var(--work-border, var(--color-rule));transition:border-color 300ms ease;overflow:hidden">
+							<img
+								src={p.thumb}
+								alt={`${p.client} — ${p.title}`}
+								loading="lazy"
+								style="display:block;width:100%;height:100%;object-fit:cover"
+							/>
+						</div>
+						<h3 style="margin:18px 0 0;font-family:var(--font-serif);font-weight:400;font-size:26px;letter-spacing:-0.01em;color:var(--work-title, var(--color-ink));transition:color 300ms ease">{p.client}</h3>
+						<p style="margin:8px 0 0;font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4)">{p.title}</p>
+						<p style="margin:12px 0 0;font-size:14px;line-height:1.6;color:var(--color-ink3)">{p.summary}</p>
+						<p style="margin:14px 0 0;font-family:var(--font-mono);font-size:11px;color:var(--color-ink4)">{p.role}</p>
+					</a>
+				))
+			}
+		</div>
+	</div>
+</section>

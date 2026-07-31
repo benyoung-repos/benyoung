@@ -9,10 +9,9 @@
 // that requires JS — the IntersectionObserver, the rail scroller, the
 // rail unlock timeout — is at the bottom of this file.
 
-// All projects pulled from src/data/projects.ts. Homepage rail
-// shows every project in the order they appear in the data file
-// (ventures first, then Cernago, then Redweb).
-import { visibleProjects as projects } from '../data/projects';
+// The Client work rail lives in ./ClientWork.astro. It is currently
+// not rendered on the homepage — re-import and re-add <ClientWork />
+// at the marker below to bring it back.
 
 const clientList = [
 	'Channel 4',
@@ -43,7 +42,6 @@ const clientList = [
 				<span style="width:9px;height:9px;border-radius:50%;background:var(--color-available);box-shadow:0 0 12px rgba(52,211,153,0.55);display:block;animation:pulse 3.2s ease-in-out infinite"></span>
 				<span>available 2–3 days a week</span>
 			</span>
-			<a href="/work" style="border-bottom:1px solid var(--color-rule2);padding-bottom:2px">Work</a>
 			<a href="#contact" style="border-bottom:1px solid var(--color-rule2);padding-bottom:2px">Get in touch</a>
 		</div>
 	</header>
@@ -197,60 +195,28 @@ const clientList = [
 		</div>
 	</section>
 
-	<!-- 03 Client work — horizontally scrolling rail -->
-	<section id="clients" style="border-top:1px solid var(--color-rule);padding:64px 0 76px">
-		<div data-sec data-pad style="display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px;padding:0 48px;align-items:baseline">
-			<div style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
-				<span style="color:var(--color-acc);font-family:var(--font-mono);font-style:normal;font-size:11px">03</span>Client work
-			</div>
-			<div style="display:flex;align-items:baseline;justify-content:space-between;gap:24px;flex-wrap:wrap">
-				<p style="margin:0;font-size:16px;line-height:1.6;color:var(--color-ink3);max-width:46ch">
-					Delivery for retained and project clients.
-				</p>
-				<div style="display:flex;align-items:center;gap:24px;flex:none">
-					<a href="/work" class="view-all" style="display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:12px;color:var(--color-ink3);text-decoration:none;border-bottom:1px solid var(--color-rule2);padding-bottom:2px;transition:color 200ms ease, border-color 200ms ease">
-						<span>View all work</span>
-						<span aria-hidden="true" class="view-all-arrow" style="transition:transform 200ms ease">→</span>
-					</a>
-					<div style="display:flex;gap:8px">
-						<button type="button" data-rail-prev aria-label="Previous projects" style="width:34px;height:34px;border-radius:50%;border:1px solid var(--btn-border, var(--color-rule));background:transparent;color:var(--btn-color, var(--color-ink3));cursor:pointer;font-size:14px;line-height:1;transition:color 240ms ease, border-color 240ms ease">←</button>
-						<button type="button" data-rail-next aria-label="Next projects" style="width:34px;height:34px;border-radius:50%;border:1px solid var(--btn-border, var(--color-rule));background:transparent;color:var(--btn-color, var(--color-ink3));cursor:pointer;font-size:14px;line-height:1;transition:color 240ms ease, border-color 240ms ease">→</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div data-rail data-scroller data-pad style="margin-top:40px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-padding-left:48px;scroll-padding-right:48px;scroll-behavior:smooth;padding:0 48px 40px">
-			<div data-anim="track" style="display:flex;gap:28px">
-				{
-					projects.map((p, i) => (
-						<a
-							href={`/work/${p.slug}`}
-							class="work-card"
-							style={`flex:none;width:min(78vw,420px);scroll-snap-align:start;--card-delay:${i * 100}ms;text-decoration:none;color:inherit`}
-						>
-							<div style="position:relative;width:100%;aspect-ratio:16/10;background:rgba(233,232,226,0.04);border:1px solid var(--work-border, var(--color-rule));transition:border-color 300ms ease;overflow:hidden">
-								<img
-									src={p.thumb}
-									alt={`${p.client} — ${p.title}`}
-									loading="lazy"
-									style="display:block;width:100%;height:100%;object-fit:cover"
-								/>
-							</div>
-							<h3 style="margin:18px 0 0;font-family:var(--font-serif);font-weight:400;font-size:26px;letter-spacing:-0.01em;color:var(--work-title, var(--color-ink));transition:color 300ms ease">{p.client}</h3>
-							<p style="margin:8px 0 0;font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4)">{p.title}</p>
-							<p style="margin:12px 0 0;font-size:14px;line-height:1.6;color:var(--color-ink3)">{p.summary}</p>
-							<p style="margin:14px 0 0;font-family:var(--font-mono);font-size:11px;color:var(--color-ink4)">{p.role}</p>
-						</a>
-					))
-				}
-			</div>
-		</div>
-	</section>
+	<!-- Client work section (formerly 03) is HIDDEN.
+	     Also hidden: the entire /work route tree — the case study
+	     pages have been moved to src/pages/_work/ so Astro skips them.
+	     The "Work" link previously in the header nav has been removed.
 
-	<!-- 04 What I run -->
+	     To restore everything, do all of the following together:
+	       1. Rename src/pages/_work/ back to src/pages/work/.
+	       2. Re-add the header nav link:
+	          <a href="/work" style="border-bottom:1px solid var(--color-rule2);padding-bottom:2px">Work</a>
+	          (in the header block near the top of this file, before the
+	          "Get in touch" link).
+	       3. Import { default: ClientWork } from './ClientWork.astro'
+	          at the top of this file and render <ClientWork /> here.
+	       4. Renumber the section labels below back to their original
+	          values: 03 → 04 (What I run), 04 → 05 (Selected clients),
+	          05 → 06 (Get in touch). Update both the HTML comment and
+	          the number span inside each section. -->
+
+	<!-- 03 What I run -->
 	<section id="work" data-sec data-pad style="border-top:1px solid var(--color-rule);padding:64px 48px 76px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px">
 		<div style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
-			<span style="color:var(--color-acc);font-family:var(--font-mono);font-style:normal;font-size:11px">04</span>What I run
+			<span style="color:var(--color-acc);font-family:var(--font-mono);font-style:normal;font-size:11px">03</span>What I run
 		</div>
 		<div style="display:grid;max-width:900px">
 			<a
@@ -305,10 +271,10 @@ const clientList = [
 		</div>
 	</section>
 
-	<!-- 05 Selected clients -->
+	<!-- 04 Selected clients -->
 	<section data-sec data-pad style="border-top:1px solid var(--color-rule);padding:64px 48px 76px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px">
 		<div style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
-			<span style="color:var(--color-acc);font-family:var(--font-mono);font-style:normal;font-size:11px">05</span>Selected clients
+			<span style="color:var(--color-acc);font-family:var(--font-mono);font-style:normal;font-size:11px">04</span>Selected clients
 		</div>
 		<div style="display:flex;flex-wrap:wrap;gap:8px 24px;font-family:var(--font-serif);font-size:clamp(23px,2.6vw,32px);line-height:1.32;max-width:900px;color:var(--color-ink2)">
 			{
@@ -319,10 +285,10 @@ const clientList = [
 		</div>
 	</section>
 
-	<!-- 06 Get in touch -->
+	<!-- 05 Get in touch -->
 	<section id="contact" data-sec data-pad style="scroll-margin-top:80px;border-top:1px solid var(--color-rule);padding:72px 48px 92px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px">
 		<div style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
-			<span style="color:var(--color-acc);font-family:var(--font-mono);font-style:normal;font-size:11px">06</span>Get in touch
+			<span style="color:var(--color-acc);font-family:var(--font-mono);font-style:normal;font-size:11px">05</span>Get in touch
 		</div>
 		<div>
 			<p style="margin:0 0 22px;font-size:15px;line-height:1.6;color:var(--color-ink3);max-width:44ch">
