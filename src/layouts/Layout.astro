@@ -21,6 +21,50 @@ const {
 const siteOrigin = Astro.site?.origin ?? Astro.url.origin;
 const canonical = new URL(Astro.url.pathname, siteOrigin).href;
 const ogImage = image ? new URL(image, siteOrigin).href : undefined;
+
+// JSON-LD structured data. Person + WebSite in one @graph so search
+// engines can link them via @id. Emitted on every page so the site's
+// author identity is discoverable from any entry point.
+const structuredData = {
+	'@context': 'https://schema.org',
+	'@graph': [
+		{
+			'@type': 'Person',
+			'@id': `${siteOrigin}/#ben`,
+			name: 'Ben Young',
+			givenName: 'Ben',
+			familyName: 'Young',
+			jobTitle: 'Design and AI consultant',
+			description:
+				'Twenty-one years designing for the web. Design, UX and AI consultant based in Bournemouth, UK. Founder of Cernago and co-founder of Bookbag. Available fractional and remote, two or three days a week.',
+			url: siteOrigin,
+			email: 'mailto:ben@benyoung.me',
+			address: {
+				'@type': 'PostalAddress',
+				addressLocality: 'Bournemouth',
+				addressCountry: 'GB',
+			},
+			knowsAbout: [
+				'User experience design',
+				'Product design',
+				'AI-assisted development',
+				'AI automation and multi-agent workflows',
+				'UX and website audits',
+				'AI search visibility (AEO and GEO)',
+			],
+		},
+		{
+			'@type': 'WebSite',
+			'@id': `${siteOrigin}/#website`,
+			url: siteOrigin,
+			name: 'Ben Young',
+			description:
+				'Design, UX and AI consultant. Twenty-one years in digital. Fractional and remote engagements from Bournemouth, UK.',
+			author: { '@id': `${siteOrigin}/#ben` },
+			inLanguage: 'en-GB',
+		},
+	],
+};
 ---
 <!doctype html>
 <html lang="en">
@@ -34,6 +78,11 @@ const ogImage = image ? new URL(image, siteOrigin).href : undefined;
 		<title>{title}</title>
 		<meta name="description" content={description} />
 		<link rel="canonical" href={canonical} />
+
+		<!-- Favicon (SVG, works in Chrome, Firefox, Safari 12+, Edge).
+		     A raster apple-touch-icon.png (180x180) is still needed for
+		     iOS Add-to-Home-Screen; deferred pending a designer pass. -->
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
 		<!-- OpenGraph -->
 		<meta property="og:site_name" content="Ben Young" />
@@ -49,6 +98,9 @@ const ogImage = image ? new URL(image, siteOrigin).href : undefined;
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
 		{ogImage && <meta name="twitter:image" content={ogImage} />}
+
+		<!-- JSON-LD structured data (Person + WebSite linked by @id). -->
+		<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
 		<!-- ClientRouter enables Astro's built-in View Transitions
 		     between page navigations (Homepage → /work → case study).
