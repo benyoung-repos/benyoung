@@ -102,6 +102,12 @@ const structuredData = {
 		<!-- JSON-LD structured data (Person + WebSite linked by @id). -->
 		<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
+		<!-- Umami analytics (cloud-hosted). Cookieless, no personal data
+		     stored client-side, no cross-site tracking. is:inline stops
+		     Astro from bundling the tag so the src attribute is served
+		     verbatim to the browser. -->
+		<script is:inline defer src="https://cloud.umami.is/script.js" data-website-id="b05f774c-8cd5-4e54-bba3-3e085d6ee05a"></script>
+
 		<!-- ClientRouter enables Astro's built-in View Transitions
 		     between page navigations (Homepage → /work → case study).
 		     Falls back to normal navigation in browsers without support. -->
