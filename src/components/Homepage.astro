@@ -373,14 +373,23 @@ const clientList = [
 	let previousCleanup: (() => void) | null = null;
 
 	function init() {
+	// If this page has no animation-tagged elements, we're on another
+	// route (e.g. /work, /404) — skip setup entirely.
+	//
+	// Historical note: this used to look for the client-work rail
+	// elements. When the rail was extracted out to ClientWork.astro
+	// and hidden, that guard began bailing on the homepage itself
+	// (rail elements were gone, so the check misfired), which killed
+	// every IntersectionObserver-driven animation on the homepage.
+	// Detecting via [data-anim] survives with or without the rail.
+	if (!document.querySelector('[data-anim]')) return;
+
 	// --- Rail scroller (client-work section) --------------------------
+	// These may be null when ClientWork is not rendered; the handlers
+	// below use optional chaining and internal null checks so it's safe.
 	const scroller = document.querySelector<HTMLElement>('[data-scroller]');
 	const railPrev = document.querySelector<HTMLButtonElement>('[data-rail-prev]');
 	const railNext = document.querySelector<HTMLButtonElement>('[data-rail-next]');
-
-	// If none of the homepage-specific elements are here, we're on
-	// another route (e.g. /work) — skip setup entirely.
-	if (!scroller && !railPrev && !railNext) return;
 
 	// Tear down any observers from the previous visit to this page.
 	previousCleanup?.();
