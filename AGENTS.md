@@ -42,6 +42,55 @@ Ben has **two separate identities** across GitHub and Vercel: `benyoung` (this r
 
 4. Only after `gh auth status` confirms the correct identity may you proceed.
 
+## SSH identity: the third crossing point
+
+Vercel and `gh` are not the only ways the accounts can cross. Git
+pushes over SSH pick an identity from `~/.ssh/config`, and that is
+invisible in the Sourcetree UI.
+
+Both accounts use github.com, so they are separated by **host alias**,
+each locked to its own key with `IdentitiesOnly yes`:
+
+| Alias in `~/.ssh/config` | Key                          | Account          | Used by                  |
+|--------------------------|------------------------------|------------------|--------------------------|
+| `github.com`             | `~/.ssh/cernagoben-Bitbucket`| `cernago`        | Bookbag mirror push only |
+| `github-benyoung`        | `~/.ssh/benyoung-github`     | `benyoung-repos` | This repo                |
+
+**This repo's `origin` must always be:**
+
+```
+ssh://git@github-benyoung/benyoung-repos/benyoung.git
+```
+
+If it ever reads `github.com` instead, pushes authenticate as `cernago`
+and GitHub rejects them with `Permission denied to cernago`. Sourcetree
+has silently reintroduced a `pushurl` pointing at plain `github.com`
+once already. To check and repair:
+
+```
+git remote -v
+git config --get remote.origin.pushurl   # must print nothing
+ssh -T git@github-benyoung               # must say "Hi benyoung-repos!"
+```
+
+## Commit author identity
+
+This repo sets `user.email` **locally** to `ben@benyoung.me`. The global
+git identity on this machine is `tech@cernago.com`, so a repo without
+the local override silently publishes the Cernago email in every commit
+on a public personal repo. That happened here: 69 commits were rewritten
+to `ben@benyoung.me` on 2026-08-21.
+
+Verify before committing:
+
+```
+git config --local user.email   # must be ben@benyoung.me
+```
+
+Never push tags from this repo without checking where they point.
+Sourcetree pushes with `--tags`, so a stray tag on a pre-rewrite commit
+would republish the old Cernago-authored history.
+
 ## Why this exists
 
 `ben-2049` (email `ben@benyoung.me`) and `tech-6450` / `cernago` (email `tech@cernago.com`) are deliberately kept as separate Vercel accounts so that benyoung.me has zero shared login, billing, or team overlap with Cernago work. The same separation applies on GitHub between `benyoung-repos` and `cernago`. A cross-account mistake means either:
