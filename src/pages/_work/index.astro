@@ -35,6 +35,8 @@ const featured = ventures[0];
 			</div>
 		</header>
 
+		<main>
+
 		<!-- Editorial hero -->
 		<section data-pad style="padding:56px 48px 64px">
 			<a
@@ -59,9 +61,9 @@ const featured = ventures[0];
 			featured && (
 				<section data-pad style="border-top:1px solid var(--color-rule);padding:64px 48px 80px">
 					<div style="display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px;margin-bottom:44px">
-						<div style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
-	Ventures
-						</div>
+						<h2 style="margin:0;font-family:var(--font-serif);font-style:italic;font-weight:400;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
+							Ventures
+						</h2>
 						<p style="margin:0;font-size:16px;line-height:1.68;color:var(--color-ink3);max-width:60ch">
 							Products co-founded and built end to end. Designed, engineered and operated — not client work.
 						</p>
@@ -81,9 +83,9 @@ const featured = ventures[0];
 						</div>
 						<div>
 							<p style="margin:0 0 12px;font-family:var(--font-mono);font-size:11px;color:var(--color-acc);letter-spacing:0.04em">Own product</p>
-							<h2 style="margin:0;font-family:var(--font-serif);font-weight:400;font-size:clamp(40px,4.6vw,72px);line-height:1;letter-spacing:-0.02em;color:var(--card-title, var(--color-ink));transition:color 300ms ease">
+							<h3 style="margin:0;font-family:var(--font-serif);font-weight:400;font-size:clamp(40px,4.6vw,72px);line-height:1;letter-spacing:-0.02em;color:var(--card-title, var(--color-ink));transition:color 300ms ease">
 								{featured.client}
-							</h2>
+							</h3>
 							<p style="margin:18px 0 0;font-family:var(--font-serif);font-style:italic;font-size:clamp(20px,2.2vw,26px);line-height:1.28;color:var(--color-ink4)">
 								{featured.title}
 							</p>
@@ -108,9 +110,9 @@ const featured = ventures[0];
 		<!-- 02 Cernago — 2-column grid -->
 		<section data-pad style="border-top:1px solid var(--color-rule);padding:64px 48px 32px">
 			<div style="display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px;margin-bottom:44px">
-				<div style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
-Cernago
-				</div>
+				<h2 style="margin:0;font-family:var(--font-serif);font-style:italic;font-weight:400;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
+					Cernago
+				</h2>
 				<p style="margin:0;font-size:16px;line-height:1.68;color:var(--color-ink3);max-width:60ch">
 					As co-founder of <a href="https://cernago.com" target="_blank" rel="noopener noreferrer" style="color:var(--color-acc);border-bottom:1px solid var(--color-acc)">Cernago</a>, retained engagements with B2B teams. Positioning, product and web design, build and creative direction. The growth and campaign side is led by my business partner Adrian.
 				</p>
@@ -153,9 +155,9 @@ Cernago
 		<!-- 03 Redweb — editorial list -->
 		<section data-pad style="border-top:1px solid var(--color-rule);padding:64px 48px 32px;margin-top:32px">
 			<div style="display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px;margin-bottom:44px">
-				<div style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
-Redweb
-				</div>
+				<h2 style="margin:0;font-family:var(--font-serif);font-style:italic;font-weight:400;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
+					Redweb
+				</h2>
 				<p style="margin:0;font-size:16px;line-height:1.68;color:var(--color-ink3);max-width:60ch">
 					Design roles at Bournemouth agency Redweb — from Lead Designer through to Creative Director. Public-sector and institutional clients including Channel 4, The Royal Society, Department for Education and Cancer Research UK.
 				</p>
@@ -178,9 +180,9 @@ Redweb
 								/>
 							</div>
 							<div>
-								<h2 style="margin:0;font-family:var(--font-serif);font-weight:400;font-size:clamp(28px,3vw,40px);line-height:1;letter-spacing:-0.015em;color:var(--card-title, var(--color-ink));transition:color 300ms ease">
+								<h3 style="margin:0;font-family:var(--font-serif);font-weight:400;font-size:clamp(28px,3vw,40px);line-height:1;letter-spacing:-0.015em;color:var(--card-title, var(--color-ink));transition:color 300ms ease">
 									{p.client}
-								</h2>
+								</h3>
 								<p style="margin:10px 0 0;font-family:var(--font-serif);font-style:italic;font-size:18px;color:var(--color-ink4)">
 									{p.title}
 								</p>
@@ -196,6 +198,8 @@ Redweb
 				}
 			</div>
 		</section>
+
+		</main>
 
 		<footer data-pad style="border-top:1px solid var(--color-rule);padding:32px 48px;display:flex;justify-content:space-between;gap:24px;font-family:var(--font-mono);font-size:12px;color:var(--color-ink4)">
 			<span>© Ben Young {new Date().getFullYear()}</span>

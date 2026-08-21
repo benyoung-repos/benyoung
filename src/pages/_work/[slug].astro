@@ -43,6 +43,7 @@ const next = visibleProjects[(idx + 1) % visibleProjects.length];
 			</div>
 		</header>
 
+		<main>
 		<article>
 			<!-- Case study hero -->
 			<section data-pad style="padding:56px 48px 40px">
@@ -82,9 +83,9 @@ const next = visibleProjects[(idx + 1) % visibleProjects.length];
 
 			<!-- Body copy -->
 			<section data-sec data-pad style="padding:32px 48px 40px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px">
-				<div style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
-Background
-				</div>
+				<h2 style="margin:0;font-family:var(--font-serif);font-style:italic;font-weight:400;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
+					Background
+				</h2>
 				<div style="max-width:60ch">
 					{
 						project.body.map((para) => (
@@ -115,9 +116,9 @@ Background
 			{
 				project.gallery && project.gallery.length > 0 && (
 					<section data-sec data-pad style="border-top:1px solid var(--color-rule);padding:64px 48px 80px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px">
-						<div style="font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
-Gallery
-						</div>
+						<h2 style="margin:0;font-family:var(--font-serif);font-style:italic;font-weight:400;font-size:17px;color:var(--color-ink4);display:flex;align-items:baseline;gap:12px">
+							Gallery
+						</h2>
 						<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:24px;max-width:1100px">
 							{project.gallery.map((src, i) => (
 								<button
@@ -143,7 +144,7 @@ Gallery
 			}
 
 			<!-- Prev / Next navigation -->
-			<section data-pad style="border-top:1px solid var(--color-rule);padding:48px 48px 32px;display:grid;grid-template-columns:1fr 1fr;gap:32px;max-width:1100px;margin-left:auto;margin-right:auto">
+			<nav aria-label="More case studies" data-pad style="border-top:1px solid var(--color-rule);padding:48px 48px 32px;display:grid;grid-template-columns:1fr 1fr;gap:32px;max-width:1100px;margin-left:auto;margin-right:auto">
 				<a href={`/work/${prev.slug}`} style="text-decoration:none;color:inherit">
 					<p style="margin:0 0 8px;font-family:var(--font-mono);font-size:11px;color:var(--color-ink4);letter-spacing:0.04em">← Previous</p>
 					<p style="margin:0;font-family:var(--font-serif);font-size:22px;line-height:1.2">{prev.client}</p>
@@ -152,8 +153,9 @@ Gallery
 					<p style="margin:0 0 8px;font-family:var(--font-mono);font-size:11px;color:var(--color-ink4);letter-spacing:0.04em">Next →</p>
 					<p style="margin:0;font-family:var(--font-serif);font-size:22px;line-height:1.2">{next.client}</p>
 				</a>
-			</section>
+			</nav>
 		</article>
+		</main>
 
 		<footer data-pad style="border-top:1px solid var(--color-rule);padding:22px 48px;display:flex;justify-content:space-between;gap:24px;font-family:var(--font-mono);font-size:12px;color:var(--color-ink4)">
 			<span>© Ben Young {new Date().getFullYear()}</span>
